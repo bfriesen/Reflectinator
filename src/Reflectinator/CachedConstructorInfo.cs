@@ -14,6 +14,11 @@ namespace Reflectinator
 
         protected CachedConstructorInfo(ConstructorInfo constructorInfo)
         {
+            if (constructorInfo == null)
+            {
+                throw new ArgumentNullException("constructorInfo");
+            }
+
             _invoke = (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo, false);
             _constructorInfo = constructorInfo;
             _declaringType = CachedType.Create(constructorInfo.DeclaringType);

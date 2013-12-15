@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace Reflectinator
 {
-    public class CachedConstructorInfo<TArg1, TDeclaringType> : CachedConstructorInfo
+    public class CachedConstructorInfo<TDeclaringType, TArg1> : CachedConstructorInfo
     {
         private readonly Func<TArg1, TDeclaringType> _invoke;
 

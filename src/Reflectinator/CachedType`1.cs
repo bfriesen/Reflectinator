@@ -27,9 +27,9 @@ namespace Reflectinator
                             case 0:
                                 return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<>).MakeGenericType(c.DeclaringType));
                             case 1:
-                                return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<,>).MakeGenericType(parameters[0].ParameterType, c.DeclaringType));
+                                return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<,>).MakeGenericType(c.DeclaringType, parameters[0].ParameterType));
                             case 2:
-                                return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<,,>).MakeGenericType(parameters[0].ParameterType, parameters[1].ParameterType, c.DeclaringType));
+                                return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<,,>).MakeGenericType(c.DeclaringType, parameters[0].ParameterType, parameters[1].ParameterType));
                             default: // TODO: Implement the rest of the generic implementations of CachedConstructorInfo.
                                 return null;
                         }
