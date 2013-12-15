@@ -1,23 +1,56 @@
 <Query Kind="Program">
   <Namespace>System.Collections.Concurrent</Namespace>
+  <Namespace>System.Dynamic</Namespace>
 </Query>
 
 #define NONEST
 void Main()
 {
     var type = CachedType.Create<Foo>();
+    var ctor = type.Constructors.First();
     var property = type.Properties.First();
-    property.GetValue(new Foo { Bar = "w00t!" }).Dump();
+    LINQPad.Extensions.Dump(property.GetValue(ctor.Invoke("a")));
+
+//    var ctor1 = new CachedConstructorInfo<string, int, Foo>();
+//    Foo foo1 = ctor1.Invoke("a", 1);
+//    foo1.Dump();
+//
+//    dynamic ctor2 = new CachedConstructorInfo<string, int, Foo>();
+//    Foo foo2 = ctor2("b", 2);
+//    foo2.Dump();
+    
+//    var ctor = (Func<object[], object>)FuncFactory.CreateConstructorFunc(typeof(Foo).GetConstructor(new[] { typeof(string) }), false);
+//    Foo foo = (Foo)ctor(new object[] { "w00t!!!!!!" });
+//    foo.Dump();
 }
 
 public class Foo
 {
+//    public Foo()
+//    {
+//    }
+    
+    public Foo(string bar)
+    {
+        Bar = bar;
+    }
+    
+//    public Foo(string bar, int baz)
+//    {
+//        Bar = bar;
+//        Baz = baz;
+//    }
+    
     public string Bar { get; set; }
+    public int Baz { get; set; }
 }
+
+#region CachedType
 
 public interface ICachedType
 {
     Type Type { get; }
+    ICachedConstructorInfo[] Constructors { get; }
     ICachedFieldInfo[] Fields { get; }
     ICachedPropertyInfo[] Properties { get; }
 }
@@ -44,12 +77,35 @@ public static class CachedType
 public class CachedType<T> : ICachedType
 {
     private readonly Type _type;
+    private readonly Lazy<ICachedConstructorInfo[]> _constructors;
     private readonly Lazy<ICachedFieldInfo[]> _fields;
     private readonly Lazy<ICachedPropertyInfo[]> _properties;
 
     private CachedType()
     {
         _type = typeof(T);
+        _constructors = new Lazy<ICachedConstructorInfo[]>(
+            () =>
+            _type.GetConstructors(BindingFlags.Public
+                               | BindingFlags.NonPublic
+                               | BindingFlags.Instance)
+                .Select(c =>
+                {
+                    var parameters = c.GetParameters();
+                    switch (parameters.Length)
+                    {
+                        case 0:
+                            return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<>).MakeGenericType(c.DeclaringType));
+                        case 1:
+                            return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<,>).MakeGenericType(parameters[0].ParameterType, c.DeclaringType));
+                        case 2:
+                            return (ICachedConstructorInfo)Activator.CreateInstance(typeof(CachedConstructorInfo<,,>).MakeGenericType(parameters[0].ParameterType, parameters[1].ParameterType, c.DeclaringType));
+                        default: // TODO: Implement the rest of the generic implementations of CachedConstructorInfo.
+                            return null;
+                    }
+                })
+                .Where(c => c != null)
+                .ToArray());
         _fields = new Lazy<ICachedFieldInfo[]>(
             () =>
             _type.GetFields(BindingFlags.Public
@@ -69,9 +125,12 @@ public class CachedType<T> : ICachedType
     }
     
     public Type Type { get { return _type; } }
+    public ICachedConstructorInfo[] Constructors { get { return _constructors.Value; } }
     public ICachedFieldInfo[] Fields { get { return _fields.Value; } }
     public ICachedPropertyInfo[] Properties { get { return _properties.Value; } }
 }
+
+#endregion
 
 #region CachedFieldInfo
 
@@ -199,11 +258,162 @@ public interface ICachedMethodInfo
 
 #endregion
 
+#region CachedConstructorInfo
+
+public interface ICachedConstructorInfo : IDynamicMetaObjectProvider
+{
+    ConstructorInfo ConstructorInfo { get; }
+    ICachedType DeclaringType { get; }
+    ICachedType[] Parameters { get; }
+    object Invoke(params object[] args);
+}
+
+public abstract class CachedConstructorInfo : DynamicObject, ICachedConstructorInfo
+{
+    private readonly Func<object[], object> _invoke;
+    private readonly ConstructorInfo _constructorInfo;
+    private readonly ICachedType _declaringType;
+    private readonly ICachedType[] _parameters;
+
+    protected CachedConstructorInfo(ConstructorInfo constructorInfo)
+    {
+        _invoke = (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo, false);
+        _constructorInfo = constructorInfo;
+        _declaringType = CachedType.Create(constructorInfo.DeclaringType);
+        _parameters = constructorInfo.GetParameters().Select(p => CachedType.Create(p.ParameterType)).ToArray();
+    }
+    
+    public ConstructorInfo ConstructorInfo { get { return _constructorInfo; } }
+    public ICachedType DeclaringType { get { return _declaringType; } }
+    public ICachedType[] Parameters { get { return _parameters; } }
+    
+    public object Invoke(params object[] args)
+    {
+        return _invoke(args);
+    }
+}
+
+public class CachedConstructorInfo<TDeclaringType> : CachedConstructorInfo
+{
+    private readonly Func<TDeclaringType> _invoke;
+
+    public CachedConstructorInfo()
+        : base(typeof(TDeclaringType).GetConstructor(Type.EmptyTypes))
+    {
+        _invoke = (Func<TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true);
+    }
+    
+    public TDeclaringType Invoke()
+    {
+        return _invoke();
+    }
+    
+    public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
+    {
+        result = null;
+        
+        if (args.Length != 0)
+        {
+            return false;
+        }
+    
+        try
+        {
+            result = Invoke();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
+
+public class CachedConstructorInfo<TArg1, TDeclaringType> : CachedConstructorInfo
+{
+    private readonly Func<TArg1, TDeclaringType> _invoke;
+
+    public CachedConstructorInfo()
+        : base(typeof(TDeclaringType).GetConstructor(new [] { typeof(TArg1) }))
+    {
+        _invoke = (Func<TArg1, TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true);
+    }
+    
+    public TDeclaringType Invoke(TArg1 arg1)
+    {
+        return _invoke(arg1);
+    }
+    
+    public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
+    {
+        result = null;
+        
+        if (args.Length != 1)
+        {
+            return false;
+        }
+    
+        try
+        {
+            result = Invoke((TArg1)args[0]);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
+
+public class CachedConstructorInfo<TArg1, TArg2, TDeclaringType> : CachedConstructorInfo
+{
+    private readonly Func<TArg1, TArg2, TDeclaringType> _invoke;
+
+    public CachedConstructorInfo()
+        : base(typeof(TDeclaringType).GetConstructor(new [] { typeof(TArg1), typeof(TArg2) }))
+    {
+        _invoke = (Func<TArg1, TArg2, TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true);
+    }
+    
+    public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2)
+    {
+        return _invoke(arg1, arg2);
+    }
+    
+    public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
+    {
+        result = null;
+        
+        if (args.Length != 2)
+        {
+            return false;
+        }
+    
+        try
+        {
+            result = Invoke((TArg1)args[0], (TArg2)args[1]);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
+
+#endregion
+
 #region FuncFactory
 
 public static class FuncFactory
 {
     public static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
+    {
+        var expression = CreateConstructorExpression(ctor, stronglyTyped);
+        return expression.Compile();
+    }
+    
+    public static LambdaExpression CreateConstructorExpression(ConstructorInfo ctor, bool stronglyTyped)
     {
         if (ctor == null)
         {
@@ -222,10 +432,10 @@ public static class FuncFactory
         }
         else
         {
-            parameters = ctor.GetParameters().Select(p => Expression.Parameter(typeof(object))).ToArray();
+            parameters = new[] { Expression.Parameter(typeof(object[])) };
             
             var ctorArgs =
-                ctor.GetParameters().Zip(parameters, (ctorParameter, lambdaParameter) => new { ctorParameter, lambdaParameter })
+                ctor.GetParameters().Select((ctorParameter, index) => new { ctorParameter, lambdaParameter = Expression.ArrayAccess(parameters[0], Expression.Constant(index)) })
                 .Select(x => 
                     x.ctorParameter.ParameterType.IsValueType
                         ? Expression.Convert(x.lambdaParameter, x.ctorParameter.ParameterType)
@@ -235,10 +445,9 @@ public static class FuncFactory
             returnType = typeof(object);
         }
         
-        var expression = GetLambdaExpressionForFunc(expressionBody, parameters, returnType);
-        return expression.Compile();
+        return GetLambdaExpressionForFunc(expressionBody, parameters, returnType);
     }
-    
+
     private static LambdaExpression GetLambdaExpressionForFunc(Expression expression, ParameterExpression[] parameters, Type returnType)
     {
         switch (parameters.Length)
