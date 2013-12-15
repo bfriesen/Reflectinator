@@ -22,8 +22,11 @@ namespace Reflectinator
         }
 
         public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
+        public string Name { get { return _propertyInfo.Name; } }
         public bool IsPublic { get { return _isPublic; } }
         public bool IsStatic { get { return _isStatic; } }
+        public bool CanRead { get { return _propertyInfo.CanRead; } }
+        public bool CanWrite { get { return _propertyInfo.CanWrite; } }
         public ICachedType PropertyType { get { return _propertyType; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
 
