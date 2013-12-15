@@ -12,7 +12,7 @@ namespace Reflectinator
         bool IsConstant { get; }
         ICachedType FieldType { get; }
         ICachedType DeclaringType { get; }
-        object GetValue(object obj);
-        void SetValue(object obj, object value);
+        object Get(object obj);
+        void Set(object obj, object value);
     }
 }

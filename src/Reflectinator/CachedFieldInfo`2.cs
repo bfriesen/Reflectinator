@@ -24,26 +24,26 @@ namespace Reflectinator
         public ICachedType FieldType { get { return _fieldType; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
 
-        object ICachedFieldInfo.GetValue(object obj)
+        object ICachedFieldInfo.Get(object obj)
         {
             // TODO: Implement for real
             return FieldInfo.GetValue(obj);
         }
 
-        void ICachedFieldInfo.SetValue(object obj, object value)
+        void ICachedFieldInfo.Set(object obj, object value)
         {
             // TODO: Implement for real
             FieldInfo.SetValue(obj, value);
         }
 
-        public TFieldType GetValue(TDeclaringType obj)
+        public TFieldType Get(TDeclaringType obj)
         {
-            return (TFieldType)((ICachedFieldInfo)this).GetValue(obj);
+            return (TFieldType)((ICachedFieldInfo)this).Get(obj);
         }
 
-        public void SetValue(TDeclaringType obj, TFieldType value)
+        public void Set(TDeclaringType obj, TFieldType value)
         {
-            ((ICachedFieldInfo)this).SetValue(obj, value);
+            ((ICachedFieldInfo)this).Set(obj, value);
         }
     }
 }

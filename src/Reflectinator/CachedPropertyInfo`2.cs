@@ -9,12 +9,12 @@ namespace Reflectinator
         {
         }
 
-        public TPropertyType GetValue(TDeclaringType obj)
+        public TPropertyType Get(TDeclaringType obj)
         {
             return (TPropertyType)((ICachedPropertyInfo)this).GetValue(obj);
         }
 
-        public void SetValue(TDeclaringType obj, TPropertyType value)
+        public void Set(TDeclaringType obj, TPropertyType value)
         {
             ((ICachedPropertyInfo)this).SetValue(obj, value);
         }
