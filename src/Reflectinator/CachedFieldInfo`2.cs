@@ -16,6 +16,8 @@ namespace Reflectinator
         }
 
         public FieldInfo FieldInfo { get { return _fieldInfo; } }
+        public bool IsPublic { get { return _fieldInfo.IsPublic; } }
+        public bool IsStatic { get { return _fieldInfo.IsStatic; } }
         public ICachedType FieldType { get { return _fieldType; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
 

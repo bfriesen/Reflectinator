@@ -21,6 +21,7 @@ namespace Reflectinator
         }
 
         public ConstructorInfo ConstructorInfo { get { return _constructorInfo; } }
+        public bool IsPublic { get { return _constructorInfo.IsPublic; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
         public ICachedType[] Parameters { get { return _parameters; } }
 
