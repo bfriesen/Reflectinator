@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Reflectinator
 {
@@ -10,6 +13,9 @@ namespace Reflectinator
         private readonly ICachedType _propertyType;
         private readonly ICachedType _declaringType;
 
+        private readonly Lazy<Func<object, object>> _getValueFunc;
+        private readonly Lazy<Action<object, object>> _setValueFunc;
+
         protected CachedPropertyInfo(PropertyInfo propertyInfo)
         {
             _propertyInfo = propertyInfo;
@@ -19,6 +25,9 @@ namespace Reflectinator
                 || (propertyInfo.CanWrite && propertyInfo.GetSetMethod(true).IsStatic);
             _propertyType = CachedType.Create(propertyInfo.PropertyType);
             _declaringType = CachedType.Create(propertyInfo.DeclaringType);
+
+            _getValueFunc = new Lazy<Func<object, object>>(CreateGetValueFunc);
+            _setValueFunc = new Lazy<Action<object, object>>(CreateSetValueFunc);
         }
 
         public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
@@ -30,16 +39,71 @@ namespace Reflectinator
         public ICachedType PropertyType { get { return _propertyType; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
 
-        object ICachedPropertyInfo.GetValue(object obj)
+        Func<object, object> ICachedPropertyInfo.Get { get { return _getValueFunc.Value; } }
+        Action<object, object> ICachedPropertyInfo.Set { get { return _setValueFunc.Value; } }
+
+        private Func<object, object> CreateGetValueFunc()
         {
-            // TODO: Implement for real
-            return PropertyInfo.GetValue(obj, null);
+            if (CanRead)
+            {
+                var method = PropertyInfo.GetGetMethod();
+
+                var insanceParameter = Expression.Parameter(typeof(object), "instance");
+
+                var instanceCast =
+                    method.DeclaringType.IsValueType
+                        ? Expression.Convert(insanceParameter, method.DeclaringType)
+                        : Expression.TypeAs(insanceParameter, method.DeclaringType);
+
+                var call =
+                    Expression.Call(
+                        instanceCast,
+                        method);
+
+                var expression = Expression.Lambda<Func<object, object>>(
+                    call,
+                    insanceParameter);
+
+                return expression.Compile();
+            }
+
+            throw new NotImplementedException("Cannot read from property.");
         }
 
-        void ICachedPropertyInfo.SetValue(object obj, object value)
+        private Action<object, object> CreateSetValueFunc()
         {
-            // TODO: Implement for real
-            PropertyInfo.SetValue(obj, value, null);
+            if (CanWrite)
+            {
+                var method = PropertyInfo.GetSetMethod();
+
+                var instanceParameter = Expression.Parameter(typeof(object), "instance");
+                var valueParameter = Expression.Parameter(typeof(object), "value");
+
+                var instanceCast =
+                    method.DeclaringType.IsValueType
+                        ? Expression.Convert(instanceParameter, method.DeclaringType)
+                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
+
+                var valueParameterType = method.GetParameters().Single().ParameterType;
+                var valueCast = valueParameterType.IsValueType
+                    ? Expression.Convert(valueParameter, valueParameterType)
+                    : Expression.TypeAs(valueParameter, valueParameterType);
+
+                var call =
+                    Expression.Call(
+                        instanceCast,
+                        method,
+                        valueCast);
+
+                var expression = Expression.Lambda<Action<object, object>>(
+                    call,
+                    instanceParameter,
+                    valueParameter);
+
+                return expression.Compile();
+            }
+
+            throw new NotImplementedException("Cannot write to property.");
         }
     }
 }

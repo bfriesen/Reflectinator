@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Reflectinator
 {
@@ -12,7 +13,7 @@ namespace Reflectinator
         bool CanWrite { get; }
         ICachedType PropertyType { get; }
         ICachedType DeclaringType { get; }
-        object GetValue(object obj);
-        void SetValue(object obj, object value);
+        Func<object, object> Get { get; } 
+        Action<object, object> Set { get; }
     }
 }
