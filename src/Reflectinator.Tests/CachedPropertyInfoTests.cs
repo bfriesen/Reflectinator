@@ -1,9 +1,15 @@
-﻿using NUnit.Framework;
+﻿using System.Reflection;
+using NUnit.Framework;
 
 namespace Reflectinator.Tests
 {
     public class CachedPropertyInfoTests
     {
+        static CachedPropertyInfoTests()
+        {
+            StaticProperty = "foo";
+        }
+
         public CachedPropertyInfoTests()
         {
             Property = "bar";
@@ -12,6 +18,7 @@ namespace Reflectinator.Tests
         public string Property { get; set; }
         public string ReadonlyProperty { get { return null; } }
         public string WriteonlyProperty { set {} }
+        public static string StaticProperty { get; set; }
 
         [Test]
         public void CanReadFromProperties()
@@ -57,6 +64,42 @@ namespace Reflectinator.Tests
 
             Assert.That(() => property.Get(this), Throws.Exception);
             Assert.That(() => iProperty.Get(this), Throws.Exception);
+        }
+
+        [Test]
+        public void MismatchedTDeclaringTypeAndPropertyInfoDeclaringTypeThrowsException()
+        {
+            Assert.That(() => new CachedPropertyInfo<CachedPropertyInfoTests, string>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
+        }
+
+        [Test]
+        public void MismatchedTPropertyTypeAndPropertyInfoPropertyTypeThrowsException()
+        {
+            Assert.That(() => new CachedPropertyInfo<Foo, int>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
+        }
+
+        [Test]
+        public void CanGetAndSetStaticProperties()
+        {
+            var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
+            var iProperty = (ICachedPropertyInfo) property;
+
+            Assert.That(() => property.GetAsStatic(), Throws.Nothing);
+            Assert.That(property.GetAsStatic(), Is.EqualTo("foo"));
+
+            Assert.That(() => property.SetAsStatic("rawr!"), Throws.Nothing);
+            Assert.That(StaticProperty, Is.EqualTo("rawr!"));
+
+            Assert.That(() => iProperty.GetAsStatic(), Throws.Nothing);
+            Assert.That(iProperty.GetAsStatic(), Is.EqualTo("rawr!"));
+
+            Assert.That(() => iProperty.SetAsStatic("foo"), Throws.Nothing);
+            Assert.That(StaticProperty, Is.EqualTo("foo"));
+        }
+
+        private class Foo
+        {
+            public string Bar { get; set; }
         }
     }
 }

@@ -13,21 +13,25 @@ namespace Reflectinator
             {
                 var method = propertyInfo.GetGetMethod();
 
-                var insanceParameter = Expression.Parameter(typeof(object), "instance");
+                var instanceParameter = Expression.Parameter(typeof(object), "instance");
 
-                var instanceCast =
-                    method.DeclaringType.IsValueType
-                        ? Expression.Convert(insanceParameter, method.DeclaringType)
-                        : Expression.TypeAs(insanceParameter, method.DeclaringType);
+                MethodCallExpression call;
 
-                var call =
-                    Expression.Call(
-                        instanceCast,
-                        method);
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(method);
+                }
+                else
+                {
+                    var instanceCast =
+                        method.DeclaringType.IsValueType
+                            ? Expression.Convert(instanceParameter, method.DeclaringType)
+                            : Expression.TypeAs(instanceParameter, method.DeclaringType);
 
-                var expression = Expression.Lambda<Func<object, object>>(
-                    call,
-                    insanceParameter);
+                    call = Expression.Call(instanceCast, method);
+                }
+
+                var expression = Expression.Lambda<Func<object, object>>(call, instanceParameter);
 
                 return expression.Compile();
             }
@@ -45,21 +49,26 @@ namespace Reflectinator
                 var instanceParameter = Expression.Parameter(typeof(object), "instance");
                 var valueParameter = Expression.Parameter(typeof(object), "value");
 
-                var instanceCast =
-                    method.DeclaringType.IsValueType
-                        ? Expression.Convert(instanceParameter, method.DeclaringType)
-                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
-
                 var valueParameterType = method.GetParameters().Single().ParameterType;
                 var valueCast = valueParameterType.IsValueType
                     ? Expression.Convert(valueParameter, valueParameterType)
                     : Expression.TypeAs(valueParameter, valueParameterType);
 
-                var call =
-                    Expression.Call(
-                        instanceCast,
-                        method,
-                        valueCast);
+                MethodCallExpression call;
+
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(method, valueCast);
+                }
+                else
+                {
+                    var instanceCast =
+                        method.DeclaringType.IsValueType
+                            ? Expression.Convert(instanceParameter, method.DeclaringType)
+                            : Expression.TypeAs(instanceParameter, method.DeclaringType);
+
+                    call = Expression.Call(instanceCast, method, valueCast);
+                }
 
                 var expression = Expression.Lambda<Action<object, object>>(
                     call,
@@ -81,10 +90,16 @@ namespace Reflectinator
 
                 var insanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
 
-                var call =
-                    Expression.Call(
-                        insanceParameter,
-                        method);
+                MethodCallExpression call;
+
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(method);
+                }
+                else
+                {
+                    call = Expression.Call(insanceParameter, method);
+                }
 
                 var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
                     call,
@@ -106,11 +121,16 @@ namespace Reflectinator
                 var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
                 var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
 
-                var call =
-                    Expression.Call(
-                        instanceParameter,
-                        method,
-                        valueParameter);
+                MethodCallExpression call;
+
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(method, valueParameter);
+                }
+                else
+                {
+                    call = Expression.Call(instanceParameter, method, valueParameter);
+                }
 
                 var expression = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(
                     call,

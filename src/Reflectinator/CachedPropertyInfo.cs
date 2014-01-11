@@ -11,26 +11,51 @@ namespace Reflectinator
         private readonly ICachedType _propertyType;
         private readonly ICachedType _declaringType;
 
-        private readonly Lazy<Func<object, object>> _getValueFunc;
-        private readonly Lazy<Action<object, object>> _setValueFunc;
+        private readonly Lazy<Func<object, object>> _getValue;
+        private readonly Lazy<Action<object, object>> _setValue;
+
+        private readonly Lazy<Func<object>> _getValueAsStatic;
+        private readonly Lazy<Action<object>> _setValueAsStatic;
 
         protected CachedPropertyInfo(PropertyInfo propertyInfo)
         {
             _propertyInfo = propertyInfo;
-            _isPublic = (propertyInfo.CanRead && propertyInfo.GetGetMethod(true).IsPublic)
-                || (propertyInfo.CanWrite && propertyInfo.GetSetMethod(true).IsPublic);
-            _isStatic = (propertyInfo.CanRead && propertyInfo.GetGetMethod(true).IsStatic)
-                || (propertyInfo.CanWrite && propertyInfo.GetSetMethod(true).IsStatic);
+            _isPublic = propertyInfo.IsPublic();
+            _isStatic = propertyInfo.IsStatic();
             _propertyType = CachedType.Create(propertyInfo.PropertyType);
             _declaringType = CachedType.Create(propertyInfo.DeclaringType);
 
-            _getValueFunc = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
-            _setValueFunc = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
+            _getValue = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
+            _setValue = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
+
+            _getValueAsStatic = new Lazy<Func<object>>(() =>
+            {
+                if (!IsStatic)
+                {
+                    throw new InvalidOperationException("Cannot call GetAsStatic on a property that is not static.");
+                }
+
+                return () => ((ICachedPropertyInfo)this).Get(default(object));
+            });
+            _setValueAsStatic = new Lazy<Action<object>>(() =>
+            {
+                if (!IsStatic)
+                {
+                    throw new InvalidOperationException("Cannot call SetAsStatic on a property that is not static.");
+                }
+
+                return value => ((ICachedPropertyInfo)this).Set(default(object), value);
+            });
         }
 
         public static ICachedPropertyInfo Create(PropertyInfo propertyInfo)
         {
             return new CachedPropertyInfo(propertyInfo);
+        }
+
+        public static CachedPropertyInfo<TDeclaringType, TPropertyType> Create<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        {
+            return new CachedPropertyInfo<TDeclaringType, TPropertyType>(propertyInfo);
         }
 
         public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
@@ -42,7 +67,10 @@ namespace Reflectinator
         public ICachedType PropertyType { get { return _propertyType; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
 
-        Func<object, object> ICachedPropertyInfo.Get { get { return _getValueFunc.Value; } }
-        Action<object, object> ICachedPropertyInfo.Set { get { return _setValueFunc.Value; } }
+        Func<object, object> ICachedPropertyInfo.Get { get { return _getValue.Value; } }
+        Action<object, object> ICachedPropertyInfo.Set { get { return _setValue.Value; } }
+
+        Func<object> ICachedPropertyInfo.GetAsStatic { get { return _getValueAsStatic.Value; } }
+        Action<object> ICachedPropertyInfo.SetAsStatic { get { return _setValueAsStatic.Value; } }
     }
 }

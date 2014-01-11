@@ -13,7 +13,9 @@ namespace Reflectinator
         bool CanWrite { get; }
         ICachedType PropertyType { get; }
         ICachedType DeclaringType { get; }
-        Func<object, object> Get { get; } 
+        Func<object, object> Get { get; }
         Action<object, object> Set { get; }
+        Func<object> GetAsStatic { get; }
+        Action<object> SetAsStatic { get; }
     }
 }
