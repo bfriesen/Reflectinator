@@ -11,7 +11,6 @@ namespace Reflectinator.Tests
 
         public string Property { get; set; }
         public string ReadonlyProperty { get { return null; } }
-// ReSharper disable once ValueParameterNotUsed
         public string WriteonlyProperty { set {} }
 
         [Test]

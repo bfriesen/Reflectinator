@@ -39,7 +39,7 @@ namespace Reflectinator
                 return expression.Compile();
             }
 
-            throw new NotImplementedException(string.Format("Cannot read from property: {0}.{1}",
+            throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
                 PropertyInfo.DeclaringType.FullName, PropertyInfo.Name));
         }
 
@@ -66,7 +66,7 @@ namespace Reflectinator
                 return expression.Compile();
             }
 
-            throw new NotImplementedException(string.Format("Cannot write to property: {0}.{1}",
+            throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
                 PropertyInfo.DeclaringType.FullName, PropertyInfo.Name));
         }
     }

@@ -67,7 +67,8 @@ namespace Reflectinator
                 return expression.Compile();
             }
 
-            throw new NotImplementedException("Cannot read from property.");
+            throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                PropertyInfo.DeclaringType.FullName, PropertyInfo.Name));
         }
 
         private Action<object, object> CreateSetValueFunc()
@@ -103,7 +104,8 @@ namespace Reflectinator
                 return expression.Compile();
             }
 
-            throw new NotImplementedException("Cannot write to property.");
+            throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                PropertyInfo.DeclaringType.FullName, PropertyInfo.Name));
         }
     }
 }
