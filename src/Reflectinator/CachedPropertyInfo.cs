@@ -14,7 +14,7 @@ namespace Reflectinator
         private readonly Lazy<Func<object, object>> _getValueFunc;
         private readonly Lazy<Action<object, object>> _setValueFunc;
 
-        public CachedPropertyInfo(PropertyInfo propertyInfo)
+        protected CachedPropertyInfo(PropertyInfo propertyInfo)
         {
             _propertyInfo = propertyInfo;
             _isPublic = (propertyInfo.CanRead && propertyInfo.GetGetMethod(true).IsPublic)
@@ -28,6 +28,11 @@ namespace Reflectinator
             _setValueFunc = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
         }
 
+        public static ICachedPropertyInfo Create(PropertyInfo propertyInfo)
+        {
+            return new CachedPropertyInfo(propertyInfo);
+        }
+
         public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
         public string Name { get { return _propertyInfo.Name; } }
         public bool IsPublic { get { return _isPublic; } }
@@ -37,7 +42,7 @@ namespace Reflectinator
         public ICachedType PropertyType { get { return _propertyType; } }
         public ICachedType DeclaringType { get { return _declaringType; } }
 
-        public Func<object, object> Get { get { return _getValueFunc.Value; } }
-        public Action<object, object> Set { get { return _setValueFunc.Value; } }
+        Func<object, object> ICachedPropertyInfo.Get { get { return _getValueFunc.Value; } }
+        Action<object, object> ICachedPropertyInfo.Set { get { return _setValueFunc.Value; } }
     }
 }
