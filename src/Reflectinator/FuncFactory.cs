@@ -5,9 +5,126 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public static class FuncFactory
+    internal static class FuncFactory
     {
-        internal static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
+        public static Func<object, object> CreateGetValueFunc(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.CanRead)
+            {
+                var method = propertyInfo.GetGetMethod();
+
+                var insanceParameter = Expression.Parameter(typeof(object), "instance");
+
+                var instanceCast =
+                    method.DeclaringType.IsValueType
+                        ? Expression.Convert(insanceParameter, method.DeclaringType)
+                        : Expression.TypeAs(insanceParameter, method.DeclaringType);
+
+                var call =
+                    Expression.Call(
+                        instanceCast,
+                        method);
+
+                var expression = Expression.Lambda<Func<object, object>>(
+                    call,
+                    insanceParameter);
+
+                return expression.Compile();
+            }
+
+            throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+        }
+
+        public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.CanWrite)
+            {
+                var method = propertyInfo.GetSetMethod();
+
+                var instanceParameter = Expression.Parameter(typeof(object), "instance");
+                var valueParameter = Expression.Parameter(typeof(object), "value");
+
+                var instanceCast =
+                    method.DeclaringType.IsValueType
+                        ? Expression.Convert(instanceParameter, method.DeclaringType)
+                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
+
+                var valueParameterType = method.GetParameters().Single().ParameterType;
+                var valueCast = valueParameterType.IsValueType
+                    ? Expression.Convert(valueParameter, valueParameterType)
+                    : Expression.TypeAs(valueParameter, valueParameterType);
+
+                var call =
+                    Expression.Call(
+                        instanceCast,
+                        method,
+                        valueCast);
+
+                var expression = Expression.Lambda<Action<object, object>>(
+                    call,
+                    instanceParameter,
+                    valueParameter);
+
+                return expression.Compile();
+            }
+
+            throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+        }
+
+        public static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.CanRead)
+            {
+                var method = propertyInfo.GetGetMethod();
+
+                var insanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+
+                var call =
+                    Expression.Call(
+                        insanceParameter,
+                        method);
+
+                var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
+                    call,
+                    insanceParameter);
+
+                return expression.Compile();
+            }
+
+            throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+        }
+
+        public static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.CanWrite)
+            {
+                var method = propertyInfo.GetSetMethod();
+
+                var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+                var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
+
+                var call =
+                    Expression.Call(
+                        instanceParameter,
+                        method,
+                        valueParameter);
+
+                var expression = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(
+                    call,
+                    instanceParameter,
+                    valueParameter);
+
+                return expression.Compile();
+            }
+
+            throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+        }
+
+        public static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
         {
             if (ctor == null)
             {
