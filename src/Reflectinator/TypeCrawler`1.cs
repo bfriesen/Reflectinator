@@ -4,14 +4,14 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class TypeInfo<T> : ITypeInfo
+    public class TypeCrawler<T> : ITypeCrawler
     {
         private readonly Type _type;
         private readonly Lazy<IConstructor[]> _constructors;
         private readonly Lazy<IField[]> _fields;
         private readonly Lazy<IProperty[]> _properties;
 
-        private TypeInfo()
+        private TypeCrawler()
         {
             _type = typeof(T);
             _constructors = new Lazy<IConstructor[]>(

@@ -16,8 +16,8 @@ namespace Reflectinator
         bool CanRead { get; }
         bool CanWrite { get; }
 
-        ITypeInfo PropertyType { get; }
-        ITypeInfo DeclaringType { get; }
+        ITypeCrawler PropertyType { get; }
+        ITypeCrawler DeclaringType { get; }
 
         object Get(object instance);
         void Set(object instance, object value);

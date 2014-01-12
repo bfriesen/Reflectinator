@@ -7,8 +7,8 @@ namespace Reflectinator
     {
         private readonly FieldInfo _fieldInfo;
 
-        private readonly Lazy<ITypeInfo> _fieldType;
-        private readonly Lazy<ITypeInfo> _declaringType;
+        private readonly Lazy<ITypeCrawler> _fieldType;
+        private readonly Lazy<ITypeCrawler> _declaringType;
 
         private readonly Lazy<Func<object, object>> _getValue;
         private readonly Lazy<Action<object, object>> _setValue;
@@ -20,8 +20,8 @@ namespace Reflectinator
         {
             _fieldInfo = fieldInfo;
 
-            _fieldType = new Lazy<ITypeInfo>(() => TypeInfo.Create(fieldInfo.FieldType));
-            _declaringType = new Lazy<ITypeInfo>(() => TypeInfo.Create(fieldInfo.DeclaringType));
+            _fieldType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(fieldInfo.FieldType));
+            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(fieldInfo.DeclaringType));
 
             _getValue = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(fieldInfo));
             _setValue = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(fieldInfo));
@@ -68,8 +68,8 @@ namespace Reflectinator
         public bool IsReadOnly { get { return _fieldInfo.IsInitOnly || IsConstant; } }
         public bool IsConstant { get { return _fieldInfo.IsLiteral; } }
 
-        public ITypeInfo FieldType { get { return _fieldType.Value; } }
-        public ITypeInfo DeclaringType { get { return _declaringType.Value; } }
+        public ITypeCrawler FieldType { get { return _fieldType.Value; } }
+        public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
 
         object IField.Get(object instance) { return _getValue.Value(instance); }
         void IField.Set(object instance, object value) { _setValue.Value(instance, value); }

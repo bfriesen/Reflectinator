@@ -13,8 +13,8 @@ namespace Reflectinator
         bool IsReadOnly { get; }
         bool IsConstant { get; }
 
-        ITypeInfo FieldType { get; }
-        ITypeInfo DeclaringType { get; }
+        ITypeCrawler FieldType { get; }
+        ITypeCrawler DeclaringType { get; }
 
         object Get(object obj);
         void Set(object obj, object value);

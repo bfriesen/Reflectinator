@@ -4,44 +4,44 @@ using NUnit.Framework;
 
 namespace Reflectinator.Tests
 {
-    public class TypeInfoTests
+    public class TypeCrawlerTests
     {
         [Test]
         public void HasCorrectConstructors()
         {
-            var type = TypeInfo.Create<Foo>();
+            var sut = TypeCrawler.Create<Foo>();
 
-            Assert.That(type.Constructors.Length, Is.EqualTo(3));
-            Assert.That(type.Constructors.Count(x => x.Parameters.Length == 0), Is.EqualTo(1));
-            Assert.That(type.Constructors.Count(x => x.Parameters.Length == 1 && x.Parameters[0].Type == typeof(string)), Is.EqualTo(1));
-            Assert.That(type.Constructors.Count(x => x.Parameters.Length == 2 && x.Parameters[0].Type == typeof(string) && x.Parameters[1].Type == typeof(int)), Is.EqualTo(1));
-            Assert.That(type.Constructors.Count(x => x.ConstructorInfo.GetParameters().Any(p => p.ParameterType.IsPointer)), Is.EqualTo(0));
+            Assert.That(sut.Constructors.Length, Is.EqualTo(3));
+            Assert.That(sut.Constructors.Count(x => x.Parameters.Length == 0), Is.EqualTo(1));
+            Assert.That(sut.Constructors.Count(x => x.Parameters.Length == 1 && x.Parameters[0].Type == typeof(string)), Is.EqualTo(1));
+            Assert.That(sut.Constructors.Count(x => x.Parameters.Length == 2 && x.Parameters[0].Type == typeof(string) && x.Parameters[1].Type == typeof(int)), Is.EqualTo(1));
+            Assert.That(sut.Constructors.Count(x => x.ConstructorInfo.GetParameters().Any(p => p.ParameterType.IsPointer)), Is.EqualTo(0));
         }
 
         [Test]
         public void HasCorrectFields()
         {
-            var type = TypeInfo.Create<Foo>();
+            var sut = TypeCrawler.Create<Foo>();
 
-            Assert.That(type.Fields.Length, Is.EqualTo(10));
-            Assert.That(type.Fields.Count(x => x.IsConstant), Is.EqualTo(2));
-            Assert.That(type.Fields.Count(x => x.IsPublic), Is.EqualTo(5));
-            Assert.That(type.Fields.Count(x => x.IsReadOnly), Is.EqualTo(6));
-            Assert.That(type.Fields.Count(x => x.IsStatic), Is.EqualTo(6));
-            Assert.That(type.Fields.Count(x => x.FieldInfo.FieldType.IsPointer), Is.EqualTo(0));
+            Assert.That(sut.Fields.Length, Is.EqualTo(10));
+            Assert.That(sut.Fields.Count(x => x.IsConstant), Is.EqualTo(2));
+            Assert.That(sut.Fields.Count(x => x.IsPublic), Is.EqualTo(5));
+            Assert.That(sut.Fields.Count(x => x.IsReadOnly), Is.EqualTo(6));
+            Assert.That(sut.Fields.Count(x => x.IsStatic), Is.EqualTo(6));
+            Assert.That(sut.Fields.Count(x => x.FieldInfo.FieldType.IsPointer), Is.EqualTo(0));
         }
 
         [Test]
         public void HasCorrectProperties()
         {
-            var type = TypeInfo.Create<Foo>();
+            var sut = TypeCrawler.Create<Foo>();
 
-            Assert.That(type.Properties.Length, Is.EqualTo(8));
-            Assert.That(type.Properties.Count(x => x.IsPublic), Is.EqualTo(4));
-            Assert.That(type.Properties.Count(x => x.IsStatic), Is.EqualTo(4));
-            Assert.That(type.Properties.Count(x => x.CanRead), Is.EqualTo(8));
-            Assert.That(type.Properties.Count(x => x.CanWrite), Is.EqualTo(4));
-            Assert.That(type.Properties.Count(x => x.PropertyInfo.PropertyType.IsPointer), Is.EqualTo(0));
+            Assert.That(sut.Properties.Length, Is.EqualTo(8));
+            Assert.That(sut.Properties.Count(x => x.IsPublic), Is.EqualTo(4));
+            Assert.That(sut.Properties.Count(x => x.IsStatic), Is.EqualTo(4));
+            Assert.That(sut.Properties.Count(x => x.CanRead), Is.EqualTo(8));
+            Assert.That(sut.Properties.Count(x => x.CanWrite), Is.EqualTo(4));
+            Assert.That(sut.Properties.Count(x => x.PropertyInfo.PropertyType.IsPointer), Is.EqualTo(0));
         }
 
 // ReSharper disable ClassNeverInstantiated.Local

@@ -47,14 +47,14 @@
     <Compile Include="Field`2.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Property`2.cs" />
-    <Compile Include="TypeInfo.cs" />
-    <Compile Include="TypeInfo`1.cs" />
+    <Compile Include="TypeCrawler.cs" />
+    <Compile Include="TypeCrawler`1.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FuncFactory.cs" />
     <Compile Include="IConstructor.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IProperty.cs" />
-    <Compile Include="ITypeInfo.cs" />
+    <Compile Include="ITypeCrawler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

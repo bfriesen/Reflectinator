@@ -46,8 +46,9 @@ namespace Reflectinator.Tests
         [Test]
         public void CanInvokeWithObjectArrayAsArgs()
         {
-            var ctor = new Constructor<ConstructorTests, string, int>();
-            var obj = (ConstructorTests)ctor.Invoke(new object[] { "foo", -1 });
+            var sut = new Constructor<ConstructorTests, string, int>();
+
+            var obj = (ConstructorTests)sut.Invoke(new object[] { "foo", -1 });
 
             Assert.That(obj._s, Is.EqualTo("foo"));
             Assert.That(obj._i, Is.EqualTo(-1));
@@ -56,8 +57,9 @@ namespace Reflectinator.Tests
         [Test]
         public void CanInvokeWithStronglyTypedArgs()
         {
-            var ctor = new Constructor<ConstructorTests, string, int>();
-            var obj = ctor.Invoke("foo", -1);
+            var sut = new Constructor<ConstructorTests, string, int>();
+
+            var obj = sut.Invoke("foo", -1);
 
             Assert.That(obj._s, Is.EqualTo("foo"));
             Assert.That(obj._i, Is.EqualTo(-1));
@@ -66,8 +68,9 @@ namespace Reflectinator.Tests
         [Test]
         public void CanInvokeAsDynamic()
         {
-            dynamic ctor = new Constructor<ConstructorTests, string, int>();
-            ConstructorTests obj = ctor("foo", -1);
+            dynamic sut = new Constructor<ConstructorTests, string, int>();
+
+            ConstructorTests obj = sut("foo", -1);
 
             Assert.That(obj._s, Is.EqualTo("foo"));
             Assert.That(obj._i, Is.EqualTo(-1));

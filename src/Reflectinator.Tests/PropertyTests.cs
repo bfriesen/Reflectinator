@@ -23,47 +23,47 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromProperties()
         {
-            var property = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
-            var iProperty = (IProperty)property;
+            var sut = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
+            var iSut = (IProperty)sut;
 
-            Assert.That(() => property.Get(this), Throws.Nothing);
-            Assert.That(property.Get(this), Is.EqualTo("bar"));
+            Assert.That(() => sut.Get(this), Throws.Nothing);
+            Assert.That(sut.Get(this), Is.EqualTo("bar"));
 
-            Assert.That(() => iProperty.Get(this), Throws.Nothing);
-            Assert.That(iProperty.Get(this), Is.EqualTo("bar"));
+            Assert.That(() => iSut.Get(this), Throws.Nothing);
+            Assert.That(iSut.Get(this), Is.EqualTo("bar"));
         }
 
         [Test]
         public void CanWriteToProperties()
         {
-            var property = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
-            var iProperty = (IProperty)property;
+            var sut = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
+            var iSut = (IProperty)sut;
 
-            Assert.That(() => property.Set(this, "wooo!!"), Throws.Nothing);
+            Assert.That(() => sut.Set(this, "wooo!!"), Throws.Nothing);
             Assert.That(Property, Is.EqualTo("wooo!!"));
 
-            Assert.That(() => iProperty.Set(this, "hooo!!"), Throws.Nothing);
+            Assert.That(() => iSut.Set(this, "hooo!!"), Throws.Nothing);
             Assert.That(Property, Is.EqualTo("hooo!!"));
         }
 
         [Test]
         public void CannotWriteToReadonlyProperties()
         {
-            var property = new Property<PropertyTests, string>(GetType().GetProperty("ReadonlyProperty"));
-            var iProperty = (IProperty)property;
+            var sut = new Property<PropertyTests, string>(GetType().GetProperty("ReadonlyProperty"));
+            var iSut = (IProperty)sut;
 
-            Assert.That(() => property.Set(this, "wooo!!"), Throws.Exception);
-            Assert.That(() => iProperty.Set(this, "wooo!!"), Throws.Exception);
+            Assert.That(() => sut.Set(this, "wooo!!"), Throws.Exception);
+            Assert.That(() => iSut.Set(this, "wooo!!"), Throws.Exception);
         }
 
         [Test]
         public void CannotReadFromWriteonlyProperties()
         {
-            var property = new Property<PropertyTests, string>(GetType().GetProperty("WriteonlyProperty"));
-            var iProperty = (IProperty)property;
+            var sut = new Property<PropertyTests, string>(GetType().GetProperty("WriteonlyProperty"));
+            var iSut = (IProperty)sut;
 
-            Assert.That(() => property.Get(this), Throws.Exception);
-            Assert.That(() => iProperty.Get(this), Throws.Exception);
+            Assert.That(() => sut.Get(this), Throws.Exception);
+            Assert.That(() => iSut.Get(this), Throws.Exception);
         }
 
         [Test]
@@ -81,19 +81,19 @@ namespace Reflectinator.Tests
         [Test]
         public void CanGetAndSetStaticProperties()
         {
-            var property = new Property<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
-            var iProperty = (IProperty) property;
+            var sut = new Property<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
+            var iSut = (IProperty) sut;
 
-            Assert.That(() => property.Get(), Throws.Nothing);
-            Assert.That(property.Get(), Is.EqualTo("foo"));
+            Assert.That(() => sut.Get(), Throws.Nothing);
+            Assert.That(sut.Get(), Is.EqualTo("foo"));
 
-            Assert.That(() => property.Set("rawr!"), Throws.Nothing);
+            Assert.That(() => sut.Set("rawr!"), Throws.Nothing);
             Assert.That(StaticProperty, Is.EqualTo("rawr!"));
 
-            Assert.That(() => iProperty.Get(), Throws.Nothing);
-            Assert.That(iProperty.Get(), Is.EqualTo("rawr!"));
+            Assert.That(() => iSut.Get(), Throws.Nothing);
+            Assert.That(iSut.Get(), Is.EqualTo("rawr!"));
 
-            Assert.That(() => iProperty.Set("foo"), Throws.Nothing);
+            Assert.That(() => iSut.Set("foo"), Throws.Nothing);
             Assert.That(StaticProperty, Is.EqualTo("foo"));
         }
 

@@ -2,7 +2,7 @@
 
 namespace Reflectinator
 {
-    public interface ITypeInfo
+    public interface ITypeCrawler
     {
         Type Type { get; }
         IConstructor[] Constructors { get; }

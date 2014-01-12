@@ -13,8 +13,8 @@ namespace Reflectinator
         private readonly Lazy<bool> _isPublic;
         private readonly Lazy<bool> _isStatic;
 
-        private readonly Lazy<ITypeInfo> _propertyType;
-        private readonly Lazy<ITypeInfo> _declaringType;
+        private readonly Lazy<ITypeCrawler> _propertyType;
+        private readonly Lazy<ITypeCrawler> _declaringType;
 
         private readonly Lazy<Func<object, object>> _getValue;
         private readonly Lazy<Action<object, object>> _setValue;
@@ -32,8 +32,8 @@ namespace Reflectinator
             _isPublic = new Lazy<bool>(propertyInfo.IsPublic);
             _isStatic = new Lazy<bool>(propertyInfo.IsStatic);
 
-            _propertyType = new Lazy<ITypeInfo>(() => TypeInfo.Create(propertyInfo.PropertyType));
-            _declaringType = new Lazy<ITypeInfo>(() => TypeInfo.Create(propertyInfo.DeclaringType));
+            _propertyType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(propertyInfo.PropertyType));
+            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(propertyInfo.DeclaringType));
 
             _getValue = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
             _setValue = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
@@ -85,8 +85,8 @@ namespace Reflectinator
         public bool CanRead { get { return _propertyInfo.CanRead; } }
         public bool CanWrite { get { return _propertyInfo.CanWrite; } }
 
-        public ITypeInfo PropertyType { get { return _propertyType.Value; } }
-        public ITypeInfo DeclaringType { get { return _declaringType.Value; } }
+        public ITypeCrawler PropertyType { get { return _propertyType.Value; } }
+        public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
 
         object IProperty.Get(object instance) { return _getValue.Value(instance); }
         void IProperty.Set(object instance, object value) { _setValue.Value(instance, value); }

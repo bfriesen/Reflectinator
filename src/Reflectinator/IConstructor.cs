@@ -7,8 +7,8 @@ namespace Reflectinator
     {
         ConstructorInfo ConstructorInfo { get; }
         bool IsPublic { get; }
-        ITypeInfo DeclaringType { get; }
-        ITypeInfo[] Parameters { get; }
+        ITypeCrawler DeclaringType { get; }
+        ITypeCrawler[] Parameters { get; }
         object Invoke(params object[] args);
     }
 }
