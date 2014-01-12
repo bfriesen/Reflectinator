@@ -20,6 +20,7 @@ namespace Reflectinator
                         BindingFlags.Public
                         | BindingFlags.NonPublic
                         | BindingFlags.Instance)
+                    .Where(c => c.GetParameters().All(p => !p.ParameterType.IsPointer))
                     .Select(c =>
                     {
                         var parameters = c.GetParameters();
@@ -44,6 +45,7 @@ namespace Reflectinator
                         | BindingFlags.NonPublic
                         | BindingFlags.Instance
                         | BindingFlags.Static)
+                    .Where(f => !f.FieldType.IsPointer)
                     .Select(f => (IField)Activator.CreateInstance(typeof(Field<,>).MakeGenericType(f.DeclaringType, f.FieldType), f))
                     .ToArray());
             _properties = new Lazy<IProperty[]>(
@@ -53,6 +55,7 @@ namespace Reflectinator
                         | BindingFlags.NonPublic
                         | BindingFlags.Instance
                         | BindingFlags.Static)
+                    .Where(p => !p.PropertyType.IsPointer)
                     .Select(p => (IProperty)Activator.CreateInstance(typeof(Property<,>).MakeGenericType(p.DeclaringType, p.PropertyType), p))
                     .ToArray());
         }

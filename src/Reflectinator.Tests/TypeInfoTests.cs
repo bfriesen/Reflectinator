@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Reflectinator.Tests
@@ -14,6 +15,7 @@ namespace Reflectinator.Tests
             Assert.That(type.Constructors.Count(x => x.Parameters.Length == 0), Is.EqualTo(1));
             Assert.That(type.Constructors.Count(x => x.Parameters.Length == 1 && x.Parameters[0].Type == typeof(string)), Is.EqualTo(1));
             Assert.That(type.Constructors.Count(x => x.Parameters.Length == 2 && x.Parameters[0].Type == typeof(string) && x.Parameters[1].Type == typeof(int)), Is.EqualTo(1));
+            Assert.That(type.Constructors.Count(x => x.ConstructorInfo.GetParameters().Any(p => p.ParameterType.IsPointer)), Is.EqualTo(0));
         }
 
         [Test]
@@ -26,6 +28,7 @@ namespace Reflectinator.Tests
             Assert.That(type.Fields.Count(x => x.IsPublic), Is.EqualTo(5));
             Assert.That(type.Fields.Count(x => x.IsReadOnly), Is.EqualTo(6));
             Assert.That(type.Fields.Count(x => x.IsStatic), Is.EqualTo(6));
+            Assert.That(type.Fields.Count(x => x.FieldInfo.FieldType.IsPointer), Is.EqualTo(0));
         }
 
         [Test]
@@ -38,6 +41,7 @@ namespace Reflectinator.Tests
             Assert.That(type.Properties.Count(x => x.IsStatic), Is.EqualTo(4));
             Assert.That(type.Properties.Count(x => x.CanRead), Is.EqualTo(8));
             Assert.That(type.Properties.Count(x => x.CanWrite), Is.EqualTo(4));
+            Assert.That(type.Properties.Count(x => x.PropertyInfo.PropertyType.IsPointer), Is.EqualTo(0));
         }
 
 // ReSharper disable ClassNeverInstantiated.Local
@@ -46,7 +50,7 @@ namespace Reflectinator.Tests
 // ReSharper disable ConvertToConstant.Local
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedParameter.Local
-        private class Foo
+        private unsafe class Foo
         {
             private const string _constant = "foo";
             public const string PublicConstant = "bar";
@@ -62,6 +66,8 @@ namespace Reflectinator.Tests
 
             private readonly string _readonlyField = "baz";
             private string _field;
+
+            private char* _charPtrField = (char*)IntPtr.Zero;
 
             public Foo()
             {
@@ -86,6 +92,8 @@ namespace Reflectinator.Tests
 
             private string PrivateReadonlyProperty { get { return _readonlyField; } }
             private string PrivateProperty { get { return _field; } set { _field = value; } }
+
+            public char* CharPtrProperty { get { return _charPtrField; } set { _charPtrField = value; } }
         }
     }
 // ReSharper restore UnusedParameter.Local
