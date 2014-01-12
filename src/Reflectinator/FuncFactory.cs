@@ -9,27 +9,39 @@ namespace Reflectinator
     {
         public static Func<object, object> CreateGetValueFunc(PropertyInfo propertyInfo)
         {
-            if (!propertyInfo.CanRead)
-            {
-                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
+            return CreateGetValueFunc<object, object>(propertyInfo, isStronglyTyped:false);
+        }
 
-            var method = propertyInfo.GetGetMethod(true);
+        public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
+        {
+            return CreateSetValueFunc<object, object>(propertyInfo, isStronglyTyped:false);
+        }
 
-            if (method == null)
-            {
-                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
+        public static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        {
+            return CreateGetValueFunc<TDeclaringType, TPropertyType>(propertyInfo, isStronglyTyped:true);
+        }
 
-            var instanceParameter = Expression.Parameter(typeof(object), "instance");
+        public static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        {
+            return CreateSetValueFunc<TDeclaringType, TPropertyType>(propertyInfo, isStronglyTyped:true);
+        }
+
+        private static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo, bool isStronglyTyped)
+        {
+            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
+
+            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
 
             MethodCallExpression call;
 
             if (propertyInfo.IsStatic())
             {
                 call = Expression.Call(method);
+            }
+            else if (isStronglyTyped)
+            {
+                call = Expression.Call(instanceParameter, method);
             }
             else
             {
@@ -41,123 +53,54 @@ namespace Reflectinator
                 call = Expression.Call(instanceCast, method);
             }
 
-            var expression = Expression.Lambda<Func<object, object>>(call, instanceParameter);
-
-            return expression.Compile();
-        }
-
-        public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
-        {
-            if (!propertyInfo.CanWrite)
-            {
-                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
-
-            var method = propertyInfo.GetSetMethod(true);
-
-            if (method == null)
-            {
-                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
-
-            var instanceParameter = Expression.Parameter(typeof(object), "instance");
-            var valueParameter = Expression.Parameter(typeof(object), "value");
-
-            var valueParameterType = method.GetParameters().Single().ParameterType;
-            var valueCast = valueParameterType.IsValueType
-                ? Expression.Convert(valueParameter, valueParameterType)
-                : Expression.TypeAs(valueParameter, valueParameterType);
-
-            MethodCallExpression call;
-
-            if (propertyInfo.IsStatic())
-            {
-                call = Expression.Call(method, valueCast);
-            }
-            else
-            {
-                var instanceCast =
-                    method.DeclaringType.IsValueType
-                        ? Expression.Convert(instanceParameter, method.DeclaringType)
-                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
-
-                call = Expression.Call(instanceCast, method, valueCast);
-            }
-
-            var expression = Expression.Lambda<Action<object, object>>(
-                call,
-                instanceParameter,
-                valueParameter);
-
-            return expression.Compile();
-        }
-
-        public static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
-        {
-            if (!propertyInfo.CanRead)
-            {
-                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
-
-            var method = propertyInfo.GetGetMethod(true);
-
-            if (method == null)
-            {
-                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
-
-            var insanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
-
-            MethodCallExpression call;
-
-            if (propertyInfo.IsStatic())
-            {
-                call = Expression.Call(method);
-            }
-            else
-            {
-                call = Expression.Call(insanceParameter, method);
-            }
-
             var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
                 call,
-                insanceParameter);
+                instanceParameter);
 
             return expression.Compile();
         }
 
-        public static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        private static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo, bool isStronglyTyped)
         {
-            if (!propertyInfo.CanWrite)
-            {
-                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
-
-            var method = propertyInfo.GetSetMethod(true);
-
-            if (method == null)
-            {
-                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
-                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
+            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
 
             var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
             var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
 
             MethodCallExpression call;
 
-            if (propertyInfo.IsStatic())
+            if (isStronglyTyped)
             {
-                call = Expression.Call(method, valueParameter);
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(method, valueParameter);
+                }
+                else
+                {
+                    call = Expression.Call(instanceParameter, method, valueParameter);
+                }
             }
             else
             {
-                call = Expression.Call(instanceParameter, method, valueParameter);
+                var valueParameterType = method.GetParameters().Single().ParameterType;
+                var valueCast =
+                    valueParameterType.IsValueType
+                        ? Expression.Convert(valueParameter, valueParameterType)
+                        : Expression.TypeAs(valueParameter, valueParameterType);
+
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(method, valueCast);
+                }
+                else
+                {
+                    var instanceCast =
+                        method.DeclaringType.IsValueType
+                            ? Expression.Convert(instanceParameter, method.DeclaringType)
+                            : Expression.TypeAs(instanceParameter, method.DeclaringType);
+
+                    call = Expression.Call(instanceCast, method, valueCast);
+                }
             }
 
             var expression = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(
@@ -166,6 +109,25 @@ namespace Reflectinator
                 valueParameter);
 
             return expression.Compile();
+        }
+
+        private static MethodInfo GetPropertyAccessorMethod(PropertyInfo propertyInfo, Func<PropertyInfo, MethodInfo> getAccessor, Func<PropertyInfo, bool> canUseAccessor, string accessVerbPhrase)
+        {
+            if (!canUseAccessor(propertyInfo))
+            {
+                throw new MemberAccessException(string.Format("Cannot {0} property: {1}.{2}",
+                    accessVerbPhrase, propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            }
+
+            var method = getAccessor(propertyInfo);
+
+            if (method == null)
+            {
+                throw new MemberAccessException(string.Format("Cannot {0} property: {1}.{2}",
+                    accessVerbPhrase, propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            }
+
+            return method;
         }
 
         public static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
