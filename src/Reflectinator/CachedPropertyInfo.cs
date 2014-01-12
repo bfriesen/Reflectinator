@@ -86,10 +86,10 @@ namespace Reflectinator
         public ICachedType PropertyType { get { return _propertyType.Value; } }
         public ICachedType DeclaringType { get { return _declaringType.Value; } }
 
-        Func<object, object> ICachedPropertyInfo.Get { get { return _getValue.Value; } }
-        Action<object, object> ICachedPropertyInfo.Set { get { return _setValue.Value; } }
+        object ICachedPropertyInfo.Get(object instance) { return _getValue.Value(instance); }
+        void ICachedPropertyInfo.Set(object instance, object value) { _setValue.Value(instance, value); }
 
-        Func<object> ICachedPropertyInfo.GetAsStatic { get { return _getValueAsStatic.Value; } }
-        Action<object> ICachedPropertyInfo.SetAsStatic { get { return _setValueAsStatic.Value; } }
+        object ICachedPropertyInfo.Get() { return _getValueAsStatic.Value(); }
+        void ICachedPropertyInfo.Set(object value) { _setValueAsStatic.Value(value); }
     }
 }

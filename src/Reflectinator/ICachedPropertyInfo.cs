@@ -20,10 +20,10 @@ namespace Reflectinator
         ICachedType PropertyType { get; }
         ICachedType DeclaringType { get; }
 
-        Func<object, object> Get { get; }
-        Action<object, object> Set { get; }
+        object Get(object instance);
+        void Set(object instance, object value);
 
-        Func<object> GetAsStatic { get; }
-        Action<object> SetAsStatic { get; }
+        object Get();
+        void Set(object value);
     }
 }

@@ -84,16 +84,16 @@ namespace Reflectinator.Tests
             var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
             var iProperty = (ICachedPropertyInfo) property;
 
-            Assert.That(() => property.GetAsStatic(), Throws.Nothing);
-            Assert.That(property.GetAsStatic(), Is.EqualTo("foo"));
+            Assert.That(() => property.Get(), Throws.Nothing);
+            Assert.That(property.Get(), Is.EqualTo("foo"));
 
-            Assert.That(() => property.SetAsStatic("rawr!"), Throws.Nothing);
+            Assert.That(() => property.Set("rawr!"), Throws.Nothing);
             Assert.That(StaticProperty, Is.EqualTo("rawr!"));
 
-            Assert.That(() => iProperty.GetAsStatic(), Throws.Nothing);
-            Assert.That(iProperty.GetAsStatic(), Is.EqualTo("rawr!"));
+            Assert.That(() => iProperty.Get(), Throws.Nothing);
+            Assert.That(iProperty.Get(), Is.EqualTo("rawr!"));
 
-            Assert.That(() => iProperty.SetAsStatic("foo"), Throws.Nothing);
+            Assert.That(() => iProperty.Set("foo"), Throws.Nothing);
             Assert.That(StaticProperty, Is.EqualTo("foo"));
         }
 
