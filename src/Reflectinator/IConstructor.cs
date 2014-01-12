@@ -3,12 +3,12 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public interface ICachedConstructorInfo : IDynamicMetaObjectProvider
+    public interface IConstructor : IDynamicMetaObjectProvider
     {
         ConstructorInfo ConstructorInfo { get; }
         bool IsPublic { get; }
-        ICachedType DeclaringType { get; }
-        ICachedType[] Parameters { get; }
+        ITypeInfo DeclaringType { get; }
+        ITypeInfo[] Parameters { get; }
         object Invoke(params object[] args);
     }
 }

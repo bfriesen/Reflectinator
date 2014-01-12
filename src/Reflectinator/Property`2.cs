@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class CachedPropertyInfo<TDeclaringType, TPropertyType> : CachedPropertyInfo
+    public class Property<TDeclaringType, TPropertyType> : Property
     {
         private readonly Lazy<Func<TDeclaringType, TPropertyType>> _getValue;
         private readonly Lazy<Action<TDeclaringType, TPropertyType>> _setValue;
@@ -11,7 +11,7 @@ namespace Reflectinator
         private readonly Lazy<Func<TPropertyType>> _getValueAsStatic;
         private readonly Lazy<Action<TPropertyType>> _setValueAsStatic;
 
-        public CachedPropertyInfo(PropertyInfo propertyInfo)
+        public Property(PropertyInfo propertyInfo)
             : base(propertyInfo)
         {
             if (!typeof(TDeclaringType).IsAssignableFrom(propertyInfo.DeclaringType))

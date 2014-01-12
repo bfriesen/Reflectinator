@@ -3,11 +3,11 @@ using System.Dynamic;
 
 namespace Reflectinator
 {
-    public class CachedConstructorInfo<TDeclaringType> : CachedConstructorInfo
+    public class Constructor<TDeclaringType> : Constructor
     {
         private readonly Lazy<Func<TDeclaringType>> _invoke;
 
-        public CachedConstructorInfo()
+        public Constructor()
             : base(typeof(TDeclaringType).GetConstructorInfo())
         {
             _invoke = new Lazy<Func<TDeclaringType>>(() => (Func<TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true));

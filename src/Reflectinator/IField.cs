@@ -2,7 +2,7 @@
 
 namespace Reflectinator
 {
-    public interface ICachedFieldInfo
+    public interface IField
     {
         string Name { get; }
         FieldInfo FieldInfo { get; }
@@ -13,8 +13,8 @@ namespace Reflectinator
         bool IsReadOnly { get; }
         bool IsConstant { get; }
 
-        ICachedType FieldType { get; }
-        ICachedType DeclaringType { get; }
+        ITypeInfo FieldType { get; }
+        ITypeInfo DeclaringType { get; }
 
         object Get(object obj);
         void Set(object obj, object value);

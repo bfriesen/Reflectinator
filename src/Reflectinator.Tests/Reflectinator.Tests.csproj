@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedConstructorInfoTests.cs" />
-    <Compile Include="CachedFieldInfoTests.cs" />
-    <Compile Include="CachedPropertyInfoTests.cs" />
-    <Compile Include="CachedTypeTests.cs" />
+    <Compile Include="ConstructorTests.cs" />
+    <Compile Include="FieldTests.cs" />
+    <Compile Include="PropertyTests.cs" />
+    <Compile Include="TypeInfoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

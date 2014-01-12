@@ -1,9 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Reflectinator
 {
-    public interface ICachedPropertyInfo
+    public interface IProperty
     {
         string Name { get; }
         PropertyInfo PropertyInfo { get; }
@@ -17,8 +16,8 @@ namespace Reflectinator
         bool CanRead { get; }
         bool CanWrite { get; }
 
-        ICachedType PropertyType { get; }
-        ICachedType DeclaringType { get; }
+        ITypeInfo PropertyType { get; }
+        ITypeInfo DeclaringType { get; }
 
         object Get(object instance);
         void Set(object instance, object value);

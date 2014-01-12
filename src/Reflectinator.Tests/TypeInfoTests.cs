@@ -3,12 +3,12 @@ using NUnit.Framework;
 
 namespace Reflectinator.Tests
 {
-    public class CachedTypeTests
+    public class TypeInfoTests
     {
         [Test]
         public void HasCorrectConstructors()
         {
-            var type = CachedType.Create<Foo>();
+            var type = TypeInfo.Create<Foo>();
 
             Assert.That(type.Constructors.Length, Is.EqualTo(3));
             Assert.That(type.Constructors.Count(x => x.Parameters.Length == 0), Is.EqualTo(1));
@@ -19,7 +19,7 @@ namespace Reflectinator.Tests
         [Test]
         public void HasCorrectFields()
         {
-            var type = CachedType.Create<Foo>();
+            var type = TypeInfo.Create<Foo>();
 
             Assert.That(type.Fields.Length, Is.EqualTo(10));
             Assert.That(type.Fields.Count(x => x.IsConstant), Is.EqualTo(2));
@@ -31,7 +31,7 @@ namespace Reflectinator.Tests
         [Test]
         public void HasCorrectProperties()
         {
-            var type = CachedType.Create<Foo>();
+            var type = TypeInfo.Create<Foo>();
 
             Assert.That(type.Properties.Length, Is.EqualTo(8));
             Assert.That(type.Properties.Count(x => x.IsPublic), Is.EqualTo(4));

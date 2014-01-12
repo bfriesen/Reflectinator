@@ -39,22 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedConstructorInfo.cs" />
-    <Compile Include="CachedConstructorInfo`1.cs" />
-    <Compile Include="CachedConstructorInfo`2.cs" />
-    <Compile Include="CachedConstructorInfo`3.cs" />
-    <Compile Include="CachedFieldInfo.cs" />
-    <Compile Include="CachedFieldInfo`2.cs" />
-    <Compile Include="CachedPropertyInfo.cs" />
-    <Compile Include="CachedPropertyInfo`2.cs" />
-    <Compile Include="CachedType.cs" />
-    <Compile Include="CachedType`1.cs" />
+    <Compile Include="Constructor.cs" />
+    <Compile Include="Constructor`1.cs" />
+    <Compile Include="Constructor`2.cs" />
+    <Compile Include="Constructor`3.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="Field`2.cs" />
+    <Compile Include="Property.cs" />
+    <Compile Include="Property`2.cs" />
+    <Compile Include="TypeInfo.cs" />
+    <Compile Include="TypeInfo`1.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FuncFactory.cs" />
-    <Compile Include="ICachedConstructorInfo.cs" />
-    <Compile Include="ICachedFieldInfo.cs" />
-    <Compile Include="ICachedPropertyInfo.cs" />
-    <Compile Include="ICachedType.cs" />
+    <Compile Include="IConstructor.cs" />
+    <Compile Include="IField.cs" />
+    <Compile Include="IProperty.cs" />
+    <Compile Include="ITypeInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

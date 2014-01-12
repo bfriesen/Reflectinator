@@ -3,14 +3,14 @@ using NUnit.Framework;
 
 namespace Reflectinator.Tests
 {
-    public class CachedPropertyInfoTests
+    public class PropertyTests
     {
-        static CachedPropertyInfoTests()
+        static PropertyTests()
         {
             StaticProperty = "foo";
         }
 
-        public CachedPropertyInfoTests()
+        public PropertyTests()
         {
             Property = "bar";
         }
@@ -23,8 +23,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromProperties()
         {
-            var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("Property"));
-            var iProperty = (ICachedPropertyInfo)property;
+            var property = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
+            var iProperty = (IProperty)property;
 
             Assert.That(() => property.Get(this), Throws.Nothing);
             Assert.That(property.Get(this), Is.EqualTo("bar"));
@@ -36,8 +36,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToProperties()
         {
-            var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("Property"));
-            var iProperty = (ICachedPropertyInfo)property;
+            var property = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
+            var iProperty = (IProperty)property;
 
             Assert.That(() => property.Set(this, "wooo!!"), Throws.Nothing);
             Assert.That(Property, Is.EqualTo("wooo!!"));
@@ -49,8 +49,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CannotWriteToReadonlyProperties()
         {
-            var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("ReadonlyProperty"));
-            var iProperty = (ICachedPropertyInfo)property;
+            var property = new Property<PropertyTests, string>(GetType().GetProperty("ReadonlyProperty"));
+            var iProperty = (IProperty)property;
 
             Assert.That(() => property.Set(this, "wooo!!"), Throws.Exception);
             Assert.That(() => iProperty.Set(this, "wooo!!"), Throws.Exception);
@@ -59,8 +59,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CannotReadFromWriteonlyProperties()
         {
-            var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("WriteonlyProperty"));
-            var iProperty = (ICachedPropertyInfo)property;
+            var property = new Property<PropertyTests, string>(GetType().GetProperty("WriteonlyProperty"));
+            var iProperty = (IProperty)property;
 
             Assert.That(() => property.Get(this), Throws.Exception);
             Assert.That(() => iProperty.Get(this), Throws.Exception);
@@ -69,20 +69,20 @@ namespace Reflectinator.Tests
         [Test]
         public void MismatchedTDeclaringTypeAndPropertyInfoDeclaringTypeThrowsException()
         {
-            Assert.That(() => new CachedPropertyInfo<CachedPropertyInfoTests, string>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
+            Assert.That(() => new Property<PropertyTests, string>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
         }
 
         [Test]
         public void MismatchedTPropertyTypeAndPropertyInfoPropertyTypeThrowsException()
         {
-            Assert.That(() => new CachedPropertyInfo<Foo, int>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
+            Assert.That(() => new Property<Foo, int>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
         }
 
         [Test]
         public void CanGetAndSetStaticProperties()
         {
-            var property = new CachedPropertyInfo<CachedPropertyInfoTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
-            var iProperty = (ICachedPropertyInfo) property;
+            var property = new Property<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
+            var iProperty = (IProperty) property;
 
             Assert.That(() => property.Get(), Throws.Nothing);
             Assert.That(property.Get(), Is.EqualTo("foo"));

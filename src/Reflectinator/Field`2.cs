@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class CachedFieldInfo<TDeclaringType, TFieldType> : CachedFieldInfo
+    public class Field<TDeclaringType, TFieldType> : Field
     {
         private readonly Lazy<Func<TDeclaringType, TFieldType>> _getValue;
         private readonly Lazy<Action<TDeclaringType, TFieldType>> _setValue;
@@ -11,7 +11,7 @@ namespace Reflectinator
         private readonly Lazy<Func<TFieldType>> _getValueAsStatic;
         private readonly Lazy<Action<TFieldType>> _setValueAsStatic;
 
-        public CachedFieldInfo(FieldInfo fieldInfo)
+        public Field(FieldInfo fieldInfo)
             : base(fieldInfo)
         {
             if (!typeof(TDeclaringType).IsAssignableFrom(fieldInfo.DeclaringType))

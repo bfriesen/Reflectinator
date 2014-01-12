@@ -5,7 +5,7 @@ namespace Reflectinator.Tests
 {
 // ReSharper disable InconsistentNaming
 #pragma warning disable 169
-    public class CachedFieldInfoTests
+    public class FieldTests
     {
         private const string _constantField = "foo";
         private string _instanceField = "bar";
@@ -14,8 +14,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromInstanceFields()
         {
-            var field = new CachedFieldInfo<CachedFieldInfoTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
-            var iField = (ICachedFieldInfo) field;
+            var field = new Field<FieldTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
+            var iField = (IField) field;
 
             Assert.That(() => field.Get(this), Throws.Nothing);
             Assert.That(field.Get(this), Is.EqualTo("bar"));
@@ -27,8 +27,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToInstanceFields()
         {
-            var field = new CachedFieldInfo<CachedFieldInfoTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
-            var iField = (ICachedFieldInfo)field;
+            var field = new Field<FieldTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
+            var iField = (IField)field;
 
             Assert.That(() => field.Set(this, "wooo!"), Throws.Nothing);
             Assert.That(_instanceField, Is.EqualTo("wooo!"));
@@ -40,8 +40,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromStaticFields()
         {
-            var field = new CachedFieldInfo<CachedFieldInfoTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
-            var iField = (ICachedFieldInfo) field;
+            var field = new Field<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
+            var iField = (IField) field;
 
             Assert.That(() => field.Get(this), Throws.Nothing);
             Assert.That(field.Get(this), Is.EqualTo("baz"));
@@ -59,8 +59,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToStaticFields()
         {
-            var field = new CachedFieldInfo<CachedFieldInfoTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
-            var iField = (ICachedFieldInfo)field;
+            var field = new Field<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
+            var iField = (IField)field;
 
             Assert.That(() => field.Set(this, "wooo!"), Throws.Nothing);
             Assert.That(_staticField, Is.EqualTo("wooo!"));
@@ -78,7 +78,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CannotWriteToConstantFields()
         {
-            var field = new CachedFieldInfo<CachedFieldInfoTests, string>(GetType().GetField("_constantField", BindingFlags.NonPublic | BindingFlags.Static));
+            var field = new Field<FieldTests, string>(GetType().GetField("_constantField", BindingFlags.NonPublic | BindingFlags.Static));
 
             Assert.That(() => field.Set(this, "wooo!"), Throws.Exception);
         }
