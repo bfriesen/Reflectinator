@@ -9,139 +9,163 @@ namespace Reflectinator
     {
         public static Func<object, object> CreateGetValueFunc(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CanRead)
+            if (!propertyInfo.CanRead)
             {
-                var method = propertyInfo.GetGetMethod();
-
-                var instanceParameter = Expression.Parameter(typeof(object), "instance");
-
-                MethodCallExpression call;
-
-                if (propertyInfo.IsStatic())
-                {
-                    call = Expression.Call(method);
-                }
-                else
-                {
-                    var instanceCast =
-                        method.DeclaringType.IsValueType
-                            ? Expression.Convert(instanceParameter, method.DeclaringType)
-                            : Expression.TypeAs(instanceParameter, method.DeclaringType);
-
-                    call = Expression.Call(instanceCast, method);
-                }
-
-                var expression = Expression.Lambda<Func<object, object>>(call, instanceParameter);
-
-                return expression.Compile();
+                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
             }
 
-            throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
-                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            var method = propertyInfo.GetGetMethod(true);
+
+            if (method == null)
+            {
+                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            }
+
+            var instanceParameter = Expression.Parameter(typeof(object), "instance");
+
+            MethodCallExpression call;
+
+            if (propertyInfo.IsStatic())
+            {
+                call = Expression.Call(method);
+            }
+            else
+            {
+                var instanceCast =
+                    method.DeclaringType.IsValueType
+                        ? Expression.Convert(instanceParameter, method.DeclaringType)
+                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
+
+                call = Expression.Call(instanceCast, method);
+            }
+
+            var expression = Expression.Lambda<Func<object, object>>(call, instanceParameter);
+
+            return expression.Compile();
         }
 
         public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CanWrite)
+            if (!propertyInfo.CanWrite)
             {
-                var method = propertyInfo.GetSetMethod();
-
-                var instanceParameter = Expression.Parameter(typeof(object), "instance");
-                var valueParameter = Expression.Parameter(typeof(object), "value");
-
-                var valueParameterType = method.GetParameters().Single().ParameterType;
-                var valueCast = valueParameterType.IsValueType
-                    ? Expression.Convert(valueParameter, valueParameterType)
-                    : Expression.TypeAs(valueParameter, valueParameterType);
-
-                MethodCallExpression call;
-
-                if (propertyInfo.IsStatic())
-                {
-                    call = Expression.Call(method, valueCast);
-                }
-                else
-                {
-                    var instanceCast =
-                        method.DeclaringType.IsValueType
-                            ? Expression.Convert(instanceParameter, method.DeclaringType)
-                            : Expression.TypeAs(instanceParameter, method.DeclaringType);
-
-                    call = Expression.Call(instanceCast, method, valueCast);
-                }
-
-                var expression = Expression.Lambda<Action<object, object>>(
-                    call,
-                    instanceParameter,
-                    valueParameter);
-
-                return expression.Compile();
+                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
             }
 
-            throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
-                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            var method = propertyInfo.GetSetMethod(true);
+
+            if (method == null)
+            {
+                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            }
+
+            var instanceParameter = Expression.Parameter(typeof(object), "instance");
+            var valueParameter = Expression.Parameter(typeof(object), "value");
+
+            var valueParameterType = method.GetParameters().Single().ParameterType;
+            var valueCast = valueParameterType.IsValueType
+                ? Expression.Convert(valueParameter, valueParameterType)
+                : Expression.TypeAs(valueParameter, valueParameterType);
+
+            MethodCallExpression call;
+
+            if (propertyInfo.IsStatic())
+            {
+                call = Expression.Call(method, valueCast);
+            }
+            else
+            {
+                var instanceCast =
+                    method.DeclaringType.IsValueType
+                        ? Expression.Convert(instanceParameter, method.DeclaringType)
+                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
+
+                call = Expression.Call(instanceCast, method, valueCast);
+            }
+
+            var expression = Expression.Lambda<Action<object, object>>(
+                call,
+                instanceParameter,
+                valueParameter);
+
+            return expression.Compile();
         }
 
         public static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CanRead)
+            if (!propertyInfo.CanRead)
             {
-                var method = propertyInfo.GetGetMethod();
-
-                var insanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
-
-                MethodCallExpression call;
-
-                if (propertyInfo.IsStatic())
-                {
-                    call = Expression.Call(method);
-                }
-                else
-                {
-                    call = Expression.Call(insanceParameter, method);
-                }
-
-                var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
-                    call,
-                    insanceParameter);
-
-                return expression.Compile();
+                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
             }
 
-            throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
-                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            var method = propertyInfo.GetGetMethod(true);
+
+            if (method == null)
+            {
+                throw new MemberAccessException(string.Format("Cannot read from property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            }
+
+            var insanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+
+            MethodCallExpression call;
+
+            if (propertyInfo.IsStatic())
+            {
+                call = Expression.Call(method);
+            }
+            else
+            {
+                call = Expression.Call(insanceParameter, method);
+            }
+
+            var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
+                call,
+                insanceParameter);
+
+            return expression.Compile();
         }
 
         public static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CanWrite)
+            if (!propertyInfo.CanWrite)
             {
-                var method = propertyInfo.GetSetMethod();
-
-                var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
-                var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
-
-                MethodCallExpression call;
-
-                if (propertyInfo.IsStatic())
-                {
-                    call = Expression.Call(method, valueParameter);
-                }
-                else
-                {
-                    call = Expression.Call(instanceParameter, method, valueParameter);
-                }
-
-                var expression = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(
-                    call,
-                    instanceParameter,
-                    valueParameter);
-
-                return expression.Compile();
+                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
             }
 
-            throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
-                propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            var method = propertyInfo.GetSetMethod(true);
+
+            if (method == null)
+            {
+                throw new MemberAccessException(string.Format("Cannot write to property: {0}.{1}",
+                    propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+            }
+
+            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+            var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
+
+            MethodCallExpression call;
+
+            if (propertyInfo.IsStatic())
+            {
+                call = Expression.Call(method, valueParameter);
+            }
+            else
+            {
+                call = Expression.Call(instanceParameter, method, valueParameter);
+            }
+
+            var expression = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(
+                call,
+                instanceParameter,
+                valueParameter);
+
+            return expression.Compile();
         }
 
         public static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
