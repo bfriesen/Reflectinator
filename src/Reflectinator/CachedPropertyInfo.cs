@@ -6,10 +6,15 @@ namespace Reflectinator
     public class CachedPropertyInfo : ICachedPropertyInfo
     {
         private readonly PropertyInfo _propertyInfo;
-        private readonly bool _isPublic;
-        private readonly bool _isStatic;
-        private readonly ICachedType _propertyType;
-        private readonly ICachedType _declaringType;
+
+        private readonly Lazy<MethodInfo> _getMethod;
+        private readonly Lazy<MethodInfo> _setMethod;
+
+        private readonly Lazy<bool> _isPublic;
+        private readonly Lazy<bool> _isStatic;
+
+        private readonly Lazy<ICachedType> _propertyType;
+        private readonly Lazy<ICachedType> _declaringType;
 
         private readonly Lazy<Func<object, object>> _getValue;
         private readonly Lazy<Action<object, object>> _setValue;
@@ -20,10 +25,15 @@ namespace Reflectinator
         protected CachedPropertyInfo(PropertyInfo propertyInfo)
         {
             _propertyInfo = propertyInfo;
-            _isPublic = propertyInfo.IsPublic();
-            _isStatic = propertyInfo.IsStatic();
-            _propertyType = CachedType.Create(propertyInfo.PropertyType);
-            _declaringType = CachedType.Create(propertyInfo.DeclaringType);
+
+            _getMethod = new Lazy<MethodInfo>(() => propertyInfo.GetGetMethod(true));
+            _setMethod = new Lazy<MethodInfo>(() => propertyInfo.GetSetMethod(true));
+
+            _isPublic = new Lazy<bool>(propertyInfo.IsPublic);
+            _isStatic = new Lazy<bool>(propertyInfo.IsStatic);
+
+            _propertyType = new Lazy<ICachedType>(() => CachedType.Create(propertyInfo.PropertyType));
+            _declaringType = new Lazy<ICachedType>(() => CachedType.Create(propertyInfo.DeclaringType));
 
             _getValue = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
             _setValue = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
@@ -48,6 +58,9 @@ namespace Reflectinator
             });
         }
 
+        // NOTE: We're returning the interface because the Get and Set properties are implemented explicitly.
+        //       If we didn't do this, then the object returned wouldn't have a visible Get or Set method. And
+        //       that wouldn't be a very nice API, now would it?
         public static ICachedPropertyInfo Create(PropertyInfo propertyInfo)
         {
             return new CachedPropertyInfo(propertyInfo);
@@ -58,14 +71,20 @@ namespace Reflectinator
             return new CachedPropertyInfo<TDeclaringType, TPropertyType>(propertyInfo);
         }
 
-        public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
         public string Name { get { return _propertyInfo.Name; } }
-        public bool IsPublic { get { return _isPublic; } }
-        public bool IsStatic { get { return _isStatic; } }
+        public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
+
+        public MethodInfo GetMethod { get { return _getMethod.Value; } }
+        public MethodInfo SetMethod { get { return _setMethod.Value; } }
+
+        public bool IsPublic { get { return _isPublic.Value; } }
+        public bool IsStatic { get { return _isStatic.Value; } }
+
         public bool CanRead { get { return _propertyInfo.CanRead; } }
         public bool CanWrite { get { return _propertyInfo.CanWrite; } }
-        public ICachedType PropertyType { get { return _propertyType; } }
-        public ICachedType DeclaringType { get { return _declaringType; } }
+
+        public ICachedType PropertyType { get { return _propertyType.Value; } }
+        public ICachedType DeclaringType { get { return _declaringType.Value; } }
 
         Func<object, object> ICachedPropertyInfo.Get { get { return _getValue.Value; } }
         Action<object, object> ICachedPropertyInfo.Set { get { return _setValue.Value; } }

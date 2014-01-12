@@ -51,6 +51,6 @@ namespace Reflectinator
         public Action<TDeclaringType, TPropertyType> Set { get { return _setValue.Value; } }
 
         public Func<TPropertyType> GetAsStatic { get { return _getValueAsStatic.Value; } }
-        public Action<TPropertyType> SetAsStatic { get { return _setValueAsStatic.Value; } } 
+        public Action<TPropertyType> SetAsStatic { get { return _setValueAsStatic.Value; } }
     }
 }
