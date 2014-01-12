@@ -7,10 +7,10 @@ namespace Reflectinator
 {
     public abstract class CachedConstructorInfo : DynamicObject, ICachedConstructorInfo
     {
-        private readonly Func<object[], object> _invoke;
         private readonly ConstructorInfo _constructorInfo;
-        private readonly ICachedType _declaringType;
-        private readonly ICachedType[] _parameters;
+        private readonly Lazy<Func<object[], object>> _invoke;
+        private readonly Lazy<ICachedType> _declaringType;
+        private readonly Lazy<ICachedType[]> _parameters;
 
         protected CachedConstructorInfo(ConstructorInfo constructorInfo)
         {
@@ -19,20 +19,20 @@ namespace Reflectinator
                 throw new ArgumentNullException("constructorInfo");
             }
 
-            _invoke = (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo, false);
             _constructorInfo = constructorInfo;
-            _declaringType = CachedType.Create(constructorInfo.DeclaringType);
-            _parameters = constructorInfo.GetParameters().Select(p => CachedType.Create(p.ParameterType)).ToArray();
+            _invoke = new Lazy<Func<object[], object>>(() => (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo, false));
+            _declaringType = new Lazy<ICachedType>(() => CachedType.Create(constructorInfo.DeclaringType));
+            _parameters = new Lazy<ICachedType[]>(() => constructorInfo.GetParameters().Select(p => CachedType.Create(p.ParameterType)).ToArray());
         }
 
         public ConstructorInfo ConstructorInfo { get { return _constructorInfo; } }
         public bool IsPublic { get { return _constructorInfo.IsPublic; } }
-        public ICachedType DeclaringType { get { return _declaringType; } }
-        public ICachedType[] Parameters { get { return _parameters; } }
+        public ICachedType DeclaringType { get { return _declaringType.Value; } }
+        public ICachedType[] Parameters { get { return _parameters.Value; } }
 
         public object Invoke(params object[] args)
         {
-            return _invoke(args);
+            return _invoke.Value(args);
         }
     }
 }

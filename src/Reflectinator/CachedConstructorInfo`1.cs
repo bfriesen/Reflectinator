@@ -5,17 +5,17 @@ namespace Reflectinator
 {
     public class CachedConstructorInfo<TDeclaringType> : CachedConstructorInfo
     {
-        private readonly Func<TDeclaringType> _invoke;
+        private readonly Lazy<Func<TDeclaringType>> _invoke;
 
         public CachedConstructorInfo()
             : base(typeof(TDeclaringType).GetConstructor(Type.EmptyTypes))
         {
-            _invoke = (Func<TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true);
+            _invoke = new Lazy<Func<TDeclaringType>>(() => (Func<TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true));
         }
 
         public TDeclaringType Invoke()
         {
-            return _invoke();
+            return _invoke.Value();
         }
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
