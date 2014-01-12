@@ -13,7 +13,7 @@ namespace Reflectinator
         {
             var createCachedType = _createCachedTypeMap.GetOrAdd(
                 type,
-                t => FuncFactory.CreateDefaultConstructorFunc<ICachedType>(typeof(CachedType<>).MakeGenericType(t).GetCachedTypeConstructor()));
+                t => FuncFactory.CreateDefaultConstructorFunc<ICachedType>(typeof(CachedType<>).MakeGenericType(t).GetConstructorInfo()));
             return createCachedType();
         }
 
@@ -21,15 +21,8 @@ namespace Reflectinator
         {
             var createCachedType = _createCachedTypeMap.GetOrAdd(
                 typeof(T),
-                t => FuncFactory.CreateDefaultConstructorFunc<ICachedType>(typeof(CachedType<T>).GetCachedTypeConstructor()));
+                t => FuncFactory.CreateDefaultConstructorFunc<ICachedType>(typeof(CachedType<T>).GetConstructorInfo()));
             return (CachedType<T>)createCachedType();
-        }
-
-        private static ConstructorInfo GetCachedTypeConstructor(this Type t)
-        {
-            var ctor = t.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
-            Debug.Assert(ctor != null, "CachedType<T> must have a parameterless constructor.");
-            return ctor;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public abstract class CachedConstructorInfo : DynamicObject, ICachedConstructorInfo
+    public class CachedConstructorInfo : DynamicObject, ICachedConstructorInfo
     {
         private readonly ConstructorInfo _constructorInfo;
         private readonly Lazy<Func<object[], object>> _invoke;
@@ -23,6 +23,26 @@ namespace Reflectinator
             _invoke = new Lazy<Func<object[], object>>(() => (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo, false));
             _declaringType = new Lazy<ICachedType>(() => CachedType.Create(constructorInfo.DeclaringType));
             _parameters = new Lazy<ICachedType[]>(() => constructorInfo.GetParameters().Select(p => CachedType.Create(p.ParameterType)).ToArray());
+        }
+
+        public static ICachedConstructorInfo Create(ConstructorInfo constructorInfo)
+        {
+            return new CachedConstructorInfo(constructorInfo);
+        }
+
+        public static CachedConstructorInfo<TDeclaringType> Create<TDeclaringType>()
+        {
+            return new CachedConstructorInfo<TDeclaringType>();
+        }
+
+        public static CachedConstructorInfo<TDeclaringType, TArg1> Create<TDeclaringType, TArg1>()
+        {
+            return new CachedConstructorInfo<TDeclaringType, TArg1>();
+        }
+
+        public static CachedConstructorInfo<TDeclaringType, TArg1, TArg2> Create<TDeclaringType, TArg1, TArg2>()
+        {
+            return new CachedConstructorInfo<TDeclaringType, TArg1, TArg2>();
         }
 
         public ConstructorInfo ConstructorInfo { get { return _constructorInfo; } }

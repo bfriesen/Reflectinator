@@ -8,7 +8,7 @@ namespace Reflectinator
         private readonly Lazy<Func<TDeclaringType>> _invoke;
 
         public CachedConstructorInfo()
-            : base(typeof(TDeclaringType).GetConstructor(Type.EmptyTypes))
+            : base(typeof(TDeclaringType).GetConstructorInfo())
         {
             _invoke = new Lazy<Func<TDeclaringType>>(() => (Func<TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true));
         }
