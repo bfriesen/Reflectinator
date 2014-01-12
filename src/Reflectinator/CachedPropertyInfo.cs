@@ -42,19 +42,21 @@ namespace Reflectinator
             {
                 if (!IsStatic)
                 {
-                    throw new InvalidOperationException("Cannot call GetAsStatic on a property that is not static.");
+                    throw new InvalidOperationException("Cannot call Get() on a property that is not static.");
                 }
 
-                return () => ((ICachedPropertyInfo)this).Get(default(object));
+                var iThis = (ICachedPropertyInfo)this;
+                return () => iThis.Get(null);
             });
             _setValueAsStatic = new Lazy<Action<object>>(() =>
             {
                 if (!IsStatic)
                 {
-                    throw new InvalidOperationException("Cannot call SetAsStatic on a property that is not static.");
+                    throw new InvalidOperationException("Cannot call Set(object value) on a property that is not static.");
                 }
 
-                return value => ((ICachedPropertyInfo)this).Set(default(object), value);
+                var iThis = (ICachedPropertyInfo)this;
+                return value => iThis.Set(null, value);
             });
         }
 

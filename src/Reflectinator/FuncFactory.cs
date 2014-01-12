@@ -7,6 +7,100 @@ namespace Reflectinator
 {
     internal static class FuncFactory
     {
+        #region Field
+
+        public static Func<object, object> CreateGetValueFunc(FieldInfo fieldInfo)
+        {
+            return CreateGetValueFunc<object, object>(fieldInfo, isStronglyTyped:false);
+        }
+
+        public static Action<object, object> CreateSetValueFunc(FieldInfo fieldInfo)
+        {
+            return CreateSetValueFunc<object, object>(fieldInfo, isStronglyTyped:false);
+        }
+
+        public static Func<TDeclaringType, TFieldType> CreateGetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo)
+        {
+            return CreateGetValueFunc<TDeclaringType, TFieldType>(fieldInfo, isStronglyTyped:true);
+        }
+
+        public static Action<TDeclaringType, TFieldType> CreateSetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo)
+        {
+            return CreateSetValueFunc<TDeclaringType, TFieldType>(fieldInfo, isStronglyTyped:true);
+        }
+
+        private static Func<TDeclaringType, TFieldType> CreateGetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo, bool isStronglyTyped)
+        {
+            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+
+            var field = GetField(fieldInfo, isStronglyTyped, instanceParameter);
+
+            var expression = Expression.Lambda<Func<TDeclaringType, TFieldType>>(
+                field,
+                instanceParameter);
+            return expression.Compile();
+        }
+
+        private static Action<TDeclaringType, TFieldType> CreateSetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo, bool isStronglyTyped)
+        {
+            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+            var valueParameter = Expression.Parameter(typeof(TFieldType), "value");
+
+            var field = GetField(fieldInfo, isStronglyTyped, instanceParameter);
+
+            BinaryExpression assignValue;
+
+            if (isStronglyTyped)
+            {
+                assignValue = Expression.Assign(field, valueParameter);
+            }
+            else
+            {
+                var valueCast =
+                    fieldInfo.FieldType.IsValueType
+                        ? Expression.Convert(valueParameter, fieldInfo.FieldType)
+                        : Expression.TypeAs(valueParameter, fieldInfo.FieldType);
+
+                assignValue = Expression.Assign(field, valueCast);
+            }
+
+            var expression = Expression.Lambda<Action<TDeclaringType, TFieldType>>(
+                assignValue,
+                instanceParameter,
+                valueParameter);
+            return expression.Compile();
+        }
+
+        private static MemberExpression GetField(FieldInfo fieldInfo, bool isStronglyTyped, ParameterExpression instanceParameter)
+        {
+            MemberExpression field;
+            if (fieldInfo.IsStatic)
+            {
+                field = Expression.Field(null, fieldInfo);
+            }
+            else
+            {
+                if (isStronglyTyped)
+                {
+                    field = Expression.Field(instanceParameter, fieldInfo);
+                }
+                else
+                {
+                    var instanceCast =
+                        fieldInfo.DeclaringType.IsValueType
+                            ? Expression.Convert(instanceParameter, fieldInfo.DeclaringType)
+                            : Expression.TypeAs(instanceParameter, fieldInfo.DeclaringType);
+
+                    field = Expression.Field(instanceCast, fieldInfo);
+                }
+            }
+            return field;
+        }
+
+        #endregion
+
+        #region Property
+
         public static Func<object, object> CreateGetValueFunc(PropertyInfo propertyInfo)
         {
             return CreateGetValueFunc<object, object>(propertyInfo, isStronglyTyped:false);
@@ -129,6 +223,10 @@ namespace Reflectinator
 
             return method;
         }
+
+        #endregion
+
+        #region Contructor
 
         public static Func<object> CreateDefaultConstructorFunc(ConstructorInfo ctor)
         {
@@ -453,5 +551,7 @@ namespace Reflectinator
                     throw new InvalidOperationException("Too many constructor parameters.");
             }
         }
+
+        #endregion
     }
 }

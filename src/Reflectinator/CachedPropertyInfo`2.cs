@@ -31,7 +31,7 @@ namespace Reflectinator
             {
                 if (!IsStatic)
                 {
-                    throw new InvalidOperationException("Cannot call GetAsStatic on a property that is not static.");
+                    throw new InvalidOperationException("Cannot call Get() on a property that is not static.");
                 }
 
                 return () => Get(default(TDeclaringType));
@@ -40,7 +40,7 @@ namespace Reflectinator
             {
                 if (!IsStatic)
                 {
-                    throw new InvalidOperationException("Cannot call SetAsStatic on a property that is not static.");
+                    throw new InvalidOperationException("Cannot call Set(TPropertyValue value) on a property that is not static.");
                 }
 
                 return value => Set(default(TDeclaringType), value);

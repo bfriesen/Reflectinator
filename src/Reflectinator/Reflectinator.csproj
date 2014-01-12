@@ -43,6 +43,7 @@
     <Compile Include="CachedConstructorInfo`1.cs" />
     <Compile Include="CachedConstructorInfo`2.cs" />
     <Compile Include="CachedConstructorInfo`3.cs" />
+    <Compile Include="CachedFieldInfo.cs" />
     <Compile Include="CachedFieldInfo`2.cs" />
     <Compile Include="CachedPropertyInfo.cs" />
     <Compile Include="CachedPropertyInfo`2.cs" />

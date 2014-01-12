@@ -19,7 +19,7 @@ namespace Reflectinator
         object Get(object obj);
         void Set(object obj, object value);
 
-        //object Get(); // TODO: implement static fields (and test them!)
-        //void Set(object value);
+        object Get();
+        void Set(object value);
     }
 }
