@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Reflectinator")]
-[assembly: AssemblyCopyright("Copyright © Brian Friesen 2013")]
+[assembly: AssemblyCopyright("Copyright © Brian Friesen 2013-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

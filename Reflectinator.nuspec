@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>Reflectinator</id>
+        <version>0.0.3-prerelease</version>
+        <title>Reflectinator</title>
+        <authors>Brian Friesen</authors>
+        <owners>Brian Friesen</owners>
+        <licenseUrl>https://github.com/bfriesen/Reflectinator/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/bfriesen/Reflectinator</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Take over the tri-state area with crazy fast reflection!</description>
+        <summary>Take over the tri-state area with crazy fast reflection!</summary>
+        <tags>reflection</tags>
+    </metadata>
+    <files>
+        <file src="src\Reflectinator\bin\Release\Reflectinator.dll" target="lib\net40\Reflectinator.dll" />
+        <file src="src\Reflectinator\bin\Release\Reflectinator.pdb" target="lib\net40\Reflectinator.pdb" />
+        <file src="src\Reflectinator\bin\Release\Reflectinator.xml" target="lib\net40\Reflectinator.xml" />
+    </files>
+</package>
