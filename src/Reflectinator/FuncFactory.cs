@@ -130,6 +130,31 @@ namespace Reflectinator
             return method;
         }
 
+        public static Func<object> CreateDefaultConstructorFunc(ConstructorInfo ctor)
+        {
+            return CreateDefaultConstructorFunc<object>(ctor);
+        }
+
+        public static Func<TReturnType> CreateDefaultConstructorFunc<TReturnType>(ConstructorInfo ctor)
+        {
+            if (ctor == null)
+            {
+                throw new ArgumentNullException("ctor");
+            }
+
+            var parameters = ctor.GetParameters();
+
+            if (parameters.Length != 0)
+            {
+                throw new ArgumentException("ConstructorInfo is not parameterless.", "ctor");
+            }
+
+            var body = Expression.New(ctor);
+
+            var expression = GetLambdaExpressionForFunc(body, new ParameterExpression[0], typeof(TReturnType));
+            return (Func<TReturnType>)expression.Compile();
+        }
+
         public static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
         {
             if (ctor == null)
@@ -166,7 +191,7 @@ namespace Reflectinator
             return expression.Compile();
         }
 
-        private static LambdaExpression GetLambdaExpressionForFunc(Expression expression, ParameterExpression[] parameters, Type returnType)
+        private static LambdaExpression GetLambdaExpressionForFunc(Expression body, ParameterExpression[] parameters, Type returnType)
         {
             switch (parameters.Length)
             {
@@ -175,14 +200,14 @@ namespace Reflectinator
                         Expression.Lambda(
                             typeof(Func<>).MakeGenericType(
                                 returnType),
-                            expression);
+                            body);
                 case 1:
                     return
                         Expression.Lambda(
                             typeof(Func<,>).MakeGenericType(
                                 parameters[0].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 2:
                     return
@@ -191,7 +216,7 @@ namespace Reflectinator
                                 parameters[0].Type,
                                 parameters[1].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 3:
                     return
@@ -201,7 +226,7 @@ namespace Reflectinator
                                 parameters[1].Type,
                                 parameters[2].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 4:
                     return
@@ -212,7 +237,7 @@ namespace Reflectinator
                                 parameters[2].Type,
                                 parameters[3].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 5:
                     return
@@ -224,7 +249,7 @@ namespace Reflectinator
                                 parameters[3].Type,
                                 parameters[4].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 6:
                     return
@@ -237,7 +262,7 @@ namespace Reflectinator
                                 parameters[4].Type,
                                 parameters[5].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 7:
                     return
@@ -251,7 +276,7 @@ namespace Reflectinator
                                 parameters[5].Type,
                                 parameters[6].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 8:
                     return
@@ -266,7 +291,7 @@ namespace Reflectinator
                                 parameters[6].Type,
                                 parameters[7].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 9:
                     return
@@ -282,7 +307,7 @@ namespace Reflectinator
                                 parameters[7].Type,
                                 parameters[8].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 10:
                     return
@@ -299,7 +324,7 @@ namespace Reflectinator
                                 parameters[8].Type,
                                 parameters[9].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 11:
                     return
@@ -317,7 +342,7 @@ namespace Reflectinator
                                 parameters[9].Type,
                                 parameters[10].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 12:
                     return
@@ -336,7 +361,7 @@ namespace Reflectinator
                                 parameters[10].Type,
                                 parameters[11].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 13:
                     return
@@ -356,7 +381,7 @@ namespace Reflectinator
                                 parameters[11].Type,
                                 parameters[12].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 14:
                     return
@@ -377,7 +402,7 @@ namespace Reflectinator
                                 parameters[12].Type,
                                 parameters[13].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 15:
                     return
@@ -399,7 +424,7 @@ namespace Reflectinator
                                 parameters[13].Type,
                                 parameters[14].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 case 16:
                     return
@@ -422,7 +447,7 @@ namespace Reflectinator
                                 parameters[14].Type,
                                 parameters[15].Type,
                                 returnType),
-                            expression,
+                            body,
                             parameters);
                 default:
                     throw new InvalidOperationException("Too many constructor parameters.");

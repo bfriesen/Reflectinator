@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Reflectinator
 {
     public static class CachedType
     {
-        private static readonly ConcurrentDictionary<Type, ICachedType> _cachedTypeCache = new ConcurrentDictionary<Type, ICachedType>();
+        private static readonly ConcurrentDictionary<Type, Func<ICachedType>> _createCachedTypeMap = new ConcurrentDictionary<Type, Func<ICachedType>>();
 
         public static ICachedType Create(Type type)
         {
-            return _cachedTypeCache.GetOrAdd(
+            var createCachedType = _createCachedTypeMap.GetOrAdd(
                 type,
-                t => (ICachedType)Activator.CreateInstance(typeof(CachedType<>).MakeGenericType(t), true));
+                t => FuncFactory.CreateDefaultConstructorFunc<ICachedType>(typeof(CachedType<>).MakeGenericType(t).GetCachedTypeConstructor()));
+            return createCachedType();
         }
 
         public static CachedType<T> Create<T>()
         {
-            return (CachedType<T>)_cachedTypeCache.GetOrAdd(
+            var createCachedType = _createCachedTypeMap.GetOrAdd(
                 typeof(T),
-                t => (ICachedType)Activator.CreateInstance(typeof(CachedType<T>), true));
+                t => FuncFactory.CreateDefaultConstructorFunc<ICachedType>(typeof(CachedType<T>).GetCachedTypeConstructor()));
+            return (CachedType<T>)createCachedType();
+        }
+
+        private static ConstructorInfo GetCachedTypeConstructor(this Type t)
+        {
+            var ctor = t.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            Debug.Assert(ctor != null, "CachedType<T> must have a parameterless constructor.");
+            return ctor;
         }
     }
 }
