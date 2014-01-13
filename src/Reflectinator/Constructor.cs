@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 
 namespace Reflectinator
 {
-    public class Constructor : DynamicObject, IConstructor
+    public abstract class Constructor : DynamicObject, IConstructor
     {
         private static readonly ConcurrentDictionary<int, IConstructor> _constructorsMap = new ConcurrentDictionary<int, IConstructor>();
 

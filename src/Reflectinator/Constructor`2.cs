@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class Constructor<TDeclaringType, TArg1> : Constructor
+    public sealed class Constructor<TDeclaringType, TArg1> : Constructor
     {
         private readonly Lazy<Func<TArg1, TDeclaringType>> _invoke;
 
