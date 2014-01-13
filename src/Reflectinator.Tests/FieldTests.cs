@@ -14,7 +14,9 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromInstanceFields()
         {
-            var sut = new Field<FieldTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
+            _instanceField = "bar";
+
+            var sut = Field.Get<FieldTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
             var iSut = (IField) sut;
 
             Assert.That(() => sut.Get(this), Throws.Nothing);
@@ -27,7 +29,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToInstanceFields()
         {
-            var sut = new Field<FieldTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
+            var sut = Field.Get<FieldTests, string>(GetType().GetField("_instanceField", BindingFlags.NonPublic | BindingFlags.Instance));
             var iSut = (IField)sut;
 
             Assert.That(() => sut.Set(this, "wooo!"), Throws.Nothing);
@@ -40,7 +42,9 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromStaticFields()
         {
-            var sut = new Field<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
+            _staticField = "baz";
+
+            var sut = Field.Get<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
             var iSut = (IField) sut;
 
             Assert.That(() => sut.Get(this), Throws.Nothing);
@@ -59,7 +63,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToStaticFields()
         {
-            var sut = new Field<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
+            var sut = Field.Get<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
             var iSut = (IField)sut;
 
             Assert.That(() => sut.Set(this, "wooo!"), Throws.Nothing);
@@ -78,7 +82,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CannotWriteToConstantFields()
         {
-            var sut = new Field<FieldTests, string>(GetType().GetField("_constantField", BindingFlags.NonPublic | BindingFlags.Static));
+            var sut = Field.Get<FieldTests, string>(GetType().GetField("_constantField", BindingFlags.NonPublic | BindingFlags.Static));
 
             Assert.That(() => sut.Set(this, "wooo!"), Throws.Exception);
         }

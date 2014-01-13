@@ -5,22 +5,20 @@ namespace Reflectinator
 {
     public static class TypeCrawler
     {
-        private static readonly ConcurrentDictionary<Type, Func<ITypeCrawler>> _createTypeCrawlerMap = new ConcurrentDictionary<Type, Func<ITypeCrawler>>();
+        private static readonly ConcurrentDictionary<Type, ITypeCrawler> _typeCrawlerMap = new ConcurrentDictionary<Type, ITypeCrawler>();
 
-        public static ITypeCrawler Create(Type type)
+        public static ITypeCrawler Get(Type type)
         {
-            var createTypeCrawler = _createTypeCrawlerMap.GetOrAdd(
+            return _typeCrawlerMap.GetOrAdd(
                 type,
-                t => FuncFactory.CreateDefaultConstructorFunc<ITypeCrawler>(typeof(TypeCrawler<>).MakeGenericType(t).GetConstructorInfo()));
-            return createTypeCrawler();
+                t => (ITypeCrawler)Activator.CreateInstance(typeof(TypeCrawler<>).MakeGenericType(t), true));
         }
 
-        public static TypeCrawler<T> Create<T>()
+        public static TypeCrawler<T> Get<T>()
         {
-            var createTypeCrawler = _createTypeCrawlerMap.GetOrAdd(
+            return (TypeCrawler<T>)_typeCrawlerMap.GetOrAdd(
                 typeof(T),
-                t => FuncFactory.CreateDefaultConstructorFunc<ITypeCrawler>(typeof(TypeCrawler<T>).GetConstructorInfo()));
-            return (TypeCrawler<T>)createTypeCrawler();
+                _ => (ITypeCrawler)Activator.CreateInstance(typeof(TypeCrawler<T>), true));
         }
     }
 }

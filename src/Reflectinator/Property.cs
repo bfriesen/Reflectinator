@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Reflectinator
 {
     public class Property : IProperty
     {
+        private static readonly ConcurrentDictionary<Tuple<Type, Type, Type, string>, IProperty> _propertiesMap = new ConcurrentDictionary<Tuple<Type, Type, Type, string>, IProperty>();
+
         private readonly PropertyInfo _propertyInfo;
 
         private readonly Lazy<MethodInfo> _getMethod;
@@ -22,7 +25,7 @@ namespace Reflectinator
         private readonly Lazy<Func<object>> _getValueAsStatic;
         private readonly Lazy<Action<object>> _setValueAsStatic;
 
-        protected Property(PropertyInfo propertyInfo)
+        internal Property(PropertyInfo propertyInfo)
         {
             _propertyInfo = propertyInfo;
 
@@ -32,8 +35,8 @@ namespace Reflectinator
             _isPublic = new Lazy<bool>(propertyInfo.IsPublic);
             _isStatic = new Lazy<bool>(propertyInfo.IsStatic);
 
-            _propertyType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(propertyInfo.PropertyType));
-            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(propertyInfo.DeclaringType));
+            _propertyType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(propertyInfo.PropertyType));
+            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(propertyInfo.DeclaringType));
 
             _getValue = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
             _setValue = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
@@ -63,14 +66,18 @@ namespace Reflectinator
         // NOTE: We're returning the interface because the Get and Set properties are implemented explicitly.
         //       If we didn't do this, then the object returned wouldn't have a visible Get or Set method. And
         //       that wouldn't be a very nice API, now would it?
-        public static IProperty Create(PropertyInfo propertyInfo)
+        public static IProperty Get(PropertyInfo propertyInfo)
         {
-            return new Property(propertyInfo);
+            return _propertiesMap.GetOrAdd(
+                Tuple.Create(propertyInfo.DeclaringType, propertyInfo.PropertyType, propertyInfo.DeclaringType, propertyInfo.Name),
+                t => (IProperty)Activator.CreateInstance(typeof(Property<,>).MakeGenericType(propertyInfo.DeclaringType, propertyInfo.PropertyType), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { propertyInfo }, null));
         }
 
-        public static Property<TDeclaringType, TPropertyType> Create<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        public static Property<TDeclaringType, TPropertyType> Get<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
         {
-            return new Property<TDeclaringType, TPropertyType>(propertyInfo);
+            return (Property<TDeclaringType, TPropertyType>)_propertiesMap.GetOrAdd(
+                Tuple.Create(typeof(TDeclaringType), typeof(TPropertyType), propertyInfo.DeclaringType, propertyInfo.Name),
+                t => new Property<TDeclaringType, TPropertyType>(propertyInfo));
         }
 
         public string Name { get { return _propertyInfo.Name; } }

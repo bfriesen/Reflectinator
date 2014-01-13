@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Reflectinator
 {
     public class Field : IField
     {
+        private static readonly ConcurrentDictionary<Tuple<Type, Type, Type, string>, IField> _fieldsMap = new ConcurrentDictionary<Tuple<Type, Type, Type, string>, IField>();
+
         private readonly FieldInfo _fieldInfo;
 
         private readonly Lazy<ITypeCrawler> _fieldType;
@@ -16,12 +19,12 @@ namespace Reflectinator
         private readonly Lazy<Func<object>> _getValueAsStatic;
         private readonly Lazy<Action<object>> _setValueAsStatic;
 
-        protected Field(FieldInfo fieldInfo)
+        internal Field(FieldInfo fieldInfo)
         {
             _fieldInfo = fieldInfo;
 
-            _fieldType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(fieldInfo.FieldType));
-            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Create(fieldInfo.DeclaringType));
+            _fieldType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(fieldInfo.FieldType));
+            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(fieldInfo.DeclaringType));
 
             _getValue = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(fieldInfo));
             _setValue = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(fieldInfo));
@@ -48,15 +51,19 @@ namespace Reflectinator
             });
         }
 
-        // NOTE: See the 'NOTE:' above Property's Create factory method.
-        public static IField Create(FieldInfo fieldInfo)
+        // NOTE: See the 'NOTE:' above Property's Get factory method.
+        public static IField Get(FieldInfo fieldInfo)
         {
-            return new Field(fieldInfo);
+            return _fieldsMap.GetOrAdd(
+                Tuple.Create(fieldInfo.DeclaringType, fieldInfo.FieldType, fieldInfo.DeclaringType, fieldInfo.Name),
+                t => (IField)Activator.CreateInstance(typeof(Field<,>).MakeGenericType(fieldInfo.DeclaringType, fieldInfo.FieldType), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { fieldInfo }, null));
         }
 
-        public static Field<TDeclaringType, TFieldType> Create<TDeclaringType, TFieldType>(FieldInfo fieldInfo)
+        public static Field<TDeclaringType, TFieldType> Get<TDeclaringType, TFieldType>(FieldInfo fieldInfo)
         {
-            return new Field<TDeclaringType, TFieldType>(fieldInfo);
+            return (Field<TDeclaringType, TFieldType>)_fieldsMap.GetOrAdd(
+                Tuple.Create(typeof(TDeclaringType), typeof(TFieldType), fieldInfo.DeclaringType, fieldInfo.Name),
+                t => new Field<TDeclaringType, TFieldType>(fieldInfo));
         }
 
         public string Name { get { return _fieldInfo.Name; } }

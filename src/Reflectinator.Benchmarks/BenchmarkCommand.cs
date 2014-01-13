@@ -78,64 +78,64 @@ namespace Reflectinator.Benchmarks
         static BenchmarkCommand()
         {
             _instancePropertyInfoValueType = new Lazy<PropertyInfo>(() => typeof(BenchmarkCommand).GetProperty("BenchmarkInstancePropertyValueType"));
-            _instancePropertyStronglyTypedValueType = new Lazy<Property<BenchmarkCommand, ulong>>(() => Property.Create<BenchmarkCommand, ulong>(_instancePropertyInfoValueType.Value));
-            _instancePropertyLooselyTypedValueType = new Lazy<IProperty>(() => Property.Create(_instancePropertyInfoValueType.Value));
+            _instancePropertyStronglyTypedValueType = new Lazy<Property<BenchmarkCommand, ulong>>(() => Property.Get<BenchmarkCommand, ulong>(_instancePropertyInfoValueType.Value));
+            _instancePropertyLooselyTypedValueType = new Lazy<IProperty>(() => Property.Get(_instancePropertyInfoValueType.Value));
             _instancePropertyStronglyTypedGetValueType = new Lazy<Func<BenchmarkCommand, ulong>>(() => _instancePropertyStronglyTypedValueType.Value.GetFunc);
             _instancePropertyStronglyTypedSetValueType = new Lazy<Action<BenchmarkCommand, ulong>>(() => _instancePropertyStronglyTypedValueType.Value.SetAction);
             _instancePropertyLooselyTypedGetValueType = new Lazy<Func<object, object>>(() => _instancePropertyLooselyTypedValueType.Value.GetFunc);
             _instancePropertyLooselyTypedSetValueType = new Lazy<Action<object, object>>(() => _instancePropertyLooselyTypedValueType.Value.SetAction);
 
             _staticPropertyInfoValueType = new Lazy<PropertyInfo>(() => typeof(BenchmarkCommand).GetProperty("BenchmarkStaticPropertyValueType", BindingFlags.Public | BindingFlags.Static));
-            _staticPropertyStronglyTypedValueType = new Lazy<Property<BenchmarkCommand, ulong>>(() => Property.Create<BenchmarkCommand, ulong>(_staticPropertyInfoValueType.Value));
-            _staticPropertyLooselyTypedValueType = new Lazy<IProperty>(() => Property.Create(_staticPropertyInfoValueType.Value));
+            _staticPropertyStronglyTypedValueType = new Lazy<Property<BenchmarkCommand, ulong>>(() => Property.Get<BenchmarkCommand, ulong>(_staticPropertyInfoValueType.Value));
+            _staticPropertyLooselyTypedValueType = new Lazy<IProperty>(() => Property.Get(_staticPropertyInfoValueType.Value));
             _staticPropertyStronglyTypedGetValueType = new Lazy<Func<ulong>>(() => _staticPropertyStronglyTypedValueType.Value.GetStaticFunc);
             _staticPropertyStronglyTypedSetValueType = new Lazy<Action<ulong>>(() => _staticPropertyStronglyTypedValueType.Value.SetStaticAction);
             _staticPropertyLooselyTypedGetValueType = new Lazy<Func<object>>(() => _staticPropertyLooselyTypedValueType.Value.GetStaticFunc);
             _staticPropertyLooselyTypedSetValueType = new Lazy<Action<object>>(() => _staticPropertyLooselyTypedValueType.Value.SetStaticAction);
 
             _instanceFieldInfoValueType = new Lazy<FieldInfo>(() => typeof(BenchmarkCommand).GetField("BenchmarkInstanceFieldValueType"));
-            _instanceFieldStronglyTypedValueType = new Lazy<Field<BenchmarkCommand, ulong>>(() => Field.Create<BenchmarkCommand, ulong>(_instanceFieldInfoValueType.Value));
-            _instanceFieldLooselyTypedValueType = new Lazy<IField>(() => Field.Create(_instanceFieldInfoValueType.Value));
+            _instanceFieldStronglyTypedValueType = new Lazy<Field<BenchmarkCommand, ulong>>(() => Field.Get<BenchmarkCommand, ulong>(_instanceFieldInfoValueType.Value));
+            _instanceFieldLooselyTypedValueType = new Lazy<IField>(() => Field.Get(_instanceFieldInfoValueType.Value));
             _instanceFieldStronglyTypedGetValueType = new Lazy<Func<BenchmarkCommand, ulong>>(() => _instanceFieldStronglyTypedValueType.Value.GetFunc);
             _instanceFieldStronglyTypedSetValueType = new Lazy<Action<BenchmarkCommand, ulong>>(() => _instanceFieldStronglyTypedValueType.Value.SetAction);
             _instanceFieldLooselyTypedGetValueType = new Lazy<Func<object, object>>(() => _instanceFieldLooselyTypedValueType.Value.GetFunc);
             _instanceFieldLooselyTypedSetValueType = new Lazy<Action<object, object>>(() => _instanceFieldLooselyTypedValueType.Value.SetAction);
 
             _staticFieldInfoValueType = new Lazy<FieldInfo>(() => typeof(BenchmarkCommand).GetField("BenchmarkStaticFieldValueType", BindingFlags.Public | BindingFlags.Static));
-            _staticFieldStronglyTypedValueType = new Lazy<Field<BenchmarkCommand, ulong>>(() => Field.Create<BenchmarkCommand, ulong>(_staticFieldInfoValueType.Value));
-            _staticFieldLooselyTypedValueType = new Lazy<IField>(() => Field.Create(_staticFieldInfoValueType.Value));
+            _staticFieldStronglyTypedValueType = new Lazy<Field<BenchmarkCommand, ulong>>(() => Field.Get<BenchmarkCommand, ulong>(_staticFieldInfoValueType.Value));
+            _staticFieldLooselyTypedValueType = new Lazy<IField>(() => Field.Get(_staticFieldInfoValueType.Value));
             _staticFieldStronglyTypedGetValueType = new Lazy<Func<ulong>>(() => _staticFieldStronglyTypedValueType.Value.GetStaticFunc);
             _staticFieldStronglyTypedSetValueType = new Lazy<Action<ulong>>(() => _staticFieldStronglyTypedValueType.Value.SetStaticAction);
             _staticFieldLooselyTypedGetValueType = new Lazy<Func<object>>(() => _staticFieldLooselyTypedValueType.Value.GetStaticFunc);
             _staticFieldLooselyTypedSetValueType = new Lazy<Action<object>>(() => _staticFieldLooselyTypedValueType.Value.SetStaticAction);
 
             _instancePropertyInfoReferenceType = new Lazy<PropertyInfo>(() => typeof(BenchmarkCommand).GetProperty("BenchmarkInstancePropertyReferenceType"));
-            _instancePropertyStronglyTypedReferenceType = new Lazy<Property<BenchmarkCommand, string>>(() => Property.Create<BenchmarkCommand, string>(_instancePropertyInfoReferenceType.Value));
-            _instancePropertyLooselyTypedReferenceType = new Lazy<IProperty>(() => Property.Create(_instancePropertyInfoReferenceType.Value));
+            _instancePropertyStronglyTypedReferenceType = new Lazy<Property<BenchmarkCommand, string>>(() => Property.Get<BenchmarkCommand, string>(_instancePropertyInfoReferenceType.Value));
+            _instancePropertyLooselyTypedReferenceType = new Lazy<IProperty>(() => Property.Get(_instancePropertyInfoReferenceType.Value));
             _instancePropertyStronglyTypedGetReferenceType = new Lazy<Func<BenchmarkCommand, string>>(() => _instancePropertyStronglyTypedReferenceType.Value.GetFunc);
             _instancePropertyStronglyTypedSetReferenceType = new Lazy<Action<BenchmarkCommand, string>>(() => _instancePropertyStronglyTypedReferenceType.Value.SetAction);
             _instancePropertyLooselyTypedGetReferenceType = new Lazy<Func<object, object>>(() => _instancePropertyLooselyTypedReferenceType.Value.GetFunc);
             _instancePropertyLooselyTypedSetReferenceType = new Lazy<Action<object, object>>(() => _instancePropertyLooselyTypedReferenceType.Value.SetAction);
 
             _staticPropertyInfoReferenceType = new Lazy<PropertyInfo>(() => typeof(BenchmarkCommand).GetProperty("BenchmarkStaticPropertyReferenceType", BindingFlags.Public | BindingFlags.Static));
-            _staticPropertyStronglyTypedReferenceType = new Lazy<Property<BenchmarkCommand, string>>(() => Property.Create<BenchmarkCommand, string>(_staticPropertyInfoReferenceType.Value));
-            _staticPropertyLooselyTypedReferenceType = new Lazy<IProperty>(() => Property.Create(_staticPropertyInfoReferenceType.Value));
+            _staticPropertyStronglyTypedReferenceType = new Lazy<Property<BenchmarkCommand, string>>(() => Property.Get<BenchmarkCommand, string>(_staticPropertyInfoReferenceType.Value));
+            _staticPropertyLooselyTypedReferenceType = new Lazy<IProperty>(() => Property.Get(_staticPropertyInfoReferenceType.Value));
             _staticPropertyStronglyTypedGetReferenceType = new Lazy<Func<string>>(() => _staticPropertyStronglyTypedReferenceType.Value.GetStaticFunc);
             _staticPropertyStronglyTypedSetReferenceType = new Lazy<Action<string>>(() => _staticPropertyStronglyTypedReferenceType.Value.SetStaticAction);
             _staticPropertyLooselyTypedGetReferenceType = new Lazy<Func<object>>(() => _staticPropertyLooselyTypedReferenceType.Value.GetStaticFunc);
             _staticPropertyLooselyTypedSetReferenceType = new Lazy<Action<object>>(() => _staticPropertyLooselyTypedReferenceType.Value.SetStaticAction);
 
             _instanceFieldInfoReferenceType = new Lazy<FieldInfo>(() => typeof(BenchmarkCommand).GetField("BenchmarkInstanceFieldReferenceType"));
-            _instanceFieldStronglyTypedReferenceType = new Lazy<Field<BenchmarkCommand, string>>(() => Field.Create<BenchmarkCommand, string>(_instanceFieldInfoReferenceType.Value));
-            _instanceFieldLooselyTypedReferenceType = new Lazy<IField>(() => Field.Create(_instanceFieldInfoReferenceType.Value));
+            _instanceFieldStronglyTypedReferenceType = new Lazy<Field<BenchmarkCommand, string>>(() => Field.Get<BenchmarkCommand, string>(_instanceFieldInfoReferenceType.Value));
+            _instanceFieldLooselyTypedReferenceType = new Lazy<IField>(() => Field.Get(_instanceFieldInfoReferenceType.Value));
             _instanceFieldStronglyTypedGetReferenceType = new Lazy<Func<BenchmarkCommand, string>>(() => _instanceFieldStronglyTypedReferenceType.Value.GetFunc);
             _instanceFieldStronglyTypedSetReferenceType = new Lazy<Action<BenchmarkCommand, string>>(() => _instanceFieldStronglyTypedReferenceType.Value.SetAction);
             _instanceFieldLooselyTypedGetReferenceType = new Lazy<Func<object, object>>(() => _instanceFieldLooselyTypedReferenceType.Value.GetFunc);
             _instanceFieldLooselyTypedSetReferenceType = new Lazy<Action<object, object>>(() => _instanceFieldLooselyTypedReferenceType.Value.SetAction);
 
             _staticFieldInfoReferenceType = new Lazy<FieldInfo>(() => typeof(BenchmarkCommand).GetField("BenchmarkStaticFieldReferenceType", BindingFlags.Public | BindingFlags.Static));
-            _staticFieldStronglyTypedReferenceType = new Lazy<Field<BenchmarkCommand, string>>(() => Field.Create<BenchmarkCommand, string>(_staticFieldInfoReferenceType.Value));
-            _staticFieldLooselyTypedReferenceType = new Lazy<IField>(() => Field.Create(_staticFieldInfoReferenceType.Value));
+            _staticFieldStronglyTypedReferenceType = new Lazy<Field<BenchmarkCommand, string>>(() => Field.Get<BenchmarkCommand, string>(_staticFieldInfoReferenceType.Value));
+            _staticFieldLooselyTypedReferenceType = new Lazy<IField>(() => Field.Get(_staticFieldInfoReferenceType.Value));
             _staticFieldStronglyTypedGetReferenceType = new Lazy<Func<string>>(() => _staticFieldStronglyTypedReferenceType.Value.GetStaticFunc);
             _staticFieldStronglyTypedSetReferenceType = new Lazy<Action<string>>(() => _staticFieldStronglyTypedReferenceType.Value.SetStaticAction);
             _staticFieldLooselyTypedGetReferenceType = new Lazy<Func<object>>(() => _staticFieldLooselyTypedReferenceType.Value.GetStaticFunc);

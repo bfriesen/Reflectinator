@@ -11,7 +11,7 @@ namespace Reflectinator
         private readonly Lazy<Func<TPropertyType>> _getValueAsStatic;
         private readonly Lazy<Action<TPropertyType>> _setValueAsStatic;
 
-        public Property(PropertyInfo propertyInfo)
+        internal Property(PropertyInfo propertyInfo)
             : base(propertyInfo)
         {
             if (!typeof(TDeclaringType).IsAssignableFrom(propertyInfo.DeclaringType))

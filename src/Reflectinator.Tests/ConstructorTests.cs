@@ -31,22 +31,22 @@ namespace Reflectinator.Tests
         [Test]
         public void CanSpecifyConstructorWithGenericArguments()
         {
-            Assert.That(() => new Constructor<ConstructorTests>(), Throws.Nothing);
-            Assert.That(() => new Constructor<ConstructorTests, string>(), Throws.Nothing);
-            Assert.That(() => new Constructor<ConstructorTests, int>(), Throws.Nothing);
-            Assert.That(() => new Constructor<ConstructorTests, string, int>(), Throws.Nothing);
+            Assert.That(() => Constructor.Get<ConstructorTests>(), Throws.Nothing);
+            Assert.That(() => Constructor.Get<ConstructorTests, string>(), Throws.Nothing);
+            Assert.That(() => Constructor.Get<ConstructorTests, int>(), Throws.Nothing);
+            Assert.That(() => Constructor.Get<ConstructorTests, string, int>(), Throws.Nothing);
         }
 
         [Test]
         public void InvalidConstructorTypesThrowsException()
         {
-            Assert.That(() => new Constructor<ConstructorTests, decimal>(), Throws.Exception);
+            Assert.That(() => Constructor.Get<ConstructorTests, decimal>(), Throws.Exception);
         }
 
         [Test]
         public void CanInvokeWithObjectArrayAsArgs()
         {
-            var sut = new Constructor<ConstructorTests, string, int>();
+            var sut = Constructor.Get<ConstructorTests, string, int>();
 
             var obj = (ConstructorTests)sut.Invoke(new object[] { "foo", -1 });
 
@@ -57,7 +57,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CanInvokeWithStronglyTypedArgs()
         {
-            var sut = new Constructor<ConstructorTests, string, int>();
+            var sut = Constructor.Get<ConstructorTests, string, int>();
 
             var obj = sut.Invoke("foo", -1);
 
@@ -68,7 +68,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CanInvokeAsDynamic()
         {
-            dynamic sut = new Constructor<ConstructorTests, string, int>();
+            dynamic sut = Constructor.Get<ConstructorTests, string, int>();
 
             ConstructorTests obj = sut("foo", -1);
 

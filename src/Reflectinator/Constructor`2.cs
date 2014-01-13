@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Dynamic;
+using System.Reflection;
 
 namespace Reflectinator
 {
@@ -7,8 +8,13 @@ namespace Reflectinator
     {
         private readonly Lazy<Func<TArg1, TDeclaringType>> _invoke;
 
-        public Constructor()
-            : base(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1)))
+        internal Constructor()
+            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1)))
+        {
+        }
+
+        internal Constructor(ConstructorInfo constructorInfo)
+            : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TDeclaringType>>(() => (Func<TArg1, TDeclaringType>)FuncFactory.CreateConstructorFunc(ConstructorInfo, true));
         }

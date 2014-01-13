@@ -9,7 +9,7 @@ namespace Reflectinator.Tests
         [Test]
         public void HasCorrectConstructors()
         {
-            var sut = TypeCrawler.Create<Foo>();
+            var sut = TypeCrawler.Get<Foo>();
 
             Assert.That(sut.Constructors.Length, Is.EqualTo(3));
             Assert.That(sut.Constructors.Count(x => x.Parameters.Length == 0), Is.EqualTo(1));
@@ -21,7 +21,7 @@ namespace Reflectinator.Tests
         [Test]
         public void HasCorrectFields()
         {
-            var sut = TypeCrawler.Create<Foo>();
+            var sut = TypeCrawler.Get<Foo>();
 
             Assert.That(sut.Fields.Length, Is.EqualTo(10));
             Assert.That(sut.Fields.Count(x => x.IsConstant), Is.EqualTo(2));
@@ -34,7 +34,7 @@ namespace Reflectinator.Tests
         [Test]
         public void HasCorrectProperties()
         {
-            var sut = TypeCrawler.Create<Foo>();
+            var sut = TypeCrawler.Get<Foo>();
 
             Assert.That(sut.Properties.Length, Is.EqualTo(8));
             Assert.That(sut.Properties.Count(x => x.IsPublic), Is.EqualTo(4));

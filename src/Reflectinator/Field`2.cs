@@ -11,7 +11,7 @@ namespace Reflectinator
         private readonly Lazy<Func<TFieldType>> _getValueAsStatic;
         private readonly Lazy<Action<TFieldType>> _setValueAsStatic;
 
-        public Field(FieldInfo fieldInfo)
+        internal Field(FieldInfo fieldInfo)
             : base(fieldInfo)
         {
             if (!typeof(TDeclaringType).IsAssignableFrom(fieldInfo.DeclaringType))

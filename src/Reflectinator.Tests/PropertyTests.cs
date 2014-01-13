@@ -12,10 +12,10 @@ namespace Reflectinator.Tests
 
         public PropertyTests()
         {
-            Property = "bar";
+            InstanceProperty = "bar";
         }
 
-        public string Property { get; set; }
+        public string InstanceProperty { get; set; }
         public string ReadonlyProperty { get { return null; } }
         public string WriteonlyProperty { set {} }
         public static string StaticProperty { get; set; }
@@ -23,7 +23,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CanReadFromProperties()
         {
-            var sut = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
+            var sut = Property.Get<PropertyTests, string>(GetType().GetProperty("InstanceProperty"));
             var iSut = (IProperty)sut;
 
             Assert.That(() => sut.Get(this), Throws.Nothing);
@@ -36,20 +36,20 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToProperties()
         {
-            var sut = new Property<PropertyTests, string>(GetType().GetProperty("Property"));
+            var sut = Property.Get<PropertyTests, string>(GetType().GetProperty("InstanceProperty"));
             var iSut = (IProperty)sut;
 
             Assert.That(() => sut.Set(this, "wooo!!"), Throws.Nothing);
-            Assert.That(Property, Is.EqualTo("wooo!!"));
+            Assert.That(InstanceProperty, Is.EqualTo("wooo!!"));
 
             Assert.That(() => iSut.Set(this, "hooo!!"), Throws.Nothing);
-            Assert.That(Property, Is.EqualTo("hooo!!"));
+            Assert.That(InstanceProperty, Is.EqualTo("hooo!!"));
         }
 
         [Test]
         public void CannotWriteToReadonlyProperties()
         {
-            var sut = new Property<PropertyTests, string>(GetType().GetProperty("ReadonlyProperty"));
+            var sut = Property.Get<PropertyTests, string>(GetType().GetProperty("ReadonlyProperty"));
             var iSut = (IProperty)sut;
 
             Assert.That(() => sut.Set(this, "wooo!!"), Throws.Exception);
@@ -59,7 +59,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CannotReadFromWriteonlyProperties()
         {
-            var sut = new Property<PropertyTests, string>(GetType().GetProperty("WriteonlyProperty"));
+            var sut = Property.Get<PropertyTests, string>(GetType().GetProperty("WriteonlyProperty"));
             var iSut = (IProperty)sut;
 
             Assert.That(() => sut.Get(this), Throws.Exception);
@@ -69,19 +69,19 @@ namespace Reflectinator.Tests
         [Test]
         public void MismatchedTDeclaringTypeAndPropertyInfoDeclaringTypeThrowsException()
         {
-            Assert.That(() => new Property<PropertyTests, string>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
+            Assert.That(() => Property.Get<PropertyTests, string>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
         }
 
         [Test]
         public void MismatchedTPropertyTypeAndPropertyInfoPropertyTypeThrowsException()
         {
-            Assert.That(() => new Property<Foo, int>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
+            Assert.That(() => Property.Get<Foo, int>(typeof(Foo).GetProperty("Bar")), Throws.Exception);
         }
 
         [Test]
         public void CanGetAndSetStaticProperties()
         {
-            var sut = new Property<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
+            var sut = Property.Get<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
             var iSut = (IProperty) sut;
 
             Assert.That(() => sut.Get(), Throws.Nothing);
