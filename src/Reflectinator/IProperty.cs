@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Reflectinator
 {
@@ -18,6 +19,12 @@ namespace Reflectinator
 
         ITypeCrawler PropertyType { get; }
         ITypeCrawler DeclaringType { get; }
+
+        Func<object, object> GetFunc { get; }
+        Action<object, object> SetAction { get; }
+
+        Func<object> GetStaticFunc { get; }
+        Action<object> SetStaticAction { get; }
 
         object Get(object instance);
         void Set(object instance, object value);

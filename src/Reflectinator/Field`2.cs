@@ -47,6 +47,12 @@ namespace Reflectinator
             });
         }
 
+        public Func<TDeclaringType, TFieldType> GetFunc { get { return _getValue.Value; } }
+        public Action<TDeclaringType, TFieldType> SetAction { get { return _setValue.Value; } }
+
+        public Func<TFieldType> GetStaticFunc { get { return _getValueAsStatic.Value; } }
+        public Action<TFieldType> SetStaticAction { get { return _setValueAsStatic.Value; } }
+
         public TFieldType Get(TDeclaringType instance) { return _getValue.Value(instance); }
         public void Set(TDeclaringType instance, TFieldType value) { _setValue.Value(instance, value); }
 

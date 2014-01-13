@@ -88,6 +88,12 @@ namespace Reflectinator
         public ITypeCrawler PropertyType { get { return _propertyType.Value; } }
         public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
 
+        Func<object, object> IProperty.GetFunc { get { return _getValue.Value; } }
+        Action<object, object> IProperty.SetAction { get { return _setValue.Value; } }
+
+        Func<object> IProperty.GetStaticFunc { get { return _getValueAsStatic.Value; } }
+        Action<object> IProperty.SetStaticAction { get { return _setValueAsStatic.Value; } }
+
         object IProperty.Get(object instance) { return _getValue.Value(instance); }
         void IProperty.Set(object instance, object value) { _setValue.Value(instance, value); }
 

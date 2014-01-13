@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflectinator", "Reflectina
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflectinator.Tests", "Reflectinator.Tests\Reflectinator.Tests.csproj", "{7C6B55B7-26C4-4496-99B7-D70D3DA715A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflectinator.Benchmarks", "Reflectinator.Benchmarks\Reflectinator.Benchmarks.csproj", "{0AE83693-B573-4722-B95D-043BCABD0B6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{7C6B55B7-26C4-4496-99B7-D70D3DA715A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C6B55B7-26C4-4496-99B7-D70D3DA715A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C6B55B7-26C4-4496-99B7-D70D3DA715A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE83693-B573-4722-B95D-043BCABD0B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE83693-B573-4722-B95D-043BCABD0B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE83693-B573-4722-B95D-043BCABD0B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE83693-B573-4722-B95D-043BCABD0B6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

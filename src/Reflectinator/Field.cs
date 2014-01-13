@@ -71,6 +71,12 @@ namespace Reflectinator
         public ITypeCrawler FieldType { get { return _fieldType.Value; } }
         public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
 
+        Func<object, object> IField.GetFunc { get { return _getValue.Value; } }
+        Action<object, object> IField.SetAction { get { return _setValue.Value; } }
+
+        Func<object> IField.GetStaticFunc { get { return _getValueAsStatic.Value; } }
+        Action<object> IField.SetStaticAction { get { return _setValueAsStatic.Value; } }
+
         object IField.Get(object instance) { return _getValue.Value(instance); }
         void IField.Set(object instance, object value) { _setValue.Value(instance, value); }
 

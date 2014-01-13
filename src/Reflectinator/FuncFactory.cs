@@ -35,8 +35,19 @@ namespace Reflectinator
 
             var field = GetField(fieldInfo, isStronglyTyped, instanceParameter);
 
+            Expression body;
+
+            if (!typeof(TFieldType).IsValueType && fieldInfo.FieldType.IsValueType)
+            {
+                body = Expression.Convert(field, typeof(TFieldType));
+            }
+            else
+            {
+                body = field;
+            }
+
             var expression = Expression.Lambda<Func<TDeclaringType, TFieldType>>(
-                field,
+                body,
                 instanceParameter);
             return expression.Compile();
         }
@@ -147,8 +158,26 @@ namespace Reflectinator
                 call = Expression.Call(instanceCast, method);
             }
 
+            Expression body;
+
+            if (isStronglyTyped)
+            {
+                body = call;
+            }
+            else
+            {
+                if (!typeof(TPropertyType).IsValueType && propertyInfo.PropertyType.IsValueType)
+                {
+                    body = Expression.Convert(call, typeof(TPropertyType));
+                }
+                else
+                {
+                    body = call;
+                }
+            }
+
             var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
-                call,
+                body,
                 instanceParameter);
 
             return expression.Compile();
