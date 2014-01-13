@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class TypeCrawler<T> : ITypeCrawler
+    public sealed class TypeCrawler<T> : ITypeCrawler
     {
         private readonly Type _type;
         private readonly Lazy<IConstructor[]> _constructors;
@@ -15,7 +15,7 @@ namespace Reflectinator
         private readonly Lazy<IDictionary<string, IField>> _fieldMap;
         private readonly Lazy<IDictionary<string, IProperty>> _propertyMap;
 
-        private TypeCrawler()
+        internal TypeCrawler()
         {
             _type = typeof(T);
 

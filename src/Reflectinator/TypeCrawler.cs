@@ -18,7 +18,7 @@ namespace Reflectinator
         {
             return (TypeCrawler<T>)_typeCrawlerMap.GetOrAdd(
                 typeof(T),
-                _ => (ITypeCrawler)Activator.CreateInstance(typeof(TypeCrawler<T>), true));
+                _ => new TypeCrawler<T>());
         }
     }
 }
