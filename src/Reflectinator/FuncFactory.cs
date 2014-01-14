@@ -84,28 +84,22 @@ namespace Reflectinator
 
         private static MemberExpression GetField(FieldInfo fieldInfo, bool isStronglyTyped, ParameterExpression instanceParameter)
         {
-            MemberExpression field;
             if (fieldInfo.IsStatic)
             {
-                field = Expression.Field(null, fieldInfo);
+                return Expression.Field(null, fieldInfo);
             }
-            else
-            {
-                if (isStronglyTyped)
-                {
-                    field = Expression.Field(instanceParameter, fieldInfo);
-                }
-                else
-                {
-                    var instanceCast =
-                        fieldInfo.DeclaringType.IsValueType
-                            ? Expression.Convert(instanceParameter, fieldInfo.DeclaringType)
-                            : Expression.TypeAs(instanceParameter, fieldInfo.DeclaringType);
 
-                    field = Expression.Field(instanceCast, fieldInfo);
-                }
+            if (isStronglyTyped)
+            {
+                return Expression.Field(instanceParameter, fieldInfo);
             }
-            return field;
+
+            var instanceCast =
+                fieldInfo.DeclaringType.IsValueType
+                    ? Expression.Convert(instanceParameter, fieldInfo.DeclaringType)
+                    : Expression.TypeAs(instanceParameter, fieldInfo.DeclaringType);
+
+            return Expression.Field(instanceCast, fieldInfo);
         }
 
         #endregion

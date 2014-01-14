@@ -2,7 +2,7 @@
 
 namespace Reflectinator.Benchmarks
 {
-    public class SetValueTypeInstancePropertyValueBenchmark : BenchmarkCommand
+    public class SetValueTypeInstancePropertyValueBenchmark : Benchmark
     {
         private static ulong _someValue = 123456789;
 
@@ -11,22 +11,22 @@ namespace Reflectinator.Benchmarks
         {
         }
 
-        private static Action<BenchmarkCommand> DirectAccess
+        private static Action<Benchmark> DirectAccess
         {
             get { return benchmark => benchmark.BenchmarkInstanceFieldValueType = SomeValue; }
         }
 
-        private static void Reflection(BenchmarkCommand benchmark)
+        private static void Reflection(Benchmark benchmark)
         {
             _instancePropertyInfoValueType.Value.SetValue(benchmark, SomeValue);
         }
 
-        private static void ReflectinatorStronglyTyped(BenchmarkCommand benchmark)
+        private static void ReflectinatorStronglyTyped(Benchmark benchmark)
         {
             _instancePropertyStronglyTypedSetValueType.Value(benchmark, SomeValue);
         }
 
-        private static void ReflectinatorLooselyTyped(BenchmarkCommand benchmark)
+        private static void ReflectinatorLooselyTyped(Benchmark benchmark)
         {
             _instancePropertyLooselyTypedSetValueType.Value(benchmark, SomeValue);
         }

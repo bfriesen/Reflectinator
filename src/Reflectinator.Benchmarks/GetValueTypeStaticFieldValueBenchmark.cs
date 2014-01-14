@@ -2,7 +2,7 @@
 
 namespace Reflectinator.Benchmarks
 {
-    public class GetValueTypeStaticFieldValueBenchmark : BenchmarkCommand
+    public class GetValueTypeStaticFieldValueBenchmark : Benchmark
     {
         private static ulong _someValue = 123456789;
 
@@ -11,22 +11,22 @@ namespace Reflectinator.Benchmarks
         {
         }
 
-        private static Action<BenchmarkCommand> DirectAccess
+        private static Action<Benchmark> DirectAccess
         {
             get { return benchmark => _someValue = BenchmarkStaticFieldValueType; }
         }
 
-        private static void Reflection(BenchmarkCommand benchmark)
+        private static void Reflection(Benchmark benchmark)
         {
             _someValue = (ulong)_staticFieldInfoValueType.Value.GetValue(benchmark);
         }
 
-        private static void ReflectinatorStronglyTyped(BenchmarkCommand benchmark)
+        private static void ReflectinatorStronglyTyped(Benchmark benchmark)
         {
             _someValue = _staticFieldStronglyTypedGetValueType.Value();
         }
 
-        private static void ReflectinatorLooselyTyped(BenchmarkCommand benchmark)
+        private static void ReflectinatorLooselyTyped(Benchmark benchmark)
         {
             _someValue = (ulong)_staticFieldLooselyTypedGetValueType.Value();
         }

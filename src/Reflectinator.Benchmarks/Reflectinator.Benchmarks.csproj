@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BenchmarkCommand.cs" />
+    <Compile Include="Benchmark.cs" />
     <Compile Include="GetReferenceTypeInstanceFieldValueBenchmark.cs" />
     <Compile Include="GetReferenceTypeInstancePropertyValueBenchmark.cs" />
     <Compile Include="GetReferenceTypeStaticFieldValueBenchmark.cs" />
@@ -58,7 +58,7 @@
     <Compile Include="GetValueTypeStaticPropertyValueBenchmark.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunAllConsoleCommand.cs" />
+    <Compile Include="RunAllBenchmarksCommand.cs" />
     <Compile Include="SetReferenceTypeInstanceFieldValueBenchmark.cs" />
     <Compile Include="SetReferenceTypeInstancePropertyValueBenchmark.cs" />
     <Compile Include="SetReferenceTypeStaticFieldValueBenchmark.cs" />

@@ -2,7 +2,7 @@ using System;
 
 namespace Reflectinator.Benchmarks
 {
-    public class SetReferenceTypeStaticPropertyValueBenchmark : BenchmarkCommand
+    public class SetReferenceTypeStaticPropertyValueBenchmark : Benchmark
     {
         private static string _someValue = "some value";
 
@@ -11,22 +11,22 @@ namespace Reflectinator.Benchmarks
         {
         }
 
-        private static Action<BenchmarkCommand> DirectAccess
+        private static Action<Benchmark> DirectAccess
         {
             get { return benchmark => BenchmarkStaticFieldReferenceType = SomeValue; }
         }
 
-        private static void Reflection(BenchmarkCommand benchmark)
+        private static void Reflection(Benchmark benchmark)
         {
             _staticPropertyInfoReferenceType.Value.SetValue(benchmark, SomeValue);
         }
 
-        private static void ReflectinatorStronglyTyped(BenchmarkCommand benchmark)
+        private static void ReflectinatorStronglyTyped(Benchmark benchmark)
         {
             _staticPropertyStronglyTypedSetReferenceType.Value(SomeValue);
         }
 
-        private static void ReflectinatorLooselyTyped(BenchmarkCommand benchmark)
+        private static void ReflectinatorLooselyTyped(Benchmark benchmark)
         {
             _staticPropertyLooselyTypedSetReferenceType.Value(SomeValue);
         }

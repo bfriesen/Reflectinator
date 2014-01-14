@@ -40,10 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constructor.cs" />
-    <Compile Include="Constructor`1.cs" />
-    <Compile Include="Constructor`2.cs" />
-    <Compile Include="Constructor`3.cs" />
+    <Compile Include="Constructor.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Constructor.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Constructor`n.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Constructor`n.tt</DependentUpon>
+    </Compile>
     <Compile Include="Field.cs" />
     <Compile Include="Field`2.cs" />
     <Compile Include="Property.cs" />
@@ -57,6 +63,19 @@
     <Compile Include="IProperty.cs" />
     <Compile Include="ITypeCrawler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Constructor.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Constructor.cs</LastGenOutput>
+    </None>
+    <None Include="Constructor`n.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Constructor`n.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
