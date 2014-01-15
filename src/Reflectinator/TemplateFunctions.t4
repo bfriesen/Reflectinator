@@ -1,0 +1,30 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #><#+
+/// <summary>
+/// Prints a joined repeated format string as indicated by the following algorithm:
+/// 
+/// 1) if <paramref name="repeatCount"/> is greater than zero and <paramref name="pre"/> is true, print <paramref name="separator"/>.
+/// 2) from 0 to <paramref name="repeatCount"/> minus one, print the formatted string, using the current loop index for the format's replacement strings. <paramref name="separator"/> is inserted between each repetition.
+/// 3) if <paramref name="repeatCount"/> is greater than zero and <paramref name="post"/> is true, print <paramref name="separator"/>.
+/// </summary>
+/// <param name="separator">A string that is inserted between repeats of the formatted string.</param>
+/// <param name="format">A format string that will be repeated by the number of times indicated by <paramref name="repeatCount"/>. The replacement indicator {0} will be replaced by the index of the current repetition. {1} will be rplaced by the value of {0} plus one.</param>
+/// <param name="repeatCount">The number of times the formatted strings should be repeated.</param>
+/// <param name="pre">Whether <paramref name="separator"/> should be written before any joined formatted strings are written. Note that if <paramref name="repeatCount"/> is zero, <paramref name="separator"/> will not be written.</param>
+/// <param name="post">Whether <paramref name="separator"/> should be written after any joined formatted strings are written. Note that if <paramref name="repeatCount"/> is zero, <paramref name="separator"/> will not be written.</param>
+void PrintJoinFormat(string separator, string format, int repeatCount, bool pre, bool post)
+{
+    if (repeatCount == 0)
+    {
+        return;
+    }
+
+    Write(
+        (pre ? separator : "")
+        + string.Join(separator, Enumerable.Range(0, repeatCount).Select(i => string.Format(format, i, i + 1)))
+        + (post ? separator : ""));
+}#>

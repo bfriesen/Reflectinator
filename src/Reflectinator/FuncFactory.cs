@@ -276,7 +276,7 @@ namespace Reflectinator
             return (Func<TReturnType>)expression.Compile();
         }
 
-        public static Delegate CreateConstructorFunc(ConstructorInfo ctor, bool stronglyTyped)
+        public static Delegate CreateConstructorFunc(ConstructorInfo ctor, Type returnType = null, params Type[] parameterTypes)
         {
             if (ctor == null)
             {
@@ -284,31 +284,39 @@ namespace Reflectinator
             }
 
             NewExpression expressionBody;
-            ParameterExpression[] parameters;
-            Type returnType;
+            ParameterExpression[] parameterExpressions;
+
+            var stronglyTyped = returnType != null;
 
             if (stronglyTyped)
             {
-                parameters = ctor.GetParameters().Select(p => Expression.Parameter(p.ParameterType)).ToArray();
-                expressionBody = Expression.New(ctor, parameters.Cast<Expression>());
-                returnType = expressionBody.Type;
+                parameterExpressions = parameterTypes.Select(Expression.Parameter).ToArray();
+                expressionBody = Expression.New(ctor, parameterExpressions.Cast<Expression>());
             }
             else
             {
-                parameters = new[] { Expression.Parameter(typeof(object[])) };
+                returnType = typeof(object);
+                parameterExpressions = new[] { Expression.Parameter(typeof(object[])) };
 
                 var ctorArgs =
-                    ctor.GetParameters().Select((ctorParameter, index) => new { ctorParameter, lambdaParameter = Expression.ArrayAccess(parameters[0], Expression.Constant(index)) })
-                                           .Select(x =>
-                                                   x.ctorParameter.ParameterType.IsValueType
-                                                       ? (Expression)Expression.Convert(x.lambdaParameter, x.ctorParameter.ParameterType)
-                                                       : Expression.TypeAs(x.lambdaParameter, x.ctorParameter.ParameterType)).ToArray();
-                expressionBody = Expression.New(ctor, ctorArgs);
+                    ctor.GetParameters()
+                        .Select(
+                            (ctorParameter, index) =>
+                                new
+                                {
+                                    ctorParameter,
+                                    lambdaParameter = Expression.ArrayAccess(parameterExpressions[0], Expression.Constant(index))
+                                })
+                        .Select(
+                            x =>
+                                x.ctorParameter.ParameterType.IsValueType
+                                    ? (Expression)Expression.Convert(x.lambdaParameter, x.ctorParameter.ParameterType)
+                                    : Expression.TypeAs(x.lambdaParameter, x.ctorParameter.ParameterType)).ToArray();
 
-                returnType = typeof(object);
+                expressionBody = Expression.New(ctor, ctorArgs);
             }
 
-            var expression = GetLambdaExpressionForFunc(expressionBody, parameters, returnType);
+            var expression = GetLambdaExpressionForFunc(expressionBody, parameterExpressions, returnType);
             return expression.Compile();
         }
 
