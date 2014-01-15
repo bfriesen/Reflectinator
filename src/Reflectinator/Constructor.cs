@@ -245,5 +245,35 @@ namespace Reflectinator
         {
             return _invoke.Value(args);
         }
+
+        protected static bool AreValidArgs(Type[] argTypes, object[] args)
+        {
+            if (args.Length != argTypes.Length)
+            {
+                return false;
+            }
+
+            foreach (var x in args.Zip(argTypes, (arg, argType) => new { arg, argType }))
+            {
+                if (x.arg == null)
+                {
+                    if (x.argType.IsValueType
+                        && !(x.argType.IsGenericType
+                            && x.argType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (!x.argType.IsInstanceOfType(x.arg))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

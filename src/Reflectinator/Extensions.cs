@@ -18,7 +18,7 @@ namespace Reflectinator
                    || (propertyInfo.CanWrite && propertyInfo.GetSetMethod(true).IsStatic);
         }
 
-        public static ConstructorInfo GetConstructorInfo(this Type type, params Type[] parameterTypes)
+        public static ConstructorInfo GetConstructorInfo(this Type type, Type[] parameterTypes)
         {
             var ctor = type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, parameterTypes, null);
 

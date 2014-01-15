@@ -73,6 +73,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Constructor`n.cs</LastGenOutput>
     </None>
+    <None Include="TemplateFunctions.t4" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

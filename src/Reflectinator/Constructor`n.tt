@@ -16,17 +16,32 @@ using System.Dynamic;
 using System.Reflection;
 
 namespace Reflectinator
-{<#
+{
+<#
 for (int i = 0; i < 17; i++)
 {
 #>
-
     public sealed class Constructor<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>> : Constructor
     {
+<#
+    if (i == 0)
+    {
+#>
+        private static readonly Type[] _argTypes = new Type[0];
+<#
+    }
+    else
+    {
+#>
+        private static readonly Type[] _argTypes = { <# PrintJoinFormat(", ", "typeof(TArg{1})", i, false, false); #> };
+<#
+    }
+#>
+
         private readonly Lazy<Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(<# PrintJoinFormat(", ", "typeof(TArg{1})", i, false, false); #>))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -43,14 +58,11 @@ for (int i = 0; i < 17; i++)
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != <#= i #>)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -59,10 +71,13 @@ for (int i = 0; i < 17; i++)
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
     }
+
 <#
 }
-#>}
+#>
+}

@@ -12,10 +12,12 @@ namespace Reflectinator
 {
     public sealed class Constructor<TDeclaringType> : Constructor
     {
+        private static readonly Type[] _argTypes = new Type[0];
+
         private readonly Lazy<Func<TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo())
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -32,14 +34,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 0)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -48,6 +47,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -55,10 +55,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1) };
+
         private readonly Lazy<Func<TArg1, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -75,14 +77,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 1)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -91,6 +90,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -98,10 +98,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2) };
+
         private readonly Lazy<Func<TArg1, TArg2, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -118,14 +120,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 2)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -134,6 +133,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -141,10 +141,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -161,14 +163,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 3)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -177,6 +176,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -184,10 +184,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -204,14 +206,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 4)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -220,6 +219,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -227,10 +227,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -247,14 +249,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 5)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -263,6 +262,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -270,10 +270,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -290,14 +292,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 6)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -306,6 +305,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -313,10 +313,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -333,14 +335,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 7)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -349,6 +348,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -356,10 +356,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -376,14 +378,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 8)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -392,6 +391,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -399,10 +399,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -419,14 +421,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 9)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -435,6 +434,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -442,10 +442,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -462,14 +464,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 10)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -478,6 +477,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -485,10 +485,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -505,14 +507,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 11)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -521,6 +520,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -528,10 +528,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -548,14 +550,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 12)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -564,6 +563,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -571,10 +571,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -591,14 +593,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 13)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -607,6 +606,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -614,10 +614,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -634,14 +636,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 14)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -650,6 +649,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -657,10 +657,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -677,14 +679,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 15)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -693,6 +692,7 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
@@ -700,10 +700,12 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16> : Constructor
     {
+        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16) };
+
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>> _invoke;
 
         internal Constructor()
-            : this(typeof(TDeclaringType).GetConstructorInfo(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16)))
+            : this(typeof(TDeclaringType).GetConstructorInfo(_argTypes))
         {
         }
 
@@ -720,14 +722,11 @@ namespace Reflectinator
 
         public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
         {
-            result = null;
-
-            if (args.Length != 16)
+            if (!AreValidArgs(_argTypes, args))
             {
+                result = null;
                 return false;
             }
-
-            // TODO: verify that all args are able to be assigned to the constructor parameters.
 
             try
             {
@@ -736,8 +735,10 @@ namespace Reflectinator
             }
             catch
             {
+                result = null;
                 return false;
             }
         }
     }
+
 }
