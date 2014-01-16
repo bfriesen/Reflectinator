@@ -18,16 +18,41 @@
 /// <param name="post">Whether <paramref name="separator"/> should be written after any joined formatted strings are written. Note that if <paramref name="repeatCount"/> is zero, <paramref name="separator"/> will not be written.</param>
 void PrintJoinFormat(string separator, string format, int repeatCount, bool pre, bool post)
 {
+    PrintJoinFormat(separator, format, repeatCount, pre, post, 0);
+}
+
+/// <summary>
+/// Prints a joined repeated format string as indicated by the following algorithm:
+/// 
+/// 1) print a number of spaces, as indicated by <paramref name="paddingCount"/>. Default is zero.
+/// 2) if <paramref name="repeatCount"/> is greater than zero and <paramref name="pre"/> is true, print <paramref name="separator"/>.
+/// 3) from 0 to <paramref name="repeatCount"/> minus one, print the formatted string, using the current loop index for the format's replacement strings. <paramref name="separator"/> is inserted between each repetition.
+/// 4) if <paramref name="repeatCount"/> is greater than zero and <paramref name="post"/> is true, print <paramref name="separator"/>.
+/// 5) print a number of spaces, as indicated by <paramref name="paddingCount"/>. Default is zero.
+/// </summary>
+/// <param name="separator">A string that is inserted between repeats of the formatted string.</param>
+/// <param name="format">A format string that will be repeated by the number of times indicated by <paramref name="repeatCount"/>. The replacement indicator {0} will be replaced by the index of the current repetition. {1} will be rplaced by the value of {0} plus one.</param>
+/// <param name="repeatCount">The number of times the formatted strings should be repeated.</param>
+/// <param name="pre">Whether <paramref name="separator"/> should be written before any joined formatted strings are written. Note that if <paramref name="repeatCount"/> is zero, <paramref name="separator"/> will not be written.</param>
+/// <param name="post">Whether <paramref name="separator"/> should be written after any joined formatted strings are written. Note that if <paramref name="repeatCount"/> is zero, <paramref name="separator"/> will not be written.</param>
+/// <param name="paddingCount">The number of spaces to insert at the before and after the joined format string. Default is zero.</param>
+void PrintJoinFormat(string separator, string format, int repeatCount, bool pre, bool post, int paddingCount)
+{
     if (repeatCount == 0)
     {
         return;
     }
 
+    var padding = new string(' ', paddingCount);
+
     Write(
-        (pre ? separator : "")
+        padding
+        + (pre ? separator : "")
         + string.Join(separator, Enumerable.Range(0, repeatCount).Select(i => string.Format(format, i, i + 1)))
-        + (post ? separator : ""));
-}#>
+        + (post ? separator : "")
+        + padding);
+}
+#>
 <#+
 const int MaxNumberOfFuncGenericArguments = 17;
 #>

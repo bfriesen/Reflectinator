@@ -12,7 +12,7 @@ namespace Reflectinator
 {
     public sealed class Constructor<TDeclaringType> : Constructor
     {
-        private static readonly Type[] _argTypes = new Type[0];
+        private static readonly Type[] _argTypes = new Type[] {};
 
         private readonly Lazy<Func<TDeclaringType>> _invoke;
 
@@ -21,7 +21,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType>(constructorInfo));
@@ -55,7 +55,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1) };
 
         private readonly Lazy<Func<TArg1, TDeclaringType>> _invoke;
 
@@ -64,7 +64,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1>(constructorInfo));
@@ -98,7 +98,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2) };
 
         private readonly Lazy<Func<TArg1, TArg2, TDeclaringType>> _invoke;
 
@@ -107,7 +107,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2>(constructorInfo));
@@ -141,7 +141,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>> _invoke;
 
@@ -150,7 +150,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3>(constructorInfo));
@@ -184,7 +184,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>> _invoke;
 
@@ -193,7 +193,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(constructorInfo));
@@ -227,7 +227,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>> _invoke;
 
@@ -236,7 +236,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(constructorInfo));
@@ -270,7 +270,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>> _invoke;
 
@@ -279,7 +279,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(constructorInfo));
@@ -313,7 +313,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>> _invoke;
 
@@ -322,7 +322,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(constructorInfo));
@@ -356,7 +356,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>> _invoke;
 
@@ -365,7 +365,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(constructorInfo));
@@ -399,7 +399,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>> _invoke;
 
@@ -408,7 +408,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(constructorInfo));
@@ -442,7 +442,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>> _invoke;
 
@@ -451,7 +451,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(constructorInfo));
@@ -485,7 +485,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>> _invoke;
 
@@ -494,7 +494,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(constructorInfo));
@@ -528,7 +528,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>> _invoke;
 
@@ -537,7 +537,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(constructorInfo));
@@ -571,7 +571,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>> _invoke;
 
@@ -580,7 +580,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(constructorInfo));
@@ -614,7 +614,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>> _invoke;
 
@@ -623,7 +623,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(constructorInfo));
@@ -657,7 +657,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>> _invoke;
 
@@ -666,7 +666,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(constructorInfo));
@@ -700,7 +700,7 @@ namespace Reflectinator
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16> : Constructor
     {
-        private static readonly Type[] _argTypes = { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16) };
+        private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16) };
 
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>> _invoke;
 
@@ -709,7 +709,7 @@ namespace Reflectinator
         {
         }
 
-        private Constructor(ConstructorInfo constructorInfo)
+        internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
             _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(constructorInfo));
