@@ -5,6 +5,10 @@ using System.Reflection;
 
 namespace Reflectinator
 {
+    /// <summary>
+    /// Provides fast, cached access to the members of an arbitrary <see cref="System.Type"/>, <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The <see cref="System.Type"/> that this instance of <see cref="TypeCrawler{T}"/> provides access to.</typeparam>
     public sealed class TypeCrawler<T> : ITypeCrawler
     {
         private readonly Type _type;
