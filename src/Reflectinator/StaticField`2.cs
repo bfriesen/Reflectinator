@@ -13,10 +13,10 @@ namespace Reflectinator
 
         internal StaticField(FieldInfo fieldInfo) : base(fieldInfo)
         {
-            _getValueAsStaticLooselyTyped = new Lazy<Func<object>>(() => () => ((IField)this).Get(null));
-            _setValueAsStaticLooselyTyped = new Lazy<Action<object>>(() => value => ((IField)this).Set(null, value));
-            _getValueAsStaticStronglyTyped = new Lazy<Func<TFieldType>>(() => () => Get(default(TDeclaringType)));
-            _setValueAsStaticStronglyTyped = new Lazy<Action<TFieldType>>(() => value => Set(default(TDeclaringType), value));
+            _getValueAsStaticLooselyTyped = new Lazy<Func<object>>(() => FuncFactory.CreateStaticGetValueFunc(fieldInfo));
+            _setValueAsStaticLooselyTyped = new Lazy<Action<object>>(() => FuncFactory.CreateStaticSetValueAction(fieldInfo));
+            _getValueAsStaticStronglyTyped = new Lazy<Func<TFieldType>>(() => FuncFactory.CreateStaticGetValueFunc<TFieldType>(fieldInfo));
+            _setValueAsStaticStronglyTyped = new Lazy<Action<TFieldType>>(() => FuncFactory.CreateStaticSetValueAction<TFieldType>(fieldInfo));
         }
 
         Func<object> IStaticField.StaticGetFunc { get { return _getValueAsStaticLooselyTyped.Value; } }

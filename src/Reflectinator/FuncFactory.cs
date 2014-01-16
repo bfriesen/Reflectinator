@@ -28,6 +28,20 @@ namespace Reflectinator
             return expression.Compile();
         }
 
+        public static Func<object> CreateStaticGetValueFunc(FieldInfo fieldInfo)
+        {
+            return CreateStaticGetValueFunc<object>(fieldInfo);
+        }
+
+        public static Func<TReturnType> CreateStaticGetValueFunc<TReturnType>(FieldInfo fieldInfo)
+        {
+            var field = Expression.Field(null, fieldInfo);
+            var body = field.Coerce(fieldInfo.FieldType, typeof(TReturnType));
+
+            var expression = Expression.Lambda<Func<TReturnType>>(body);
+            return expression.Compile();
+        }
+
         public static Action<object, object> CreateSetValueFunc(FieldInfo fieldInfo)
         {
             return CreateSetValueFunc<object, object>(fieldInfo);
@@ -47,6 +61,23 @@ namespace Reflectinator
                 assignValue,
                 instanceParameter,
                 valueParameter);
+            return expression.Compile();
+        }
+
+        public static Action<object> CreateStaticSetValueAction(FieldInfo fieldInfo)
+        {
+            return CreateStaticSetValueAction<object>(fieldInfo);
+        }
+
+        public static Action<TValueType> CreateStaticSetValueAction<TValueType>(FieldInfo fieldInfo)
+        {
+            var valueParameter = Expression.Parameter(typeof(TValueType), "value");
+            var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
+
+            var field = Expression.Field(null, fieldInfo);
+            var assignValue = Expression.Assign(field, valueCast);
+
+            var expression = Expression.Lambda<Action<TValueType>>(assignValue, valueParameter);
             return expression.Compile();
         }
 
@@ -103,6 +134,22 @@ namespace Reflectinator
             return expression.Compile();
         }
 
+        public static Func<object> CreateStaticGetValueFunc(PropertyInfo propertyInfo)
+        {
+            return CreateStaticGetValueFunc<object>(propertyInfo);
+        }
+
+        public static Func<TReturnType> CreateStaticGetValueFunc<TReturnType>(PropertyInfo propertyInfo)
+        {
+            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
+
+            var call = Expression.Call(method);
+            var body = call.Coerce(method.ReturnType, typeof(TReturnType));
+
+            var expression = Expression.Lambda<Func<TReturnType>>(body);
+            return expression.Compile();
+        }
+
         public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
         {
             return CreateSetValueFunc<object, object>(propertyInfo);
@@ -134,6 +181,24 @@ namespace Reflectinator
                 call,
                 instanceParameter,
                 valueParameter);
+
+            return expression.Compile();
+        }
+
+        public static Action<object> CreateStaticSetValueAction(PropertyInfo propertyInfo)
+        {
+            return CreateStaticSetValueAction<object>(propertyInfo);
+        }
+
+        public static Action<TValueType> CreateStaticSetValueAction<TValueType>(PropertyInfo propertyInfo)
+        {
+            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
+
+            var valueParameter = Expression.Parameter(typeof(TValueType), "value");
+            var valueCast = valueParameter.Coerce(typeof(TValueType), method.GetParameters().Single().ParameterType);
+
+            var call = Expression.Call(method, valueCast);
+            var expression = Expression.Lambda<Action<TValueType>>(call, valueParameter);
 
             return expression.Compile();
         }

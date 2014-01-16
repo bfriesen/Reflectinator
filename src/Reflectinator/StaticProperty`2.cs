@@ -14,12 +14,10 @@ namespace Reflectinator
         internal StaticProperty(PropertyInfo propertyInfo)
             : base(propertyInfo)
         {
-            IProperty iThis = this;
-
-            _getValueAsStaticLooselyTyped = new Lazy<Func<object>>(() => () => iThis.Get(null));
-            _setValueAsStaticLooselyTyped = new Lazy<Action<object>>(() => value => iThis.Set(null, value));
-            _getValueAsStaticStronglyTyped = new Lazy<Func<TPropertyType>>(() => () => Get(default(TDeclaringType)));
-            _setValueAsStaticStronglyTyped = new Lazy<Action<TPropertyType>>(() => value => Set(default(TDeclaringType), value));
+            _getValueAsStaticLooselyTyped = new Lazy<Func<object>>(() => FuncFactory.CreateStaticGetValueFunc(propertyInfo));
+            _setValueAsStaticLooselyTyped = new Lazy<Action<object>>(() => FuncFactory.CreateStaticSetValueAction(propertyInfo));
+            _getValueAsStaticStronglyTyped = new Lazy<Func<TPropertyType>>(() => FuncFactory.CreateStaticGetValueFunc<TPropertyType>(propertyInfo));
+            _setValueAsStaticStronglyTyped = new Lazy<Action<TPropertyType>>(() => FuncFactory.CreateStaticSetValueAction<TPropertyType>(propertyInfo));
         }
 
         public override bool IsStatic { get { return true; } }
