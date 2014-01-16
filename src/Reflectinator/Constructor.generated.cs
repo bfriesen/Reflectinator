@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public abstract class Constructor : DynamicObject, IConstructor
+    public abstract class Constructor : IConstructor
     {
         private static readonly ConcurrentDictionary<int, IConstructor> _constructorsMap = new ConcurrentDictionary<int, IConstructor>();
 
@@ -241,39 +241,11 @@ namespace Reflectinator
         public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
         public ITypeCrawler[] Parameters { get { return _parameters.Value; } }
 
-        public object Invoke(params object[] args)
+        object IConstructor.Invoke(params object[] args)
         {
             return _invoke.Value(args);
         }
 
-        protected static bool AreValidArgs(Type[] argTypes, object[] args)
-        {
-            if (args.Length != argTypes.Length)
-            {
-                return false;
-            }
-
-            foreach (var x in args.Zip(argTypes, (arg, argType) => new { arg, argType }))
-            {
-                if (x.arg == null)
-                {
-                    if (x.argType.IsValueType
-                        && !(x.argType.IsGenericType
-                            && x.argType.GetGenericTypeDefinition() == typeof(Nullable<>)))
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (!x.argType.IsInstanceOfType(x.arg))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
+        Func<object[], object> IConstructor.InvokeFunc { get { return _invoke.Value; } }
     }
 }

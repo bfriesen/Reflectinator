@@ -46,7 +46,7 @@ namespace Reflectinator.Tests
         [Test]
         public void CanInvokeWithObjectArrayAsArgs()
         {
-            var sut = Constructor.Get<ConstructorTests, string, int>();
+            var sut = (IConstructor)Constructor.Get<ConstructorTests, string, int>();
 
             var obj = (ConstructorTests)sut.Invoke(new object[] { "foo", -1 });
 
@@ -60,17 +60,6 @@ namespace Reflectinator.Tests
             var sut = Constructor.Get<ConstructorTests, string, int>();
 
             var obj = sut.Invoke("foo", -1);
-
-            Assert.That(obj._s, Is.EqualTo("foo"));
-            Assert.That(obj._i, Is.EqualTo(-1));
-        }
-
-        [Test]
-        public void CanInvokeAsDynamic()
-        {
-            dynamic sut = Constructor.Get<ConstructorTests, string, int>();
-
-            ConstructorTests obj = sut("foo", -1);
 
             Assert.That(obj._s, Is.EqualTo("foo"));
             Assert.That(obj._i, Is.EqualTo(-1));

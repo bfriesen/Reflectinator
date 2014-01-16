@@ -32,25 +32,7 @@ namespace Reflectinator
             return _invoke.Value();
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke();
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1> : Constructor
@@ -75,25 +57,7 @@ namespace Reflectinator
             return _invoke.Value(arg1);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2> : Constructor
@@ -118,25 +82,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3> : Constructor
@@ -161,25 +107,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4> : Constructor
@@ -204,25 +132,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> : Constructor
@@ -247,25 +157,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : Constructor
@@ -290,25 +182,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> : Constructor
@@ -333,25 +207,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> : Constructor
@@ -376,25 +232,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> : Constructor
@@ -419,25 +257,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> : Constructor
@@ -462,25 +282,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> : Constructor
@@ -505,25 +307,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9], (TArg11)args[10]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> : Constructor
@@ -548,25 +332,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9], (TArg11)args[10], (TArg12)args[11]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> : Constructor
@@ -591,25 +357,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9], (TArg11)args[10], (TArg12)args[11], (TArg13)args[12]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> : Constructor
@@ -634,25 +382,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9], (TArg11)args[10], (TArg12)args[11], (TArg13)args[12], (TArg14)args[13]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> : Constructor
@@ -677,25 +407,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9], (TArg11)args[10], (TArg12)args[11], (TArg13)args[12], (TArg14)args[13], (TArg15)args[14]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
     public sealed class Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16> : Constructor
@@ -720,25 +432,7 @@ namespace Reflectinator
             return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke((TArg1)args[0], (TArg2)args[1], (TArg3)args[2], (TArg4)args[3], (TArg5)args[4], (TArg6)args[5], (TArg7)args[6], (TArg8)args[7], (TArg9)args[8], (TArg10)args[9], (TArg11)args[10], (TArg12)args[11], (TArg13)args[12], (TArg14)args[13], (TArg15)args[14], (TArg16)args[15]);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
 }

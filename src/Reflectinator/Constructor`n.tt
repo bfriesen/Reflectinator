@@ -43,25 +43,7 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
             return _invoke.Value(<# PrintJoinFormat(", ", "arg{1}", i, false, false); #>);
         }
 
-        public override bool TryInvoke(InvokeBinder binder, object[] args, out object result)
-        {
-            if (!AreValidArgs(_argTypes, args))
-            {
-                result = null;
-                return false;
-            }
-
-            try
-            {
-                result = Invoke(<# PrintJoinFormat(", ", "(TArg{1})args[{0}]", i, false, false); #>);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
-        }
+        public Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
 <#
