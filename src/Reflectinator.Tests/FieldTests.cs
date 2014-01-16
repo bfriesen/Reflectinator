@@ -44,8 +44,8 @@ namespace Reflectinator.Tests
         {
             _staticField = "baz";
 
-            var sut = Field.Get<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
-            var iSut = (IField) sut;
+            var sut = Field.GetStatic<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
+            var iSut = (IStaticField) sut;
 
             Assert.That(() => sut.Get(this), Throws.Nothing);
             Assert.That(sut.Get(this), Is.EqualTo("baz"));
@@ -63,8 +63,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanWriteToStaticFields()
         {
-            var sut = Field.Get<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
-            var iSut = (IField)sut;
+            var sut = Field.GetStatic<FieldTests, string>(GetType().GetField("_staticField", BindingFlags.NonPublic | BindingFlags.Static));
+            var iSut = (IStaticField)sut;
 
             Assert.That(() => sut.Set(this, "wooo!"), Throws.Nothing);
             Assert.That(_staticField, Is.EqualTo("wooo!"));

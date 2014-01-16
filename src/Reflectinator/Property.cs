@@ -8,21 +8,48 @@ namespace Reflectinator
     {
         private static readonly ConcurrentDictionary<Tuple<Type, Type, Type, string>, IProperty> _propertiesMap = new ConcurrentDictionary<Tuple<Type, Type, Type, string>, IProperty>();
 
-        // NOTE: We're returning the interface because the Get and Set properties are implemented explicitly.
-        //       If we didn't do this, then the object returned wouldn't have a visible Get or Set method. And
-        //       that wouldn't be a very nice API, now would it?
         public static IProperty Get(PropertyInfo propertyInfo)
         {
             return _propertiesMap.GetOrAdd(
                 Tuple.Create(propertyInfo.DeclaringType, propertyInfo.PropertyType, propertyInfo.DeclaringType, propertyInfo.Name),
-                t => (IProperty)Activator.CreateInstance(typeof(Property<,>).MakeGenericType(propertyInfo.DeclaringType, propertyInfo.PropertyType), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { propertyInfo }, null));
+                t =>
+                    (IProperty)(propertyInfo.IsStatic()
+                        ? Activator.CreateInstance(typeof(StaticProperty<,>).MakeGenericType(propertyInfo.DeclaringType, propertyInfo.PropertyType), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { propertyInfo }, null)
+                        : Activator.CreateInstance(typeof(Property<,>).MakeGenericType(propertyInfo.DeclaringType, propertyInfo.PropertyType), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { propertyInfo }, null)));
         }
 
         public static Property<TDeclaringType, TPropertyType> Get<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
         {
             return (Property<TDeclaringType, TPropertyType>)_propertiesMap.GetOrAdd(
                 Tuple.Create(typeof(TDeclaringType), typeof(TPropertyType), propertyInfo.DeclaringType, propertyInfo.Name),
-                t => new Property<TDeclaringType, TPropertyType>(propertyInfo));
+                t =>
+                    propertyInfo.IsStatic()
+                        ? new StaticProperty<TDeclaringType, TPropertyType>(propertyInfo)
+                        : new Property<TDeclaringType, TPropertyType>(propertyInfo));
+        }
+
+        public static IStaticProperty GetStatic(PropertyInfo propertyInfo)
+        {
+            if (!propertyInfo.IsStatic())
+            {
+                throw new ArgumentException("Cannot call GetStatic(PropertyInfo) on a non-static PropertyInfo.", "propertyInfo");
+            }
+
+            return (IStaticProperty)_propertiesMap.GetOrAdd(
+                Tuple.Create(propertyInfo.DeclaringType, propertyInfo.PropertyType, propertyInfo.DeclaringType, propertyInfo.Name),
+                t => (IProperty)Activator.CreateInstance(typeof(StaticProperty<,>).MakeGenericType(propertyInfo.DeclaringType, propertyInfo.PropertyType), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { propertyInfo }, null));
+        }
+
+        public static StaticProperty<TDeclaringType, TPropertyType> GetStatic<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
+        {
+            if (!propertyInfo.IsStatic())
+            {
+                throw new ArgumentException("Cannot call GetStatic(PropertyInfo) on a non-static PropertyInfo.", "propertyInfo");
+            }
+
+            return (StaticProperty<TDeclaringType, TPropertyType>)_propertiesMap.GetOrAdd(
+                Tuple.Create(typeof(TDeclaringType), typeof(TPropertyType), propertyInfo.DeclaringType, propertyInfo.Name),
+                t => new StaticProperty<TDeclaringType, TPropertyType>(propertyInfo));
         }
     }
 }

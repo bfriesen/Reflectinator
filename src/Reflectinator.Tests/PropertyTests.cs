@@ -81,8 +81,8 @@ namespace Reflectinator.Tests
         [Test]
         public void CanGetAndSetStaticProperties()
         {
-            var sut = Property.Get<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
-            var iSut = (IProperty) sut;
+            var sut = Property.GetStatic<PropertyTests, string>(GetType().GetProperty("StaticProperty", BindingFlags.Public | BindingFlags.Static));
+            var iSut = (IStaticProperty)sut;
 
             Assert.That(() => sut.Get(), Throws.Nothing);
             Assert.That(sut.Get(), Is.EqualTo("foo"));

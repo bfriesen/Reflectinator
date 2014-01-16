@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -28,6 +30,16 @@ namespace Reflectinator
             }
 
             return ctor;
+        }
+
+        public static IEnumerable<IStaticProperty> AsStatic(this IEnumerable<IProperty> properties)
+        {
+            return properties.OfType<IStaticProperty>();
+        }
+
+        public static IEnumerable<IProperty> AsInstance(this IEnumerable<IProperty> properties)
+        {
+            return properties.Where(p => !p.IsStatic);
         }
     }
 }

@@ -57,8 +57,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FuncFactory.tt</DependentUpon>
     </Compile>
+    <Compile Include="IStaticField.cs" />
+    <Compile Include="IStaticProperty.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Property`2.cs" />
+    <Compile Include="StaticField`2.cs" />
+    <Compile Include="StaticProperty`2.cs" />
     <Compile Include="TypeCrawler.cs" />
     <Compile Include="TypeCrawler`1.cs" />
     <Compile Include="Extensions.cs" />

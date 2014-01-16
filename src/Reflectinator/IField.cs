@@ -20,13 +20,7 @@ namespace Reflectinator
         Func<object, object> GetFunc { get; }
         Action<object, object> SetAction { get; }
 
-        Func<object> GetStaticFunc { get; }
-        Action<object> SetStaticAction { get; }
-
         object Get(object obj);
         void Set(object obj, object value);
-
-        object Get();
-        void Set(object value);
     }
 }
