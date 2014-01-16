@@ -29,7 +29,7 @@ namespace Reflectinator
             }
 
             _constructorInfo = constructorInfo;
-            _invoke = new Lazy<Func<object[], object>>(() => (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo));
+            _invoke = new Lazy<Func<object[], object>>(() => FuncFactory.CreateConstructorFunc(constructorInfo));
             _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(constructorInfo.DeclaringType));
             _parameters = new Lazy<ITypeCrawler[]>(() => constructorInfo.GetParameters().Select(p => TypeCrawler.Get(p.ParameterType)).ToArray());
         }

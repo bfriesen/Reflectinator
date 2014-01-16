@@ -5,101 +5,66 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    internal static class FuncFactory
+    public static partial class FuncFactory
     {
         #region Field
 
         public static Func<object, object> CreateGetValueFunc(FieldInfo fieldInfo)
         {
-            return CreateGetValueFunc<object, object>(fieldInfo, isStronglyTyped:false);
+            return CreateGetValueFunc<object, object>(fieldInfo);
         }
 
-        public static Action<object, object> CreateSetValueFunc(FieldInfo fieldInfo)
+        public static Func<TInstanceType, TReturnType> CreateGetValueFunc<TInstanceType, TReturnType>(FieldInfo fieldInfo)
         {
-            return CreateSetValueFunc<object, object>(fieldInfo, isStronglyTyped:false);
-        }
+            var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
 
-        public static Func<TDeclaringType, TFieldType> CreateGetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo)
-        {
-            return CreateGetValueFunc<TDeclaringType, TFieldType>(fieldInfo, isStronglyTyped:true);
-        }
+            var field = GetField(fieldInfo, typeof(TInstanceType), instanceParameter);
 
-        public static Action<TDeclaringType, TFieldType> CreateSetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo)
-        {
-            return CreateSetValueFunc<TDeclaringType, TFieldType>(fieldInfo, isStronglyTyped:true);
-        }
+            var body = field.Coerce(fieldInfo.FieldType, typeof(TReturnType));
 
-        private static Func<TDeclaringType, TFieldType> CreateGetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo, bool isStronglyTyped)
-        {
-            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
-
-            var field = GetField(fieldInfo, isStronglyTyped, instanceParameter);
-
-            Expression body;
-
-            if (!typeof(TFieldType).IsValueType && fieldInfo.FieldType.IsValueType)
-            {
-                body = Expression.Convert(field, typeof(TFieldType));
-            }
-            else
-            {
-                body = field;
-            }
-
-            var expression = Expression.Lambda<Func<TDeclaringType, TFieldType>>(
+            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(
                 body,
                 instanceParameter);
             return expression.Compile();
         }
 
-        private static Action<TDeclaringType, TFieldType> CreateSetValueFunc<TDeclaringType, TFieldType>(FieldInfo fieldInfo, bool isStronglyTyped)
+        public static Action<object, object> CreateSetValueFunc(FieldInfo fieldInfo)
         {
-            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
-            var valueParameter = Expression.Parameter(typeof(TFieldType), "value");
+            return CreateSetValueFunc<object, object>(fieldInfo);
+        }
 
-            var field = GetField(fieldInfo, isStronglyTyped, instanceParameter);
+        public static Action<TInstanceType, TValueType> CreateSetValueFunc<TInstanceType, TValueType>(FieldInfo fieldInfo)
+        {
+            var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
+            var valueParameter = Expression.Parameter(typeof(TValueType), "value");
 
-            BinaryExpression assignValue;
+            var field = GetField(fieldInfo, typeof(TInstanceType), instanceParameter);
 
-            if (isStronglyTyped)
-            {
-                assignValue = Expression.Assign(field, valueParameter);
-            }
-            else
-            {
-                var valueCast =
-                    fieldInfo.FieldType.IsValueType
-                        ? Expression.Convert(valueParameter, fieldInfo.FieldType)
-                        : Expression.TypeAs(valueParameter, fieldInfo.FieldType);
+            var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
+            var assignValue = Expression.Assign(field, valueCast);
 
-                assignValue = Expression.Assign(field, valueCast);
-            }
-
-            var expression = Expression.Lambda<Action<TDeclaringType, TFieldType>>(
+            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(
                 assignValue,
                 instanceParameter,
                 valueParameter);
             return expression.Compile();
         }
 
-        private static MemberExpression GetField(FieldInfo fieldInfo, bool isStronglyTyped, ParameterExpression instanceParameter)
+        private static MemberExpression GetField(FieldInfo fieldInfo, Type declaringType, ParameterExpression instanceParameter)
         {
+            MemberExpression field;
+
             if (fieldInfo.IsStatic)
             {
-                return Expression.Field(null, fieldInfo);
+                field = Expression.Field(null, fieldInfo);
             }
-
-            if (isStronglyTyped)
+            else
             {
-                return Expression.Field(instanceParameter, fieldInfo);
+                var instanceCast = instanceParameter.Coerce(declaringType, fieldInfo.DeclaringType);
+                field = Expression.Field(instanceCast, fieldInfo);
             }
 
-            var instanceCast =
-                fieldInfo.DeclaringType.IsValueType
-                    ? Expression.Convert(instanceParameter, fieldInfo.DeclaringType)
-                    : Expression.TypeAs(instanceParameter, fieldInfo.DeclaringType);
-
-            return Expression.Field(instanceCast, fieldInfo);
+            return field;
         }
 
         #endregion
@@ -108,29 +73,14 @@ namespace Reflectinator
 
         public static Func<object, object> CreateGetValueFunc(PropertyInfo propertyInfo)
         {
-            return CreateGetValueFunc<object, object>(propertyInfo, isStronglyTyped:false);
+            return CreateGetValueFunc<object, object>(propertyInfo);
         }
 
-        public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
-        {
-            return CreateSetValueFunc<object, object>(propertyInfo, isStronglyTyped:false);
-        }
-
-        public static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
-        {
-            return CreateGetValueFunc<TDeclaringType, TPropertyType>(propertyInfo, isStronglyTyped:true);
-        }
-
-        public static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo)
-        {
-            return CreateSetValueFunc<TDeclaringType, TPropertyType>(propertyInfo, isStronglyTyped:true);
-        }
-
-        private static Func<TDeclaringType, TPropertyType> CreateGetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo, bool isStronglyTyped)
+        public static Func<TInstanceType, TReturnType> CreateGetValueFunc<TInstanceType, TReturnType>(PropertyInfo propertyInfo)
         {
             var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
 
-            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
+            var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
 
             MethodCallExpression call;
 
@@ -138,89 +88,49 @@ namespace Reflectinator
             {
                 call = Expression.Call(method);
             }
-            else if (isStronglyTyped)
-            {
-                call = Expression.Call(instanceParameter, method);
-            }
             else
             {
-                var instanceCast =
-                    method.DeclaringType.IsValueType
-                        ? Expression.Convert(instanceParameter, method.DeclaringType)
-                        : Expression.TypeAs(instanceParameter, method.DeclaringType);
-
+                var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), method.DeclaringType);
                 call = Expression.Call(instanceCast, method);
             }
 
-            Expression body;
+            var body = call.Coerce(method.ReturnType, typeof(TReturnType));
 
-            if (isStronglyTyped)
-            {
-                body = call;
-            }
-            else
-            {
-                if (!typeof(TPropertyType).IsValueType && propertyInfo.PropertyType.IsValueType)
-                {
-                    body = Expression.Convert(call, typeof(TPropertyType));
-                }
-                else
-                {
-                    body = call;
-                }
-            }
-
-            var expression = Expression.Lambda<Func<TDeclaringType, TPropertyType>>(
+            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(
                 body,
                 instanceParameter);
 
             return expression.Compile();
         }
 
-        private static Action<TDeclaringType, TPropertyType> CreateSetValueFunc<TDeclaringType, TPropertyType>(PropertyInfo propertyInfo, bool isStronglyTyped)
+        public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
+        {
+            return CreateSetValueFunc<object, object>(propertyInfo);
+        }
+
+        public static Action<TInstanceType, TValueType> CreateSetValueFunc<TInstanceType, TValueType>(PropertyInfo propertyInfo)
         {
             var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
 
-            var instanceParameter = Expression.Parameter(typeof(TDeclaringType), "instance");
-            var valueParameter = Expression.Parameter(typeof(TPropertyType), "value");
+            var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
+            var valueParameter = Expression.Parameter(typeof(TValueType), "value");
+
+            var valueCast = valueParameter.Coerce(typeof(TValueType), method.GetParameters().Single().ParameterType);
 
             MethodCallExpression call;
 
-            if (isStronglyTyped)
+            if (propertyInfo.IsStatic())
             {
-                if (propertyInfo.IsStatic())
-                {
-                    call = Expression.Call(method, valueParameter);
-                }
-                else
-                {
-                    call = Expression.Call(instanceParameter, method, valueParameter);
-                }
+                call = Expression.Call(method, valueCast);
             }
             else
             {
-                var valueParameterType = method.GetParameters().Single().ParameterType;
-                var valueCast =
-                    valueParameterType.IsValueType
-                        ? Expression.Convert(valueParameter, valueParameterType)
-                        : Expression.TypeAs(valueParameter, valueParameterType);
-
-                if (propertyInfo.IsStatic())
-                {
-                    call = Expression.Call(method, valueCast);
-                }
-                else
-                {
-                    var instanceCast =
-                        method.DeclaringType.IsValueType
-                            ? Expression.Convert(instanceParameter, method.DeclaringType)
-                            : Expression.TypeAs(instanceParameter, method.DeclaringType);
-
-                    call = Expression.Call(instanceCast, method, valueCast);
-                }
+                var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), method.DeclaringType);
+                // ReSharper disable once PossiblyMistakenUseOfParamsMethod
+                call = Expression.Call(instanceCast, method, valueCast);
             }
 
-            var expression = Expression.Lambda<Action<TDeclaringType, TPropertyType>>(
+            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(
                 call,
                 instanceParameter,
                 valueParameter);
@@ -232,6 +142,7 @@ namespace Reflectinator
         {
             if (!canUseAccessor(propertyInfo))
             {
+                // ReSharper disable PossibleNullReferenceException
                 throw new MemberAccessException(string.Format("Cannot {0} property: {1}.{2}",
                     accessVerbPhrase, propertyInfo.DeclaringType.FullName, propertyInfo.Name));
             }
@@ -242,6 +153,7 @@ namespace Reflectinator
             {
                 throw new MemberAccessException(string.Format("Cannot {0} property: {1}.{2}",
                     accessVerbPhrase, propertyInfo.DeclaringType.FullName, propertyInfo.Name));
+                    // ReSharper restore PossibleNullReferenceException
             }
 
             return method;
@@ -251,338 +163,38 @@ namespace Reflectinator
 
         #region Contructor
 
-        public static Func<object> CreateDefaultConstructorFunc(ConstructorInfo ctor)
-        {
-            return CreateDefaultConstructorFunc<object>(ctor);
-        }
-
-        public static Func<TReturnType> CreateDefaultConstructorFunc<TReturnType>(ConstructorInfo ctor)
+        public static Func<object[], object> CreateConstructorFunc(ConstructorInfo ctor)
         {
             if (ctor == null)
             {
                 throw new ArgumentNullException("ctor");
             }
 
-            var parameters = ctor.GetParameters();
+            var ctorParameters = ctor.GetParameters();
 
-            if (parameters.Length != 0)
-            {
-                throw new ArgumentException("ConstructorInfo is not parameterless.", "ctor");
-            }
+            var parameter = Expression.Parameter(typeof(object[]));
+            var coercedParameters =
+                ctorParameters.Select(
+                    (parameterInfo, i) =>
+                        Expression.ArrayAccess(parameter, Expression.Constant(i)).Coerce(typeof(object), parameterInfo.ParameterType));
 
-            var body = Expression.New(ctor);
+            var newExpression = Expression.New(ctor, coercedParameters);
+            var newCast = newExpression.Coerce(ctor.DeclaringType, typeof (object));
 
-            var expression = GetLambdaExpressionForFunc(body, new ParameterExpression[0], typeof(TReturnType));
-            return (Func<TReturnType>)expression.Compile();
-        }
-
-        public static Delegate CreateConstructorFunc(ConstructorInfo ctor, Type returnType = null, params Type[] parameterTypes)
-        {
-            if (ctor == null)
-            {
-                throw new ArgumentNullException("ctor");
-            }
-
-            NewExpression expressionBody;
-            ParameterExpression[] parameterExpressions;
-
-            var stronglyTyped = returnType != null;
-
-            if (stronglyTyped)
-            {
-                parameterExpressions = parameterTypes.Select(Expression.Parameter).ToArray();
-                expressionBody = Expression.New(ctor, parameterExpressions.Cast<Expression>());
-            }
-            else
-            {
-                returnType = typeof(object);
-                parameterExpressions = new[] { Expression.Parameter(typeof(object[])) };
-
-                var ctorArgs =
-                    ctor.GetParameters()
-                        .Select(
-                            (ctorParameter, index) =>
-                                new
-                                {
-                                    ctorParameter,
-                                    lambdaParameter = Expression.ArrayAccess(parameterExpressions[0], Expression.Constant(index))
-                                })
-                        .Select(
-                            x =>
-                                x.ctorParameter.ParameterType.IsValueType
-                                    ? (Expression)Expression.Convert(x.lambdaParameter, x.ctorParameter.ParameterType)
-                                    : Expression.TypeAs(x.lambdaParameter, x.ctorParameter.ParameterType)).ToArray();
-
-                expressionBody = Expression.New(ctor, ctorArgs);
-            }
-
-            var expression = GetLambdaExpressionForFunc(expressionBody, parameterExpressions, returnType);
+            var expression = Expression.Lambda<Func<object[], object>>(newCast, new[] { parameter });
             return expression.Compile();
         }
 
-        private static LambdaExpression GetLambdaExpressionForFunc(Expression body, ParameterExpression[] parameters, Type returnType)
-        {
-            switch (parameters.Length)
-            {
-                case 0:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<>).MakeGenericType(
-                                returnType),
-                            body);
-                case 1:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,>).MakeGenericType(
-                                parameters[0].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 2:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 3:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 4:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 5:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 6:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 7:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 8:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 9:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 10:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 11:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                parameters[10].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 12:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                parameters[10].Type,
-                                parameters[11].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 13:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                parameters[10].Type,
-                                parameters[11].Type,
-                                parameters[12].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 14:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                parameters[10].Type,
-                                parameters[11].Type,
-                                parameters[12].Type,
-                                parameters[13].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 15:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                parameters[10].Type,
-                                parameters[11].Type,
-                                parameters[12].Type,
-                                parameters[13].Type,
-                                parameters[14].Type,
-                                returnType),
-                            body,
-                            parameters);
-                case 16:
-                    return
-                        Expression.Lambda(
-                            typeof(Func<,,,,,,,,,,,,,,,,>).MakeGenericType(
-                                parameters[0].Type,
-                                parameters[1].Type,
-                                parameters[2].Type,
-                                parameters[3].Type,
-                                parameters[4].Type,
-                                parameters[5].Type,
-                                parameters[6].Type,
-                                parameters[7].Type,
-                                parameters[8].Type,
-                                parameters[9].Type,
-                                parameters[10].Type,
-                                parameters[11].Type,
-                                parameters[12].Type,
-                                parameters[13].Type,
-                                parameters[14].Type,
-                                parameters[15].Type,
-                                returnType),
-                            body,
-                            parameters);
-                default:
-                    throw new InvalidOperationException("Too many constructor parameters.");
-            }
-        }
-
         #endregion
+
+        private static Expression Coerce(this Expression sourceExpression, Type sourceType, Type targetType)
+        {
+            if (!targetType.IsAssignableFrom(sourceType) || (targetType == typeof(object) && sourceType.IsValueType))
+            {
+                return Expression.Convert(sourceExpression, targetType);
+            }
+
+            return sourceExpression;
+        }
     }
 }

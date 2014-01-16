@@ -40,18 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constructor.cs">
+    <Compile Include="Constructor.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Constructor.tt</DependentUpon>
     </Compile>
-    <Compile Include="Constructor`n.cs">
+    <Compile Include="Constructor`n.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Constructor`n.tt</DependentUpon>
     </Compile>
     <Compile Include="Field.cs" />
     <Compile Include="Field`2.cs" />
+    <Compile Include="FuncFactory.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FuncFactory.tt</DependentUpon>
+    </Compile>
     <Compile Include="Property.cs" />
     <Compile Include="Property`2.cs" />
     <Compile Include="TypeCrawler.cs" />
@@ -67,11 +72,15 @@
   <ItemGroup>
     <None Include="Constructor.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Constructor.cs</LastGenOutput>
+      <LastGenOutput>Constructor.generated.cs</LastGenOutput>
     </None>
     <None Include="Constructor`n.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Constructor`n.cs</LastGenOutput>
+      <LastGenOutput>Constructor`n.generated.cs</LastGenOutput>
+    </None>
+    <None Include="FuncFactory.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FuncFactory.generated.cs</LastGenOutput>
     </None>
     <None Include="TemplateFunctions.t4" />
   </ItemGroup>
