@@ -18,7 +18,7 @@ using System.Reflection;
 namespace Reflectinator
 {
 <#
-for (int i = 0; i < 17; i++)
+for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
 {
 #>
     public sealed class Constructor<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>> : Constructor

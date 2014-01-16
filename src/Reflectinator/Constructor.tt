@@ -56,7 +56,7 @@ namespace Reflectinator
                     switch (parameters.Length)
                     {
 <#
-for (int i = 0; i < 17; i++)
+for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
 {
 #>
                         case <#= i #>:
@@ -73,7 +73,7 @@ for (int i = 0; i < 17; i++)
                 });
         }
 <#
-for (int i = 0; i < 17; i++)
+for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
 {
 #>
 

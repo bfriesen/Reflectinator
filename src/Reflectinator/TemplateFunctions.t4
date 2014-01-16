@@ -28,3 +28,6 @@ void PrintJoinFormat(string separator, string format, int repeatCount, bool pre,
         + string.Join(separator, Enumerable.Range(0, repeatCount).Select(i => string.Format(format, i, i + 1)))
         + (post ? separator : ""));
 }#>
+<#+
+const int MaxNumberOfFuncGenericArguments = 17;
+#>
