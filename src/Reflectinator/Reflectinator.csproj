@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionMethod.generated.cs">
+    <Compile Include="ActionMethod`n.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ActionMethod.tt</DependentUpon>
+      <DependentUpon>ActionMethod`n.tt</DependentUpon>
     </Compile>
     <Compile Include="Constructor.generated.cs">
       <AutoGen>True</AutoGen>
@@ -62,10 +62,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FuncFactory.tt</DependentUpon>
     </Compile>
-    <Compile Include="FuncMethod.generated.cs">
+    <Compile Include="FuncMethod`n.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FuncMethod.tt</DependentUpon>
+      <DependentUpon>FuncMethod`n.tt</DependentUpon>
     </Compile>
     <Compile Include="IActionMethod.cs" />
     <Compile Include="IFuncMethod.cs" />
@@ -81,16 +81,16 @@
     </Compile>
     <Compile Include="Property.cs" />
     <Compile Include="Property`2.cs" />
-    <Compile Include="StaticActionMethod.generated.cs">
+    <Compile Include="StaticActionMethod`n.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>StaticActionMethod.tt</DependentUpon>
+      <DependentUpon>StaticActionMethod`n.tt</DependentUpon>
     </Compile>
     <Compile Include="StaticField`2.cs" />
-    <Compile Include="StaticFuncMethod.generated.cs">
+    <Compile Include="StaticFuncMethod`n.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>StaticFuncMethod.tt</DependentUpon>
+      <DependentUpon>StaticFuncMethod`n.tt</DependentUpon>
     </Compile>
     <Compile Include="StaticProperty`2.cs" />
     <Compile Include="TypeCrawler.cs" />
@@ -104,9 +104,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ActionMethod.tt">
+    <None Include="ActionMethod`n.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ActionMethod.generated.cs</LastGenOutput>
+      <LastGenOutput>ActionMethod`n.generated.cs</LastGenOutput>
     </None>
     <None Include="Constructor.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -120,21 +120,21 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FuncFactory.generated.cs</LastGenOutput>
     </None>
-    <None Include="FuncMethod.tt">
+    <None Include="FuncMethod`n.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FuncMethod.generated.cs</LastGenOutput>
+      <LastGenOutput>FuncMethod`n.generated.cs</LastGenOutput>
     </None>
     <None Include="Method.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Method.generated.cs</LastGenOutput>
     </None>
-    <None Include="StaticActionMethod.tt">
+    <None Include="StaticActionMethod`n.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StaticActionMethod.generated.cs</LastGenOutput>
+      <LastGenOutput>StaticActionMethod`n.generated.cs</LastGenOutput>
     </None>
-    <None Include="StaticFuncMethod.tt">
+    <None Include="StaticFuncMethod`n.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>StaticFuncMethod.generated.cs</LastGenOutput>
+      <LastGenOutput>StaticFuncMethod`n.generated.cs</LastGenOutput>
     </None>
     <None Include="TemplateFunctions.t4" />
   </ItemGroup>
