@@ -38,6 +38,6 @@ namespace Reflectinator
         /// <summary>
         /// Gets a function that, when invoked, returns a new instance of the constructor's type.
         /// </summary>
-        Func<object[], object> InvokeFunc { get; } 
+        Func<object[], object> InvokeFunc { get; }
     }
 }

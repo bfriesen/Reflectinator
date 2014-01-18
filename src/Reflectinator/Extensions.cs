@@ -41,5 +41,58 @@ namespace Reflectinator
         {
             return properties.Where(p => !p.IsStatic);
         }
+
+        internal static int GetCacheKey(this Type declaringType, params Type[] argTypes)
+        {
+            return argTypes.GetAggregatedHashCode(declaringType);
+        }
+
+        internal static int GetCacheKey(this MethodInfo methodInfo, params Type[] argTypes)
+        {
+            return argTypes.GetAggregatedHashCode(methodInfo.Name, methodInfo.DeclaringType);
+        }
+
+        public static int GetAggregatedHashCode(this IEnumerable collection, params object[] additionalItems)
+        {
+            return GetAggregatedHashCode(collection.Concat(additionalItems));
+        }
+
+        public static int GetAggregatedHashCode(this IEnumerable collection)
+        {
+            return collection.Aggregate(0, GetNextHashCode);
+        }
+
+        private static int GetNextHashCode(int currentHashCode, object nextItem)
+        {
+            unchecked
+            {
+                return (currentHashCode * 397) ^ nextItem.GetHashCode();
+            }
+        }
+
+        private static IEnumerable Concat(this IEnumerable collection1, IEnumerable collection2)
+        {
+            foreach (var item in collection1)
+            {
+                yield return item;
+            }
+
+            foreach (var item in collection2)
+            {
+                yield return item;
+            }
+        }
+
+        private static TResult Aggregate<TResult>(this IEnumerable collection, TResult seed, Func<TResult, object, TResult> func)
+        {
+            TResult current = seed;
+
+            foreach (var item in collection)
+            {
+                current = func(current, item);
+            }
+
+            return current;
+        }
     }
 }

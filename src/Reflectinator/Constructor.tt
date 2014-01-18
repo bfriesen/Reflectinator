@@ -48,7 +48,7 @@ namespace Reflectinator
             var parameters = constructorInfo.GetParameters().Select(p => p.ParameterType).ToArray();
 
             return _constructorsMap.GetOrAdd(
-                GetKey(constructorInfo.DeclaringType, parameters),
+                constructorInfo.DeclaringType.GetCacheKey(parameters),
                 key =>
                 {
                     Type constructorType;
@@ -80,20 +80,12 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
         public static Constructor<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>> Get<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>()
         {
             return (Constructor<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType)<# PrintJoinFormat(", ", "typeof(TArg{1})", i, true, false); #>),
+                typeof(TDeclaringType).GetCacheKey(<# PrintJoinFormat(", ", "typeof(TArg{1})", i, false, false); #>),
                 key => new Constructor<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>());
         }
 <#
 }
 #>
-
-        private static int GetKey(Type declaringType, params Type[] argTypes)
-        {
-            unchecked
-            {
-                return argTypes.Aggregate(declaringType.GetHashCode(), (current, argType) => (current * 397) ^ argType.GetHashCode());
-            }
-        }
 
 #endregion
 

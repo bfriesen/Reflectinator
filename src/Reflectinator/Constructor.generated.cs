@@ -41,7 +41,7 @@ namespace Reflectinator
             var parameters = constructorInfo.GetParameters().Select(p => p.ParameterType).ToArray();
 
             return _constructorsMap.GetOrAdd(
-                GetKey(constructorInfo.DeclaringType, parameters),
+                constructorInfo.DeclaringType.GetCacheKey(parameters),
                 key =>
                 {
                     Type constructorType;
@@ -110,128 +110,120 @@ namespace Reflectinator
         public static Constructor<TDeclaringType> Get<TDeclaringType>()
         {
             return (Constructor<TDeclaringType>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType)),
+                typeof(TDeclaringType).GetCacheKey(),
                 key => new Constructor<TDeclaringType>());
         }
 
         public static Constructor<TDeclaringType, TArg1> Get<TDeclaringType, TArg1>()
         {
             return (Constructor<TDeclaringType, TArg1>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1)),
                 key => new Constructor<TDeclaringType, TArg1>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2> Get<TDeclaringType, TArg1, TArg2>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3> Get<TDeclaringType, TArg1, TArg2, TArg3>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>());
         }
 
         public static Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16> Get<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>()
         {
             return (Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>)_constructorsMap.GetOrAdd(
-                GetKey(typeof(TDeclaringType), typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16)),
+                typeof(TDeclaringType).GetCacheKey(typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16)),
                 key => new Constructor<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>());
-        }
-
-        private static int GetKey(Type declaringType, params Type[] argTypes)
-        {
-            unchecked
-            {
-                return argTypes.Aggregate(declaringType.GetHashCode(), (current, argType) => (current * 397) ^ argType.GetHashCode());
-            }
         }
 
 #endregion
