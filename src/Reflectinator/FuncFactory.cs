@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -252,6 +253,44 @@ namespace Reflectinator
 
         #endregion
 
+        #region Method
+
+        public static Func<object, object[], object> CreateInstanceMethodFunc(MethodInfo methodInfo)
+        {
+            return methodInfo.Invoke;
+        }
+
+        public static Action<object, object[]> CreateInstanceMethodAction(MethodInfo methodInfo)
+        {
+            return (instance, args) => methodInfo.Invoke(instance, args);
+        }
+
+        public static Func<object[], object> CreateStaticMethodFunc(MethodInfo methodInfo)
+        {
+            return args => methodInfo.Invoke(null, args);
+        }
+
+        // TODO: this method needs to exist, along with the other one. This one is useful for when you want to invoke an action with an unknown number of parameters. The other one is useful when you have an action with no parameters.
+        public static Action<object[]> CreateStaticMethodAction(MethodInfo methodInfo)
+        {
+            return args => methodInfo.Invoke(null, args);
+        }
+         
+        //public static Action CreateStaticMethodAction(MethodInfo methodInfo)
+        //{
+        //    if (!methodInfo.IsStatic)
+        //    {
+        //        throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
+        //    }
+
+        //    var call = GetCallExpression(methodInfo, null, null, null, null, null);
+
+        //    var expression = Expression.Lambda<Action>(call);
+        //    return expression.Compile();
+        //}
+
+        #endregion
+
         private static Expression Coerce(this Expression sourceExpression, Type sourceType, Type targetType)
         {
             if (!targetType.IsAssignableFrom(sourceType) || (targetType == typeof(object) && sourceType.IsValueType))
@@ -260,6 +299,68 @@ namespace Reflectinator
             }
 
             return sourceExpression;
+        }
+
+        private static Expression GetCallExpression(
+            MethodInfo methodInfo,
+            ParameterExpression instanceParameter,
+            Type instanceType,
+            Type returnType,
+            IEnumerable<ParameterInfo> parameterInfos,
+            IEnumerable<ParameterExpression> parameterExpressions)
+        {
+            if (methodInfo == null)
+            {
+                throw new ArgumentNullException("methodInfo");
+            }
+
+            returnType = returnType ?? typeof(void);
+            parameterInfos = parameterInfos ?? Enumerable.Empty<ParameterInfo>();
+            parameterExpressions = parameterExpressions ?? Enumerable.Empty<ParameterExpression>();
+
+            var coercedParameters = parameterExpressions.Zip(
+                parameterInfos,
+                (parameterExpression, parameterInfo) =>
+                    parameterExpression.Coerce(parameterExpression.Type, parameterInfo.ParameterType));
+
+            MethodCallExpression call;
+
+            if (methodInfo.IsStatic)
+            {
+                call = Expression.Call(methodInfo, coercedParameters);
+            }
+            else
+            {
+                if (instanceParameter == null)
+                {
+                    throw new ArgumentNullException("instanceParameter", "'instanceParameter' cannot be null when 'methodInfo' is not static.");
+                }
+
+                if (instanceType == null)
+                {
+                    throw new ArgumentNullException("instanceType", "'instanceType' cannot be null when 'methodInfo' is not static.");
+                }
+
+                var instanceCast = instanceParameter.Coerce(instanceType, methodInfo.DeclaringType);
+                call = Expression.Call(instanceCast, methodInfo, coercedParameters);
+            }
+
+            var callCast = call.Coerce(methodInfo.ReturnType, returnType);
+            return callCast;
+        }
+
+        private static ParameterInfo[] GetMethodInfoParameters(MethodInfo methodInfo, params Type[] parameterTypes)
+        {
+            var methodInfoParameters = methodInfo.GetParameters();
+
+            if (methodInfoParameters.Length != parameterTypes.Length)
+            {
+                throw new ArgumentException(string.Format("Wrong number of parameters. Should be {0}, but was {1}.", parameterTypes.Length, methodInfoParameters.Length), "methodInfo");
+            }
+
+            // TODO: make sure that methodInfoParameters is compatible with parameterTypes.
+
+            return methodInfoParameters;
         }
     }
 }

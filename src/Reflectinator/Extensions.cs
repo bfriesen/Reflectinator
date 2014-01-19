@@ -42,6 +42,11 @@ namespace Reflectinator
             return properties.Where(p => !p.IsStatic);
         }
 
+        internal static IEnumerable<T> Then<T>(this T instance, IEnumerable<T> others)
+        {
+            return new[] { instance }.Concat(others);
+        }
+
         internal static int GetCacheKey(this Type declaringType, params Type[] argTypes)
         {
             return argTypes.GetAggregatedHashCode(declaringType);
@@ -54,12 +59,12 @@ namespace Reflectinator
 
         public static int GetAggregatedHashCode(this IEnumerable collection, params object[] additionalItems)
         {
-            return GetAggregatedHashCode(collection.Concat(additionalItems));
+            return GetAggregatedHashCode(collection.ConcatNonGeneric(additionalItems));
         }
 
         public static int GetAggregatedHashCode(this IEnumerable collection)
         {
-            return collection.Aggregate(0, GetNextHashCode);
+            return collection.AggregateNonGeneric(0, GetNextHashCode);
         }
 
         private static int GetNextHashCode(int currentHashCode, object nextItem)
@@ -70,7 +75,7 @@ namespace Reflectinator
             }
         }
 
-        private static IEnumerable Concat(this IEnumerable collection1, IEnumerable collection2)
+        private static IEnumerable ConcatNonGeneric(this IEnumerable collection1, IEnumerable collection2)
         {
             foreach (var item in collection1)
             {
@@ -83,7 +88,7 @@ namespace Reflectinator
             }
         }
 
-        private static TResult Aggregate<TResult>(this IEnumerable collection, TResult seed, Func<TResult, object, TResult> func)
+        private static TResult AggregateNonGeneric<TResult>(this IEnumerable collection, TResult seed, Func<TResult, object, TResult> func)
         {
             TResult current = seed;
 

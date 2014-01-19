@@ -22,16 +22,16 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
 #>
     public sealed class FuncMethod<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> : Method, IFuncMethod
     {
-        private readonly Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> _invoke;
+        private readonly Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>> _invoke;
 
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = (instance<# PrintJoinFormat(", ", "arg{1}", i, true, false); #>) => (TReturnType)methodInfo.Invoke(instance, new object[] {<# PrintJoinFormat(", ", "arg{1}", i, false, false, 1); #>}); // TODO: get from FuncFactory
+            _invoke = new Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>(methodInfo));
         }
     
-        public TReturnType Invoke(TDeclaringType instance<# PrintJoinFormat(", ", "TArg{1} arg{1}", i, true, false); #>) { return _invoke(instance<# PrintJoinFormat(", ", "arg{1}", i, true, false); #>); }
-        Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> InvokeDelegate { get { return _invoke; } }
+        public TReturnType Invoke(TDeclaringType instance<# PrintJoinFormat(", ", "TArg{1} arg{1}", i, true, false); #>) { return _invoke.Value(instance<# PrintJoinFormat(", ", "arg{1}", i, true, false); #>); }
+        Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> InvokeDelegate { get { return _invoke.Value; } }
     }
 
 <#

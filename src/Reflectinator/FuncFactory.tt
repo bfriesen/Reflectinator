@@ -14,6 +14,8 @@ namespace Reflectinator
 {
     public static partial class FuncFactory
     {
+        #region CreateConstructorFunc
+
 <#
 for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
 {
@@ -22,7 +24,7 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
         {
             if (ctor == null)
             {
-                ctor = typeof(TReturnType).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { <# PrintJoinFormat(", ", "typeof(TArg{1})", i, false, false); #> }, null);
+                ctor = typeof(TReturnType).GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] {<# PrintJoinFormat(", ", "typeof(TArg{1})", i, false, false, 1); #>}, null);
 
                 if (ctor == null)
                 {
@@ -53,5 +55,108 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
 <#
 }
 #>
+        #endregion
+
+        #region CreateInstanceMethodFunc
+
+<#
+for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
+{
+#>
+        public static Func<TInstanceType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> CreateInstanceMethodFunc<TInstanceType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>(MethodInfo methodInfo)
+        {
+            var methodInfoParameters = GetMethodInfoParameters(methodInfo<# PrintJoinFormat(", ", "typeof(TArg{1})", i, true, false); #>);
+
+            var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
+
+            var parameters = new ParameterExpression[] {<# PrintJoinFormat(", ", "Expression.Parameter(typeof(TArg{1}), \"arg{1}\")", i, false, false, 1); #>};
+            var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
+
+            var expression = Expression.Lambda<Func<TInstanceType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>(call, instanceParameter.Then(parameters));
+            return expression.Compile();
+        }
+
+<#
+}
+#>
+        #endregion
+
+        #region CreateInstanceMethodAction
+
+<#
+for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
+{
+#>
+        public static Action<TInstanceType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>> CreateInstanceMethodAction<TInstanceType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>(MethodInfo methodInfo)
+        {
+            var methodInfoParameters = GetMethodInfoParameters(methodInfo<# PrintJoinFormat(", ", "typeof(TArg{1})", i, true, false); #>);
+
+            var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
+
+            var parameters = new ParameterExpression[] {<# PrintJoinFormat(", ", "Expression.Parameter(typeof(TArg{1}), \"arg{1}\")", i, false, false, 1); #>};
+            var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
+
+            var expression = Expression.Lambda<Action<TInstanceType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>>(call, instanceParameter.Then(parameters));
+            return expression.Compile();
+        }
+
+<#
+}
+#>
+        #endregion
+
+        #region CreateStaticMethodFunc
+
+<#
+for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
+{
+#>
+        public static Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType> CreateStaticMethodFunc<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType>(MethodInfo methodInfo)
+        {
+            if (!methodInfo.IsStatic)
+            {
+                throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
+            }
+
+            var methodInfoParameters = GetMethodInfoParameters(methodInfo<# PrintJoinFormat(", ", "typeof(TArg{1})", i, true, false); #>);
+
+            var parameters = new ParameterExpression[] {<# PrintJoinFormat(", ", "Expression.Parameter(typeof(TArg{1}), \"arg{1}\")", i, false, false, 1); #>};
+            var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
+
+            var expression = Expression.Lambda<Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType>>(call, parameters);
+            return expression.Compile();
+        }
+
+<#
+}
+#>
+        #endregion
+
+        #region CreateStaticMethodAction
+
+<#
+for (int i = 1; i < MaxNumberOfFuncGenericArguments; i++)
+{
+#>
+        public static Action<<# PrintJoinFormat(", ", "TArg{1}", i, false, false); #>> CreateStaticMethodAction<<# PrintJoinFormat(", ", "TArg{1}", i, false, false); #>>(MethodInfo methodInfo)
+        {
+            if (!methodInfo.IsStatic)
+            {
+                throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
+            }
+
+            var methodInfoParameters = GetMethodInfoParameters(methodInfo<# PrintJoinFormat(", ", "typeof(TArg{1})", i, true, false); #>);
+
+            var parameters = new ParameterExpression[] {<# PrintJoinFormat(", ", "Expression.Parameter(typeof(TArg{1}), \"arg{1}\")", i, false, false, 1); #>};
+            var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
+
+            var expression = Expression.Lambda<Action<<# PrintJoinFormat(", ", "TArg{1}", i, false, false); #>>>(call, parameters);
+            return expression.Compile();
+        }
+
+<#
+}
+#>
+        #endregion
     }
 }
