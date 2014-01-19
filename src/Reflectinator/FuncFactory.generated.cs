@@ -1257,6 +1257,22 @@ namespace Reflectinator
 
         #region CreateStaticMethodAction
 
+        public static Action CreateStaticMethodAction(MethodInfo methodInfo)
+        {
+            if (!methodInfo.IsStatic)
+            {
+                throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
+            }
+
+            var methodInfoParameters = GetMethodInfoParameters(methodInfo);
+
+            var parameters = new ParameterExpression[] {};
+            var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
+
+            var expression = Expression.Lambda<Action>(call, parameters);
+            return expression.Compile();
+        }
+
         public static Action<TArg1> CreateStaticMethodAction<TArg1>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)

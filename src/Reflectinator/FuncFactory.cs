@@ -255,39 +255,63 @@ namespace Reflectinator
 
         #region Method
 
-        public static Func<object, object[], object> CreateInstanceMethodFunc(MethodInfo methodInfo)
+        public static Func<object, object[], object> CreateNonGenericInstanceMethodFunc(MethodInfo methodInfo)
         {
-            return methodInfo.Invoke;
+            var methodInfoParameters = methodInfo.GetParameters();
+
+            var instanceParameter = Expression.Parameter(typeof(object), "instance");
+
+            var parameter = Expression.Parameter(typeof(object[]), "args");
+            var call = GetNonGenericCallExpression(methodInfo, instanceParameter, methodInfoParameters, parameter);
+
+            var expression = Expression.Lambda<Func<object, object[], object>>(call, new [] { instanceParameter, parameter });
+            return expression.Compile();
         }
 
-        public static Action<object, object[]> CreateInstanceMethodAction(MethodInfo methodInfo)
+        public static Action<object, object[]> CreateNonGenericInstanceMethodAction(MethodInfo methodInfo)
         {
-            return (instance, args) => methodInfo.Invoke(instance, args);
+            var methodInfoParameters = methodInfo.GetParameters();
+
+            var instanceParameter = Expression.Parameter(typeof(object), "instance");
+
+            var parameter = Expression.Parameter(typeof(object[]), "args");
+            var call = GetNonGenericCallExpression(methodInfo, instanceParameter, methodInfoParameters, parameter);
+
+            var expression = Expression.Lambda<Action<object, object[]>>(call, new[] { instanceParameter, parameter });
+            return expression.Compile();
         }
 
-        public static Func<object[], object> CreateStaticMethodFunc(MethodInfo methodInfo)
+        public static Func<object[], object> CreateNonGenericStaticMethodFunc(MethodInfo methodInfo)
         {
-            return args => methodInfo.Invoke(null, args);
+            if (!methodInfo.IsStatic)
+            {
+                throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
+            }
+
+            var methodInfoParameters = methodInfo.GetParameters();
+
+            var parameter = Expression.Parameter(typeof(object[]), "args");
+            var call = GetNonGenericCallExpression(methodInfo, null, methodInfoParameters, parameter);
+
+            var expression = Expression.Lambda<Func<object[], object>>(call, parameter);
+            return expression.Compile();
         }
 
-        // TODO: this method needs to exist, along with the other one. This one is useful for when you want to invoke an action with an unknown number of parameters. The other one is useful when you have an action with no parameters.
-        public static Action<object[]> CreateStaticMethodAction(MethodInfo methodInfo)
+        public static Action<object[]> CreateNonGenericStaticMethodAction(MethodInfo methodInfo)
         {
-            return args => methodInfo.Invoke(null, args);
+            if (!methodInfo.IsStatic)
+            {
+                throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
+            }
+
+            var methodInfoParameters = methodInfo.GetParameters();
+
+            var parameter = Expression.Parameter(typeof(object[]), "args");
+            var call = GetNonGenericCallExpression(methodInfo, null, methodInfoParameters, parameter);
+
+            var expression = Expression.Lambda<Action<object[]>>(call, parameter);
+            return expression.Compile();
         }
-         
-        //public static Action CreateStaticMethodAction(MethodInfo methodInfo)
-        //{
-        //    if (!methodInfo.IsStatic)
-        //    {
-        //        throw new ArgumentException("Cannot create static method func on an instance MethodInfo", "methodInfo");
-        //    }
-
-        //    var call = GetCallExpression(methodInfo, null, null, null, null, null);
-
-        //    var expression = Expression.Lambda<Action>(call);
-        //    return expression.Compile();
-        //}
 
         #endregion
 
@@ -307,7 +331,7 @@ namespace Reflectinator
             Type instanceType,
             Type returnType,
             IEnumerable<ParameterInfo> parameterInfos,
-            IEnumerable<ParameterExpression> parameterExpressions)
+            IEnumerable<Expression> parameterExpressions)
         {
             if (methodInfo == null)
             {
@@ -346,6 +370,45 @@ namespace Reflectinator
             }
 
             var callCast = call.Coerce(methodInfo.ReturnType, returnType);
+            return callCast;
+        }
+
+        private static Expression GetNonGenericCallExpression(
+            MethodInfo methodInfo,
+            ParameterExpression instanceParameter,
+            IEnumerable<ParameterInfo> parameterInfos,
+            ParameterExpression parameter)
+        {
+            if (methodInfo == null)
+            {
+                throw new ArgumentNullException("methodInfo");
+            }
+
+            parameterInfos = parameterInfos ?? Enumerable.Empty<ParameterInfo>();
+
+            var coercedParameters =
+                parameterInfos.Select(
+                    (parameterInfo, i) =>
+                        Expression.ArrayAccess(parameter, Expression.Constant(i)).Coerce(typeof(object), parameterInfo.ParameterType));
+
+            MethodCallExpression call;
+
+            if (methodInfo.IsStatic)
+            {
+                call = Expression.Call(methodInfo, coercedParameters);
+            }
+            else
+            {
+                if (instanceParameter == null)
+                {
+                    throw new ArgumentNullException("instanceParameter", "'instanceParameter' cannot be null when 'methodInfo' is not static.");
+                }
+
+                var instanceCast = instanceParameter.Coerce(typeof(object), methodInfo.DeclaringType);
+                call = Expression.Call(instanceCast, methodInfo, coercedParameters);
+            }
+
+            var callCast = call.Coerce(methodInfo.ReturnType, typeof(object));
             return callCast;
         }
 

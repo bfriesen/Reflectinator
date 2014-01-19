@@ -22,7 +22,7 @@ namespace Reflectinator
         internal Method(MethodInfo methodInfo)
         {
             _methodInfo = methodInfo;
-            _invokeLoose = new Lazy<Func<object, object[], object>>(() => FuncFactory.CreateInstanceMethodFunc(methodInfo));
+            _invokeLoose = new Lazy<Func<object, object[], object>>(() => FuncFactory.CreateNonGenericInstanceMethodFunc(methodInfo));
         }
 
         #region Factory Methods
