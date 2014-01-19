@@ -245,7 +245,7 @@ namespace Reflectinator
                         Expression.ArrayAccess(parameter, Expression.Constant(i)).Coerce(typeof(object), parameterInfo.ParameterType));
 
             var newExpression = Expression.New(ctor, coercedParameters);
-            var newCast = newExpression.Coerce(ctor.DeclaringType, typeof (object));
+            var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(object));
 
             var expression = Expression.Lambda<Func<object[], object>>(newCast, new[] { parameter });
             return expression.Compile();
@@ -317,6 +317,16 @@ namespace Reflectinator
 
         private static Expression Coerce(this Expression sourceExpression, Type sourceType, Type targetType)
         {
+            if (sourceType == typeof(void) && targetType != typeof(void))
+            {
+                var returnExpression = targetType.IsValueType
+                    ? (Expression) Expression.New(targetType)
+                    : Expression.Constant(null, targetType);
+
+                var block = Expression.Block(targetType, sourceExpression, returnExpression);
+                return block;
+            }
+
             if (!targetType.IsAssignableFrom(sourceType) || (targetType == typeof(object) && sourceType.IsValueType))
             {
                 return Expression.Convert(sourceExpression, targetType);
