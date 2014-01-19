@@ -6,22 +6,12 @@ namespace Reflectinator
     /// <summary>
     /// Represents a constructor.
     /// </summary>
-    public interface IConstructor
+    public interface IConstructor : IMember
     {
         /// <summary>
         /// The <see cref="ConstructorInfo"/> that this instance of <see cref="IConstructor"/> represents.
         /// </summary>
         ConstructorInfo ConstructorInfo { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the constructor has public visibility.
-        /// </summary>
-        bool IsPublic { get; }
-
-        /// <summary>
-        /// Gets a <see cref="ITypeCrawler"/> that represents the constructor's declaring type.
-        /// </summary>
-        ITypeCrawler DeclaringType { get; }
 
         /// <summary>
         /// Gets an array of <see cref="ITypeCrawler"/> objects that represent the types of the constructor's parameters.

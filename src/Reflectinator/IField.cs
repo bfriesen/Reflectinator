@@ -3,19 +3,15 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public interface IField
+    public interface IField : IMember
     {
         string Name { get; }
         FieldInfo FieldInfo { get; }
-
-        bool IsPublic { get; }
-        bool IsStatic { get; }
 
         bool IsReadOnly { get; }
         bool IsConstant { get; }
 
         ITypeCrawler FieldType { get; }
-        ITypeCrawler DeclaringType { get; }
 
         Func<object, object> GetFunc { get; }
         Action<object, object> SetAction { get; }

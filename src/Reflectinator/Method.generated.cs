@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public abstract class Method : IMethod
+    public abstract class Method : Member, IMethod
     {
         private static readonly ConcurrentDictionary<int, IMethod> _methodsMap = new ConcurrentDictionary<int, IMethod>();
 
@@ -20,6 +20,7 @@ namespace Reflectinator
         private readonly Lazy<Func<object, object[], object>> _invokeLoose;
 
         internal Method(MethodInfo methodInfo)
+            : base(methodInfo)
         {
             _methodInfo = methodInfo;
             _invokeLoose = new Lazy<Func<object, object[], object>>(() => FuncFactory.CreateNonGenericInstanceMethodFunc(methodInfo));
@@ -663,8 +664,8 @@ namespace Reflectinator
         public MethodInfo MethodInfo { get { return _methodInfo; } }
         public string Name { get { return _methodInfo.Name; } }
 
-        public bool IsPublic { get { return _methodInfo.IsPublic; } }
-        public virtual bool IsStatic { get { return false; } }
+        public override bool IsPublic { get { return _methodInfo.IsPublic; } }
+        public override bool IsStatic { get { return false; } }
 
         object IMethod.Invoke(object instance, params object[] args) { return _invokeLoose.Value(instance, args); }
         Func<object, object[], object> IMethod.InvokeDelegate { get { return _invokeLoose.Value; } }

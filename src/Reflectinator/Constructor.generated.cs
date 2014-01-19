@@ -12,16 +12,16 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public abstract class Constructor : IConstructor
+    public abstract class Constructor : Member, IConstructor
     {
         private static readonly ConcurrentDictionary<int, IConstructor> _constructorsMap = new ConcurrentDictionary<int, IConstructor>();
 
         private readonly ConstructorInfo _constructorInfo;
         private readonly Lazy<Func<object[], object>> _invoke;
-        private readonly Lazy<ITypeCrawler> _declaringType;
         private readonly Lazy<ITypeCrawler[]> _parameters;
 
         internal Constructor(ConstructorInfo constructorInfo)
+            : base(constructorInfo)
         {
             if (constructorInfo == null)
             {
@@ -30,7 +30,6 @@ namespace Reflectinator
 
             _constructorInfo = constructorInfo;
             _invoke = new Lazy<Func<object[], object>>(() => (Func<object[], object>)FuncFactory.CreateConstructorFunc(constructorInfo));
-            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(constructorInfo.DeclaringType));
             _parameters = new Lazy<ITypeCrawler[]>(() => constructorInfo.GetParameters().Select(p => TypeCrawler.Get(p.ParameterType)).ToArray());
         }
 
@@ -229,8 +228,10 @@ namespace Reflectinator
 #endregion
 
         public ConstructorInfo ConstructorInfo { get { return _constructorInfo; } }
-        public bool IsPublic { get { return _constructorInfo.IsPublic; } }
-        public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
+        
+        public override bool IsPublic { get { return _constructorInfo.IsPublic; } }
+        public override bool IsStatic { get { return false; } }
+
         public ITypeCrawler[] Parameters { get { return _parameters.Value; } }
 
         object IConstructor.Invoke(params object[] args)

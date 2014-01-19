@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class Property<TDeclaringType, TPropertyType> : IProperty
+    public class Property<TDeclaringType, TPropertyType> : Member, IProperty
     {
         private readonly PropertyInfo _propertyInfo;
 
@@ -13,7 +13,6 @@ namespace Reflectinator
         private readonly Lazy<bool> _isPublic;
 
         private readonly Lazy<ITypeCrawler> _propertyType;
-        private readonly Lazy<ITypeCrawler> _declaringType;
 
         private readonly Lazy<Func<object, object>> _getValueLooselyTyped;
         private readonly Lazy<Action<object, object>> _setValueLooselyTyped;
@@ -22,6 +21,7 @@ namespace Reflectinator
         private readonly Lazy<Action<TDeclaringType, TPropertyType>> _setValueStronglyTyped;
 
         internal Property(PropertyInfo propertyInfo)
+            : base(propertyInfo)
         {
             if (!typeof(TDeclaringType).IsAssignableFrom(propertyInfo.DeclaringType))
             {
@@ -41,7 +41,6 @@ namespace Reflectinator
             _isPublic = new Lazy<bool>(propertyInfo.IsPublic);
 
             _propertyType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(propertyInfo.PropertyType));
-            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(propertyInfo.DeclaringType));
 
             _getValueLooselyTyped = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
             _setValueLooselyTyped = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
@@ -56,14 +55,13 @@ namespace Reflectinator
         public MethodInfo GetMethod { get { return _getMethod.Value; } }
         public MethodInfo SetMethod { get { return _setMethod.Value; } }
 
-        public bool IsPublic { get { return _isPublic.Value; } }
-        public virtual bool IsStatic { get { return false; } }
+        public override bool IsPublic { get { return _isPublic.Value; } }
+        public override bool IsStatic { get { return false; } }
 
         public bool CanRead { get { return _propertyInfo.CanRead; } }
         public bool CanWrite { get { return _propertyInfo.CanWrite; } }
 
         public ITypeCrawler PropertyType { get { return _propertyType.Value; } }
-        public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
 
         Func<object, object> IProperty.GetFunc { get { return _getValueLooselyTyped.Value; } }
         Action<object, object> IProperty.SetAction { get { return _setValueLooselyTyped.Value; } }

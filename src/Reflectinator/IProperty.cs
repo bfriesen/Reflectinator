@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public interface IProperty
+    public interface IProperty : IMember
     {
         string Name { get; }
         PropertyInfo PropertyInfo { get; }
@@ -11,14 +11,10 @@ namespace Reflectinator
         MethodInfo GetMethod { get; }
         MethodInfo SetMethod { get; }
 
-        bool IsPublic { get; }
-        bool IsStatic { get; }
-
         bool CanRead { get; }
         bool CanWrite { get; }
 
         ITypeCrawler PropertyType { get; }
-        ITypeCrawler DeclaringType { get; }
 
         Func<object, object> GetFunc { get; }
         Action<object, object> SetAction { get; }

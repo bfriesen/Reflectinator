@@ -12,9 +12,13 @@ namespace Reflectinator
     public sealed class TypeCrawler<T> : ITypeCrawler
     {
         private readonly Type _type;
+        
         private readonly Lazy<IConstructor[]> _constructors;
         private readonly Lazy<IField[]> _fields;
         private readonly Lazy<IProperty[]> _properties;
+        private readonly Lazy<IMethod[]> _methods;
+
+        private readonly Lazy<IMember[]> _members;
 
         private readonly Lazy<IDictionary<string, IField>> _fieldMap;
         private readonly Lazy<IDictionary<string, IProperty>> _propertyMap;
@@ -55,14 +59,37 @@ namespace Reflectinator
                     .Select(Property.Get)
                     .ToArray());
 
+            _methods = new Lazy<IMethod[]>(
+                () =>
+                _type.GetMethods(
+                        BindingFlags.Public
+                        | BindingFlags.NonPublic
+                        | BindingFlags.Instance
+                        | BindingFlags.Static)
+                    .Where(p => !p.ReturnType.IsPointer && p.GetParameters().All(param => !param.ParameterType.IsPointer))
+                    .Select(Method.Get)
+                    .ToArray());
+
+            _members = new Lazy<IMember[]>(
+                () =>
+                Constructors.Cast<IMember>()
+                    .Concat(Fields)
+                    .Concat(Properties)
+                    .Concat(Methods)
+                    .ToArray());
+
             _fieldMap = new Lazy<IDictionary<string, IField>>(() => Fields.ToDictionary(f => f.Name));
             _propertyMap = new Lazy<IDictionary<string, IProperty>>(() => Properties.ToDictionary(p => p.Name));
         }
 
         public Type Type { get { return _type; } }
+
         public IConstructor[] Constructors { get { return _constructors.Value; } }
         public IField[] Fields { get { return _fields.Value; } }
         public IProperty[] Properties { get { return _properties.Value; } }
+        public IMethod[] Methods { get { return _methods.Value; } }
+
+        public IMember[] Members { get { return _members.Value; } }
 
         internal IField GetField(string name)
         {

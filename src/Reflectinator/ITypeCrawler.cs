@@ -26,5 +26,15 @@ namespace Reflectinator
         /// Gets a collection of <see cref="IProperty"/> objects that represent the properties of <see cref="Type"/>.
         /// </summary>
         IProperty[] Properties { get; }
+
+        /// <summary>
+        /// Gets a collection of <see cref="IMethod"/> objects that represent the method of <see cref="Type"/>.
+        /// </summary>
+        IMethod[] Methods { get; }
+
+        /// <summary>
+        /// Gets a collection of <see cref="IMember"/> objects that represent all members of <see cref="Type"/>.
+        /// </summary>
+        IMember[] Members { get; }
     }
 }

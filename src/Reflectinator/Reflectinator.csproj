@@ -69,11 +69,13 @@
     </Compile>
     <Compile Include="IActionMethod.cs" />
     <Compile Include="IFuncMethod.cs" />
+    <Compile Include="IMember.cs" />
     <Compile Include="IMethod.cs" />
     <Compile Include="IStaticActionMethod.cs" />
     <Compile Include="IStaticField.cs" />
     <Compile Include="IStaticFuncMethod.cs" />
     <Compile Include="IStaticProperty.cs" />
+    <Compile Include="Member.cs" />
     <Compile Include="Method.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

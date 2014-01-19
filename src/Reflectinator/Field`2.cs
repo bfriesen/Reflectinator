@@ -3,12 +3,11 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public class Field<TDeclaringType, TFieldType> : IField
+    public class Field<TDeclaringType, TFieldType> : Member, IField
     {
         private readonly FieldInfo _fieldInfo;
 
         private readonly Lazy<ITypeCrawler> _fieldType;
-        private readonly Lazy<ITypeCrawler> _declaringType;
 
         private readonly Lazy<Func<object, object>> _getValueLooselyTyped;
         private readonly Lazy<Action<object, object>> _setValueLooselyTyped;
@@ -17,6 +16,7 @@ namespace Reflectinator
         private readonly Lazy<Action<TDeclaringType, TFieldType>> _setValueStronglyTyped;
 
         internal Field(FieldInfo fieldInfo)
+            : base(fieldInfo)
         {
             if (!typeof(TDeclaringType).IsAssignableFrom(fieldInfo.DeclaringType))
             {
@@ -31,7 +31,6 @@ namespace Reflectinator
             _fieldInfo = fieldInfo;
 
             _fieldType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(fieldInfo.FieldType));
-            _declaringType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(fieldInfo.DeclaringType));
 
             _getValueLooselyTyped = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(fieldInfo));
             _setValueLooselyTyped = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(fieldInfo));
@@ -43,14 +42,13 @@ namespace Reflectinator
         public string Name { get { return _fieldInfo.Name; } }
         public FieldInfo FieldInfo { get { return _fieldInfo; } }
 
-        public bool IsPublic { get { return _fieldInfo.IsPublic; } }
-        public bool IsStatic { get { return _fieldInfo.IsStatic; } }
+        public override bool IsPublic { get { return _fieldInfo.IsPublic; } }
+        public override bool IsStatic { get { return _fieldInfo.IsStatic; } }
 
         public bool IsReadOnly { get { return _fieldInfo.IsInitOnly || IsConstant; } }
         public bool IsConstant { get { return _fieldInfo.IsLiteral; } }
 
         public ITypeCrawler FieldType { get { return _fieldType.Value; } }
-        public ITypeCrawler DeclaringType { get { return _declaringType.Value; } }
 
         Func<object, object> IField.GetFunc { get { return _getValueLooselyTyped.Value; } }
         Action<object, object> IField.SetAction { get { return _setValueLooselyTyped.Value; } }
