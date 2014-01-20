@@ -12,6 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -22,15 +23,18 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
 #>
     public sealed class FuncMethod<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> : Method, IFuncMethod
     {
+        private readonly Lazy<Expression<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>> _invokeExpression;
         private readonly Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>> _invoke;
 
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>(methodInfo));
+            _invokeExpression = new Lazy<Expression<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>>(() => ExpressionFactory.CreateInstanceMethodFuncExpression<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>(() => _invokeExpression.Value.Compile());
         }
     
         public TReturnType Invoke(TDeclaringType instance<# PrintJoinFormat(", ", "TArg{1} arg{1}", i, true, false); #>) { return _invoke.Value(instance<# PrintJoinFormat(", ", "arg{1}", i, true, false); #>); }
+        public Expression<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> InvokeDelegate { get { return _invoke.Value; } }
     }
 

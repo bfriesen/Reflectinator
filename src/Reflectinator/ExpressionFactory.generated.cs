@@ -557,7 +557,7 @@ namespace Reflectinator
 
         #region CreateInstanceMethodFunc
 
-        public static Func<TInstanceType, TReturnType> CreateInstanceMethodFunc<TInstanceType, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo);
 
@@ -567,10 +567,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1));
 
@@ -580,10 +580,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2));
 
@@ -593,10 +593,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3));
 
@@ -606,10 +606,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4));
 
@@ -619,10 +619,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5));
 
@@ -632,10 +632,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6));
 
@@ -645,10 +645,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7));
 
@@ -658,10 +658,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8));
 
@@ -671,10 +671,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9));
 
@@ -684,10 +684,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10));
 
@@ -697,10 +697,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11));
 
@@ -710,10 +710,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12));
 
@@ -723,10 +723,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13));
 
@@ -736,10 +736,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14));
 
@@ -749,10 +749,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType> CreateInstanceMethodFunc<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>> CreateInstanceMethodFuncExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15));
 
@@ -762,14 +762,14 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
         #endregion
 
         #region CreateInstanceMethodAction
 
-        public static Action<TInstanceType> CreateInstanceMethodAction<TInstanceType>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType>> CreateInstanceMethodActionExpression<TInstanceType>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo);
 
@@ -779,10 +779,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1> CreateInstanceMethodAction<TInstanceType, TArg1>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1>> CreateInstanceMethodActionExpression<TInstanceType, TArg1>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1));
 
@@ -792,10 +792,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2));
 
@@ -805,10 +805,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3));
 
@@ -818,10 +818,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4));
 
@@ -831,10 +831,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5));
 
@@ -844,10 +844,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6));
 
@@ -857,10 +857,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7));
 
@@ -870,10 +870,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8));
 
@@ -883,10 +883,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9));
 
@@ -896,10 +896,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10));
 
@@ -909,10 +909,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11));
 
@@ -922,10 +922,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12));
 
@@ -935,10 +935,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13));
 
@@ -948,10 +948,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14));
 
@@ -961,10 +961,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> CreateInstanceMethodAction<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(MethodInfo methodInfo)
+        public static Expression<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>> CreateInstanceMethodActionExpression<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(MethodInfo methodInfo)
         {
             var methodInfoParameters = GetMethodInfoParameters(methodInfo, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15));
 
@@ -974,14 +974,14 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(call, instanceParameter.Then(parameters));
-            return expression.Compile();
+            return expression;
         }
 
         #endregion
 
         #region CreateStaticMethodFunc
 
-        public static Func<TReturnType> CreateStaticMethodFunc<TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TReturnType>> CreateStaticMethodFuncExpression<TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -994,10 +994,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TReturnType> CreateStaticMethodFunc<TArg1, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1010,10 +1010,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1026,10 +1026,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1042,10 +1042,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1058,10 +1058,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1074,10 +1074,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1090,10 +1090,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1106,10 +1106,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1122,10 +1122,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1138,10 +1138,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1154,10 +1154,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1170,10 +1170,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1186,10 +1186,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1202,10 +1202,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1218,10 +1218,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1234,10 +1234,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType> CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>(MethodInfo methodInfo)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>> CreateStaticMethodFuncExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1250,14 +1250,14 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
         #endregion
 
         #region CreateStaticMethodAction
 
-        public static Action CreateStaticMethodAction(MethodInfo methodInfo)
+        public static Expression<Action> CreateStaticMethodActionExpression(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1270,10 +1270,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1> CreateStaticMethodAction<TArg1>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1>> CreateStaticMethodActionExpression<TArg1>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1286,10 +1286,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2> CreateStaticMethodAction<TArg1, TArg2>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2>> CreateStaticMethodActionExpression<TArg1, TArg2>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1302,10 +1302,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3> CreateStaticMethodAction<TArg1, TArg2, TArg3>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1318,10 +1318,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1334,10 +1334,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1350,10 +1350,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1366,10 +1366,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1382,10 +1382,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1398,10 +1398,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1414,10 +1414,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1430,10 +1430,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1446,10 +1446,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1462,10 +1462,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1478,10 +1478,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1494,10 +1494,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1510,10 +1510,10 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16> CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(MethodInfo methodInfo)
+        public static Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>> CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -1526,7 +1526,7 @@ namespace Reflectinator
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
             var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>>(call, parameters);
-            return expression.Compile();
+            return expression;
         }
 
         #endregion

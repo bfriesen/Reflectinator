@@ -6,28 +6,37 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
 {
     public sealed class StaticActionMethod<TDeclaringType> : ActionMethod<TDeclaringType>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action>> _invokeExpression;
         private readonly Lazy<Action> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action>(() => ExpressionFactory.CreateStaticMethodAction(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action>>(() => ExpressionFactory.CreateStaticMethodActionExpression(methodInfo));
+            _invoke = new Lazy<Action>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke() { _invoke.Value(); }
@@ -36,22 +45,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1> : ActionMethod<TDeclaringType, TArg1>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1>>> _invokeExpression;
         private readonly Lazy<Action<TArg1>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1>(methodInfo));
+            _invoke = new Lazy<Action<TArg1>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1) { _invoke.Value(arg1); }
@@ -60,22 +77,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2> : ActionMethod<TDeclaringType, TArg1, TArg2>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2) { _invoke.Value(arg1, arg2); }
@@ -84,22 +109,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3) { _invoke.Value(arg1, arg2, arg3); }
@@ -108,22 +141,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4) { _invoke.Value(arg1, arg2, arg3, arg4); }
@@ -132,22 +173,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) { _invoke.Value(arg1, arg2, arg3, arg4, arg5); }
@@ -156,22 +205,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6); }
@@ -180,22 +237,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
@@ -204,22 +269,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8); }
@@ -228,22 +301,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9); }
@@ -252,22 +333,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10); }
@@ -276,22 +365,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11); }
@@ -300,22 +397,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12); }
@@ -324,22 +429,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13); }
@@ -348,22 +461,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14); }
@@ -372,22 +493,30 @@ namespace Reflectinator
 
     public sealed class StaticActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> : ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>, IStaticActionMethod
     {
+        private readonly Lazy<Expression<Action<object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>> _invokeExpression;
         private readonly Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>> _invoke;
         
         internal StaticActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object[]>>(() => ExpressionFactory.CreateNonGenericStaticMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(() => ExpressionFactory.CreateStaticMethodAction<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object[]>>>(() => ExpressionFactory.CreateNonGenericStaticMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>>(() => ExpressionFactory.CreateStaticMethodActionExpression<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(methodInfo));
+            _invoke = new Lazy<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(() => _invokeExpression.Value.Compile());
         }
         
         public override bool IsStatic { get { return true; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
+        Expression<Action<object[]>> IStaticActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
 
         object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Expression<Func<object[], object>> IStaticMethod.InvokeExpression { get { throw new NotImplementedException("TODO: Implement"); } }
         Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15); }

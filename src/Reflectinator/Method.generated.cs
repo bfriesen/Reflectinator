@@ -8,6 +8,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -17,13 +18,15 @@ namespace Reflectinator
         private static readonly ConcurrentDictionary<int, IMethod> _methodsMap = new ConcurrentDictionary<int, IMethod>();
 
         private readonly MethodInfo _methodInfo;
-        private readonly Lazy<Func<object, object[], object>> _invokeLoose;
+        private readonly Lazy<Expression<Func<object, object[], object>>> _invokeExpression;
+        private readonly Lazy<Func<object, object[], object>> _invoke;
 
         internal Method(MethodInfo methodInfo)
             : base(methodInfo)
         {
             _methodInfo = methodInfo;
-            _invokeLoose = new Lazy<Func<object, object[], object>>(() => ExpressionFactory.CreateNonGenericInstanceMethodFunc(methodInfo));
+            _invokeExpression = new Lazy<Expression<Func<object, object[], object>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodFuncExpression(methodInfo));
+            _invoke = new Lazy<Func<object, object[], object>>(() => _invokeExpression.Value.Compile());
         }
 
         #region Factory Methods
@@ -667,7 +670,8 @@ namespace Reflectinator
         public override bool IsPublic { get { return _methodInfo.IsPublic; } }
         public override bool IsStatic { get { return false; } }
 
-        object IMethod.Invoke(object instance, params object[] args) { return _invokeLoose.Value(instance, args); }
-        Func<object, object[], object> IMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+        object IMethod.Invoke(object instance, params object[] args) { return _invoke.Value(instance, args); }
+        Expression<Func<object, object[], object>> IMethod.InvokeExpression { get { return _invokeExpression.Value; } }
+        Func<object, object[], object> IMethod.InvokeDelegate { get { return _invoke.Value; } }
     }
 }

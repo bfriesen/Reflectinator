@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -24,20 +25,28 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
 #>
     public class ActionMethod<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance<# PrintJoinFormat(", ", "TArg{1} arg{1}", i, true, false); #>) { _invoke.Value(instance<# PrintJoinFormat(", ", "arg{1}", i, true, false); #>); }
+        public Expression<Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>> InvokeDelegate { get { return _invoke.Value; } }
     }
 

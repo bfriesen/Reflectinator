@@ -7,311 +7,440 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
 {
     public class ActionMethod<TDeclaringType> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance) { _invoke.Value(instance); }
+        public Expression<Action<TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1) { _invoke.Value(instance, arg1); }
+        public Expression<Action<TDeclaringType, TArg1>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2) { _invoke.Value(instance, arg1, arg2); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3) { _invoke.Value(instance, arg1, arg2, arg3); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4) { _invoke.Value(instance, arg1, arg2, arg3, arg4); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> InvokeDelegate { get { return _invoke.Value; } }
     }
 
     public class ActionMethod<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> : Method, IActionMethod
     {
+        private readonly Lazy<Expression<Action<object, object[]>>> _invokeLooseExpression;
         private readonly Lazy<Action<object, object[]>> _invokeLoose;
+        
+        private readonly Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>> _invokeExpression;
         private readonly Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>> _invoke;
     
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(methodInfo));
+            _invokeLooseExpression = new Lazy<Expression<Action<object, object[]>>>(() => ExpressionFactory.CreateNonGenericInstanceMethodActionExpression(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => _invokeLooseExpression.Value.Compile());
+
+            _invokeExpression = new Lazy<Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>>(() => ExpressionFactory.CreateInstanceMethodActionExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(() => _invokeExpression.Value.Compile());
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
+        Expression<Action<object, object[]>> IActionMethod.InvokeExpression { get { return _invokeLooseExpression.Value; } }
         Action<object, object[]> IActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
     
         public void Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15) { _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15); }
+        public Expression<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> InvokeDelegate { get { return _invoke.Value; } }
     }
 

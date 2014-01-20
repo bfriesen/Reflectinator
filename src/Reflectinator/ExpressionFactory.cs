@@ -253,7 +253,7 @@ namespace Reflectinator
 
         #region Method
 
-        public static Func<object, object[], object> CreateNonGenericInstanceMethodFunc(MethodInfo methodInfo)
+        public static Expression<Func<object, object[], object>> CreateNonGenericInstanceMethodFuncExpression(MethodInfo methodInfo)
         {
             var methodInfoParameters = methodInfo.GetParameters();
 
@@ -263,10 +263,10 @@ namespace Reflectinator
             var call = GetNonGenericCallExpression(methodInfo, instanceParameter, methodInfoParameters, parameter);
 
             var expression = Expression.Lambda<Func<object, object[], object>>(call, new [] { instanceParameter, parameter });
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<object, object[]> CreateNonGenericInstanceMethodAction(MethodInfo methodInfo)
+        public static Expression<Action<object, object[]>> CreateNonGenericInstanceMethodActionExpression(MethodInfo methodInfo)
         {
             var methodInfoParameters = methodInfo.GetParameters();
 
@@ -276,10 +276,10 @@ namespace Reflectinator
             var call = GetNonGenericCallExpression(methodInfo, instanceParameter, methodInfoParameters, parameter);
 
             var expression = Expression.Lambda<Action<object, object[]>>(call, new[] { instanceParameter, parameter });
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<object[], object> CreateNonGenericStaticMethodFunc(MethodInfo methodInfo)
+        public static Expression<Func<object[], object>> CreateNonGenericStaticMethodFuncExpression(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -292,10 +292,10 @@ namespace Reflectinator
             var call = GetNonGenericCallExpression(methodInfo, null, methodInfoParameters, parameter);
 
             var expression = Expression.Lambda<Func<object[], object>>(call, parameter);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<object[]> CreateNonGenericStaticMethodAction(MethodInfo methodInfo)
+        public static Expression<Action<object[]>> CreateNonGenericStaticMethodActionExpression(MethodInfo methodInfo)
         {
             if (!methodInfo.IsStatic)
             {
@@ -308,7 +308,7 @@ namespace Reflectinator
             var call = GetNonGenericCallExpression(methodInfo, null, methodInfoParameters, parameter);
 
             var expression = Expression.Lambda<Action<object[]>>(call, parameter);
-            return expression.Compile();
+            return expression;
         }
 
         #endregion
