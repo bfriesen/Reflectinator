@@ -23,10 +23,13 @@ namespace Reflectinator
         }
         
         public override bool IsStatic { get { return true; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
-        
+
         public void Invoke() { _invoke.Value(); }
         public new Action InvokeDelegate { get { return _invoke.Value; } }
     }
@@ -47,6 +50,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1) { _invoke.Value(arg1); }
         public new Action<TArg1> InvokeDelegate { get { return _invoke.Value; } }
@@ -68,6 +74,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2) { _invoke.Value(arg1, arg2); }
         public new Action<TArg1, TArg2> InvokeDelegate { get { return _invoke.Value; } }
@@ -89,6 +98,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3) { _invoke.Value(arg1, arg2, arg3); }
         public new Action<TArg1, TArg2, TArg3> InvokeDelegate { get { return _invoke.Value; } }
@@ -110,6 +122,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4) { _invoke.Value(arg1, arg2, arg3, arg4); }
         public new Action<TArg1, TArg2, TArg3, TArg4> InvokeDelegate { get { return _invoke.Value; } }
@@ -131,6 +146,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) { _invoke.Value(arg1, arg2, arg3, arg4, arg5); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5> InvokeDelegate { get { return _invoke.Value; } }
@@ -152,6 +170,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6> InvokeDelegate { get { return _invoke.Value; } }
@@ -173,6 +194,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7> InvokeDelegate { get { return _invoke.Value; } }
@@ -194,6 +218,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8> InvokeDelegate { get { return _invoke.Value; } }
@@ -215,6 +242,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9> InvokeDelegate { get { return _invoke.Value; } }
@@ -236,6 +266,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10> InvokeDelegate { get { return _invoke.Value; } }
@@ -257,6 +290,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11> InvokeDelegate { get { return _invoke.Value; } }
@@ -278,6 +314,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12> InvokeDelegate { get { return _invoke.Value; } }
@@ -299,6 +338,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13> InvokeDelegate { get { return _invoke.Value; } }
@@ -320,6 +362,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14> InvokeDelegate { get { return _invoke.Value; } }
@@ -341,6 +386,9 @@ namespace Reflectinator
         
         void IStaticActionMethod.Invoke(params object[] args) { _invokeLoose.Value(args); }
         Action<object[]> IStaticActionMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+
+        object IStaticMethod.Invoke(params object[] args) { _invokeLoose.Value(args); return null; }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return ((IStaticMethod)this).Invoke; } }
         
         public void Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15) { _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15); }
         public new Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15> InvokeDelegate { get { return _invoke.Value; } }

@@ -73,7 +73,7 @@
     <Compile Include="IMethod.cs" />
     <Compile Include="IStaticActionMethod.cs" />
     <Compile Include="IStaticField.cs" />
-    <Compile Include="IStaticFuncMethod.cs" />
+    <Compile Include="IStaticMethod.cs" />
     <Compile Include="IStaticProperty.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Method.generated.cs">

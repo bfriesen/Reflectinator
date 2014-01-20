@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Reflectinator
 {
@@ -32,14 +33,73 @@ namespace Reflectinator
             return ctor;
         }
 
-        public static IEnumerable<IStaticProperty> AsStatic(this IEnumerable<IProperty> properties)
+        public static IEnumerable<IStaticProperty> OfStatic(this IEnumerable<IProperty> properties)
         {
             return properties.OfType<IStaticProperty>();
         }
 
-        public static IEnumerable<IProperty> AsInstance(this IEnumerable<IProperty> properties)
+        public static IEnumerable<IProperty> OfInstance(this IEnumerable<IProperty> properties)
         {
             return properties.Where(p => !p.IsStatic);
+        }
+
+        public static IEnumerable<IStaticField> OfStatic(this IEnumerable<IField> fields)
+        {
+            return fields.OfType<IStaticField>();
+        }
+
+        public static IEnumerable<IField> OfInstance(this IEnumerable<IField> fields)
+        {
+            return fields.Where(f => !f.IsStatic);
+        }
+
+        public static IEnumerable<IActionMethod> OfAction(this IEnumerable<IMethod> methods)
+        {
+            return methods.OfType<IActionMethod>();
+        }
+
+        public static IEnumerable<IStaticActionMethod> OfAction(this IEnumerable<IStaticMethod> methods)
+        {
+            return methods.OfType<IStaticActionMethod>();
+        }
+
+        public static IEnumerable<TMethod> OfFunc<TMethod>(this IEnumerable<TMethod> methods)
+            where TMethod : IMethod
+        {
+            return methods.Where(m => !(m is IActionMethod));
+        }
+
+        public static IEnumerable<IStaticMethod> OfStatic(this IEnumerable<IMethod> methods)
+        {
+            return methods.OfType<IStaticMethod>();
+        }
+
+        public static IEnumerable<IStaticActionMethod> OfStatic(this IEnumerable<IActionMethod> methods)
+        {
+            return methods.OfType<IStaticActionMethod>();
+        }
+
+        public static IEnumerable<TMethod> OfInstance<TMethod>(this IEnumerable<TMethod> methods)
+            where TMethod : IMethod
+        {
+            return methods.Where(m => !m.IsStatic);
+        }
+
+        public static IEnumerable<TMethod> ExceptPropertyAccessors<TMethod>(this IEnumerable<TMethod> methods)
+            where TMethod : IMethod
+        {
+            return methods.Where(m => !m.MethodInfo.IsPropertyAccessor());
+        }
+
+        public static IEnumerable<TMethod> OnlyPropertyAccessors<TMethod>(this IEnumerable<TMethod> methods)
+            where TMethod : IMethod
+        {
+            return methods.Where(m => m.MethodInfo.IsPropertyAccessor());
+        }
+
+        private static bool IsPropertyAccessor(this MethodInfo methodInfo)
+        {
+            return (methodInfo.Name.StartsWith("get_") || methodInfo.Name.StartsWith("set_")) && methodInfo.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Length > 0;
         }
 
         internal static IEnumerable<T> Then<T>(this T instance, IEnumerable<T> others)

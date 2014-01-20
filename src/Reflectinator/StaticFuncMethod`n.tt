@@ -21,7 +21,7 @@ namespace Reflectinator
 for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
 {
 #>
-    public sealed class StaticFuncMethod<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> : Method, IStaticFuncMethod
+    public sealed class StaticFuncMethod<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType> : Method, IStaticMethod
     {
         private readonly Lazy<Func<object[], object>> _invokeLoose;
         private readonly Lazy<Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType>> _invoke;
@@ -35,8 +35,8 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
         
         public override bool IsStatic { get { return true; } }
         
-        object IStaticFuncMethod.Invoke(params object[] args) { return _invokeLoose.Value(args); }
-        Func<object[], object> IStaticFuncMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
+        object IStaticMethod.Invoke(params object[] args) { return _invokeLoose.Value(args); }
+        Func<object[], object> IStaticMethod.InvokeDelegate { get { return _invokeLoose.Value; } }
         
         public TReturnType Invoke(<# PrintJoinFormat(", ", "TArg{1} arg{1}", i, false, false); #>) { return _invoke.Value(<# PrintJoinFormat(", ", "arg{1}", i, false, false); #>); }
         public Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType> InvokeDelegate { get { return _invoke.Value; } }

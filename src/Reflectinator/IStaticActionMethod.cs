@@ -2,9 +2,9 @@
 
 namespace Reflectinator
 {
-    public interface IStaticActionMethod : IActionMethod
+    public interface IStaticActionMethod : IStaticMethod, IActionMethod
     {
-        void Invoke(params object[] args);
+        new void Invoke(params object[] args);
         new Action<object[]> InvokeDelegate { get; }
     }
 }

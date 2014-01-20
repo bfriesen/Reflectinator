@@ -2,7 +2,7 @@
 
 namespace Reflectinator
 {
-    public interface IStaticFuncMethod : IMethod
+    public interface IStaticMethod : IMethod
     {
         object Invoke(params object[] args);
         new Func<object[], object> InvokeDelegate { get; }
