@@ -50,7 +50,7 @@ namespace Reflectinator
             _setValueStronglyTyped = new Lazy<Action<TDeclaringType, TFieldType>>(() => _setValueStronglyTypedExpression.Value.Compile());
         }
 
-        public string Name { get { return _fieldInfo.Name; } }
+        public override string Name { get { return _fieldInfo.Name; } }
         public FieldInfo FieldInfo { get { return _fieldInfo; } }
 
         public override bool IsPublic { get { return _fieldInfo.IsPublic; } }

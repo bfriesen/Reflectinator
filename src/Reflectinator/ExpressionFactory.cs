@@ -23,9 +23,7 @@ namespace Reflectinator
 
             var body = field.Coerce(fieldInfo.FieldType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(
-                body,
-                instanceParameter);
+            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(body, string.Format("<get>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new []{ instanceParameter });
             return expression;
         }
 
@@ -39,7 +37,7 @@ namespace Reflectinator
             var field = Expression.Field(null, fieldInfo);
             var body = field.Coerce(fieldInfo.FieldType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TReturnType>>(body);
+            var expression = Expression.Lambda<Func<TReturnType>>(body, string.Format("<get>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), Enumerable.Empty<ParameterExpression>());
             return expression;
         }
 
@@ -58,10 +56,7 @@ namespace Reflectinator
             var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
             var assignValue = Expression.Assign(field, valueCast);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(
-                assignValue,
-                instanceParameter,
-                valueParameter);
+            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(assignValue, string.Format("<set>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new[] { instanceParameter, valueParameter });
             return expression;
         }
 
@@ -78,7 +73,7 @@ namespace Reflectinator
             var field = Expression.Field(null, fieldInfo);
             var assignValue = Expression.Assign(field, valueCast);
 
-            var expression = Expression.Lambda<Action<TValueType>>(assignValue, valueParameter);
+            var expression = Expression.Lambda<Action<TValueType>>(assignValue, string.Format("<set>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new[] { valueParameter });
             return expression;
         }
 
@@ -110,7 +105,7 @@ namespace Reflectinator
 
         public static Expression<Func<TInstanceType, TReturnType>> CreateGetValueFuncExpression<TInstanceType, TReturnType>(PropertyInfo propertyInfo)
         {
-            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
+            var methodInfo = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
 
             var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
 
@@ -118,19 +113,17 @@ namespace Reflectinator
 
             if (propertyInfo.IsStatic())
             {
-                call = Expression.Call(method);
+                call = Expression.Call(methodInfo);
             }
             else
             {
-                var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), method.DeclaringType);
-                call = Expression.Call(instanceCast, method);
+                var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), methodInfo.DeclaringType);
+                call = Expression.Call(instanceCast, methodInfo);
             }
 
-            var body = call.Coerce(method.ReturnType, typeof(TReturnType));
+            var body = call.Coerce(methodInfo.ReturnType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(
-                body,
-                instanceParameter);
+            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(body, string.Format("<get>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new [] { instanceParameter });
             return expression;
         }
 
@@ -146,7 +139,7 @@ namespace Reflectinator
             var call = Expression.Call(method);
             var body = call.Coerce(method.ReturnType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TReturnType>>(body);
+            var expression = Expression.Lambda<Func<TReturnType>>(body, string.Format("<get>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), Enumerable.Empty<ParameterExpression>());
             return expression;
         }
 
@@ -177,10 +170,7 @@ namespace Reflectinator
                 call = Expression.Call(instanceCast, method, valueCast);
             }
 
-            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(
-                call,
-                instanceParameter,
-                valueParameter);
+            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(call, string.Format("<set>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new[] { instanceParameter, valueParameter });
             return expression;
         }
 
@@ -197,7 +187,7 @@ namespace Reflectinator
             var valueCast = valueParameter.Coerce(typeof(TValueType), method.GetParameters().Single().ParameterType);
 
             var call = Expression.Call(method, valueCast);
-            var expression = Expression.Lambda<Action<TValueType>>(call, valueParameter);
+            var expression = Expression.Lambda<Action<TValueType>>(call, string.Format("<set>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new[] { valueParameter });
 
             return expression;
         }
@@ -236,7 +226,7 @@ namespace Reflectinator
 
             var ctorParameters = ctor.GetParameters();
 
-            var parameter = Expression.Parameter(typeof(object[]));
+            var parameter = Expression.Parameter(typeof(object[]), "args");
             var coercedParameters =
                 ctorParameters.Select(
                     (parameterInfo, i) =>
@@ -245,7 +235,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(object));
 
-            var expression = Expression.Lambda<Func<object[], object>>(newCast, new[] { parameter });
+            var expression = Expression.Lambda<Func<object[], object>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), new[] { parameter });
             return expression;
         }
 
@@ -262,7 +252,7 @@ namespace Reflectinator
             var parameter = Expression.Parameter(typeof(object[]), "args");
             var call = GetNonGenericCallExpression(methodInfo, instanceParameter, methodInfoParameters, parameter);
 
-            var expression = Expression.Lambda<Func<object, object[], object>>(call, new [] { instanceParameter, parameter });
+            var expression = Expression.Lambda<Func<object, object[], object>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), new [] { instanceParameter, parameter });
             return expression;
         }
 
@@ -275,7 +265,7 @@ namespace Reflectinator
             var parameter = Expression.Parameter(typeof(object[]), "args");
             var call = GetNonGenericCallExpression(methodInfo, instanceParameter, methodInfoParameters, parameter);
 
-            var expression = Expression.Lambda<Action<object, object[]>>(call, new[] { instanceParameter, parameter });
+            var expression = Expression.Lambda<Action<object, object[]>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), new[] { instanceParameter, parameter });
             return expression;
         }
 
@@ -291,7 +281,7 @@ namespace Reflectinator
             var parameter = Expression.Parameter(typeof(object[]), "args");
             var call = GetNonGenericCallExpression(methodInfo, null, methodInfoParameters, parameter);
 
-            var expression = Expression.Lambda<Func<object[], object>>(call, parameter);
+            var expression = Expression.Lambda<Func<object[], object>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), new[] { parameter });
             return expression;
         }
 
@@ -307,7 +297,7 @@ namespace Reflectinator
             var parameter = Expression.Parameter(typeof(object[]), "args");
             var call = GetNonGenericCallExpression(methodInfo, null, methodInfoParameters, parameter);
 
-            var expression = Expression.Lambda<Action<object[]>>(call, parameter);
+            var expression = Expression.Lambda<Action<object[]>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), new[] { parameter });
             return expression;
         }
 

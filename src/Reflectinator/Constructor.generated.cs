@@ -232,6 +232,7 @@ namespace Reflectinator
 
         public ConstructorInfo ConstructorInfo { get { return _constructorInfo; } }
         
+        public override string Name { get { return "ctor"; } }
         public override bool IsPublic { get { return _constructorInfo.IsPublic; } }
         public override bool IsStatic { get { return false; } }
 

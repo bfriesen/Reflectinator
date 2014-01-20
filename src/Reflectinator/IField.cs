@@ -6,7 +6,6 @@ namespace Reflectinator
 {
     public interface IField : IMember
     {
-        string Name { get; }
         FieldInfo FieldInfo { get; }
 
         bool IsReadOnly { get; }

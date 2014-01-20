@@ -7,6 +7,7 @@
         /// </summary>
         ITypeCrawler DeclaringType { get; }
 
+        string Name { get; }
         bool IsPublic { get; }
         bool IsStatic { get; } 
     }

@@ -6,7 +6,6 @@ namespace Reflectinator
 {
     public interface IProperty : IMember
     {
-        string Name { get; }
         PropertyInfo PropertyInfo { get; }
 
         MethodInfo GetMethod { get; }

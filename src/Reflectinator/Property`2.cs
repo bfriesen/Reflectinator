@@ -60,7 +60,7 @@ namespace Reflectinator
             _setValueStronglyTyped = new Lazy<Action<TDeclaringType, TPropertyType>>(() => _setValueStronglyTypedExpression.Value.Compile());
         }
 
-        public string Name { get { return _propertyInfo.Name; } }
+        public override string Name { get { return _propertyInfo.Name; } }
         public PropertyInfo PropertyInfo { get { return _propertyInfo; } }
 
         public MethodInfo GetMethod { get { return _getMethod.Value; } }

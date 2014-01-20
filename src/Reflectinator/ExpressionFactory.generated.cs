@@ -37,7 +37,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -69,7 +69,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -101,7 +101,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -133,7 +133,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -165,7 +165,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -197,7 +197,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -229,7 +229,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -261,7 +261,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -293,7 +293,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -325,7 +325,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -357,7 +357,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -389,7 +389,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -421,7 +421,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -453,7 +453,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -485,7 +485,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -517,7 +517,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -549,7 +549,7 @@ namespace Reflectinator
             var newExpression = Expression.New(ctor, coercedParameters);
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>>(newCast, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>>(newCast, string.Format("{0}.ctor", ctor.DeclaringType.Name), parameters);
             return expression;
         }
 
@@ -566,7 +566,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] {};
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -579,7 +579,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -592,7 +592,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -605,7 +605,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -618,7 +618,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -631,7 +631,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -644,7 +644,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -657,7 +657,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -670,7 +670,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -683,7 +683,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -696,7 +696,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -709,7 +709,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -722,7 +722,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -735,7 +735,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -748,7 +748,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -761,7 +761,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14"), Expression.Parameter(typeof(TArg15), "arg15") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Func<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -778,7 +778,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] {};
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -791,7 +791,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -804,7 +804,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -817,7 +817,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -830,7 +830,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -843,7 +843,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -856,7 +856,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -869,7 +869,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -882,7 +882,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -895,7 +895,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -908,7 +908,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -921,7 +921,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -934,7 +934,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -947,7 +947,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -960,7 +960,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -973,7 +973,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14"), Expression.Parameter(typeof(TArg15), "arg15") };
             var call = GetCallExpression(methodInfo, instanceParameter, typeof(TInstanceType), null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(call, instanceParameter.Then(parameters));
+            var expression = Expression.Lambda<Action<TInstanceType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), instanceParameter.Then(parameters));
             return expression;
         }
 
@@ -993,7 +993,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] {};
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1009,7 +1009,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1025,7 +1025,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1041,7 +1041,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1057,7 +1057,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1073,7 +1073,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1089,7 +1089,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1105,7 +1105,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1121,7 +1121,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1137,7 +1137,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1153,7 +1153,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1169,7 +1169,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1185,7 +1185,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1201,7 +1201,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1217,7 +1217,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1233,7 +1233,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14"), Expression.Parameter(typeof(TArg15), "arg15") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1249,7 +1249,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14"), Expression.Parameter(typeof(TArg15), "arg15"), Expression.Parameter(typeof(TArg16), "arg16") };
             var call = GetCallExpression(methodInfo, null, null, typeof(TReturnType), methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>>(call, parameters);
+            var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1269,7 +1269,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] {};
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action>(call, parameters);
+            var expression = Expression.Lambda<Action>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1285,7 +1285,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1301,7 +1301,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1317,7 +1317,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1333,7 +1333,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1349,7 +1349,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1365,7 +1365,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1381,7 +1381,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1397,7 +1397,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1413,7 +1413,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1429,7 +1429,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1445,7 +1445,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1461,7 +1461,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1477,7 +1477,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1493,7 +1493,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1509,7 +1509,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14"), Expression.Parameter(typeof(TArg15), "arg15") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 
@@ -1525,7 +1525,7 @@ namespace Reflectinator
             var parameters = new ParameterExpression[] { Expression.Parameter(typeof(TArg1), "arg1"), Expression.Parameter(typeof(TArg2), "arg2"), Expression.Parameter(typeof(TArg3), "arg3"), Expression.Parameter(typeof(TArg4), "arg4"), Expression.Parameter(typeof(TArg5), "arg5"), Expression.Parameter(typeof(TArg6), "arg6"), Expression.Parameter(typeof(TArg7), "arg7"), Expression.Parameter(typeof(TArg8), "arg8"), Expression.Parameter(typeof(TArg9), "arg9"), Expression.Parameter(typeof(TArg10), "arg10"), Expression.Parameter(typeof(TArg11), "arg11"), Expression.Parameter(typeof(TArg12), "arg12"), Expression.Parameter(typeof(TArg13), "arg13"), Expression.Parameter(typeof(TArg14), "arg14"), Expression.Parameter(typeof(TArg15), "arg15"), Expression.Parameter(typeof(TArg16), "arg16") };
             var call = GetCallExpression(methodInfo, null, null, null, methodInfoParameters, parameters);
 
-            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>>(call, parameters);
+            var expression = Expression.Lambda<Action<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>>(call, string.Format("{0}.{1}", methodInfo.DeclaringType.Name, methodInfo.Name), parameters);
             return expression;
         }
 

@@ -665,7 +665,7 @@ namespace Reflectinator
         #endregion
 
         public MethodInfo MethodInfo { get { return _methodInfo; } }
-        public string Name { get { return _methodInfo.Name; } }
+        public override string Name { get { return _methodInfo.Name; } }
 
         public override bool IsPublic { get { return _methodInfo.IsPublic; } }
         public override bool IsStatic { get { return false; } }
