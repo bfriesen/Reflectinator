@@ -27,7 +27,7 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments - 1; i++)
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance<# PrintJoinFormat(", ", "TArg{1} arg{1}", i, true, false); #>) { return _invoke.Value(instance<# PrintJoinFormat(", ", "arg{1}", i, true, false); #>); }

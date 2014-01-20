@@ -16,7 +16,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance) { return _invoke.Value(instance); }
@@ -30,7 +30,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1) { return _invoke.Value(instance, arg1); }
@@ -44,7 +44,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2) { return _invoke.Value(instance, arg1, arg2); }
@@ -58,7 +58,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3) { return _invoke.Value(instance, arg1, arg2, arg3); }
@@ -72,7 +72,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4) { return _invoke.Value(instance, arg1, arg2, arg3, arg4); }
@@ -86,7 +86,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5); }
@@ -100,7 +100,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6); }
@@ -114,7 +114,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
@@ -128,7 +128,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8); }
@@ -142,7 +142,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9); }
@@ -156,7 +156,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10); }
@@ -170,7 +170,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11); }
@@ -184,7 +184,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12); }
@@ -198,7 +198,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13); }
@@ -212,7 +212,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14); }
@@ -226,7 +226,7 @@ namespace Reflectinator
         internal FuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(() => FuncFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(methodInfo));
+            _invoke = new Lazy<Func<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(() => ExpressionFactory.CreateInstanceMethodFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(methodInfo));
         }
     
         public TReturnType Invoke(TDeclaringType instance, TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15) { return _invoke.Value(instance, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15); }

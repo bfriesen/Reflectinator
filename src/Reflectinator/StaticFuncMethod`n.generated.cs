@@ -18,8 +18,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -39,8 +39,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -60,8 +60,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -81,8 +81,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -102,8 +102,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -123,8 +123,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -144,8 +144,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -165,8 +165,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -186,8 +186,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -207,8 +207,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -228,8 +228,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -249,8 +249,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -270,8 +270,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -291,8 +291,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -312,8 +312,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }
@@ -333,8 +333,8 @@ namespace Reflectinator
         internal StaticFuncMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Func<object[], object>>(() => FuncFactory.CreateNonGenericStaticMethodFunc(methodInfo));
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(() => FuncFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(methodInfo));
+            _invokeLoose = new Lazy<Func<object[], object>>(() => ExpressionFactory.CreateNonGenericStaticMethodFunc(methodInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(() => ExpressionFactory.CreateStaticMethodFunc<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>(methodInfo));
         }
         
         public override bool IsStatic { get { return true; } }

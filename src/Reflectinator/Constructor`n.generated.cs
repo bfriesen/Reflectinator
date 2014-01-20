@@ -24,7 +24,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType>(constructorInfo));
+            _invoke = new Lazy<Func<TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType>(constructorInfo));
         }
 
         public TDeclaringType Invoke()
@@ -49,7 +49,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1)
@@ -74,7 +74,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2)
@@ -99,7 +99,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3)
@@ -124,7 +124,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4)
@@ -149,7 +149,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5)
@@ -174,7 +174,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6)
@@ -199,7 +199,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7)
@@ -224,7 +224,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8)
@@ -249,7 +249,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9)
@@ -274,7 +274,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10)
@@ -299,7 +299,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11)
@@ -324,7 +324,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12)
@@ -349,7 +349,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13)
@@ -374,7 +374,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14)
@@ -399,7 +399,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15)
@@ -424,7 +424,7 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>(() => FuncFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(constructorInfo));
         }
 
         public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15, TArg16 arg16)

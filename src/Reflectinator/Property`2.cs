@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -14,8 +15,14 @@ namespace Reflectinator
 
         private readonly Lazy<ITypeCrawler> _propertyType;
 
+        private readonly Lazy<Expression<Func<object, object>>> _getValueLooselyTypedExpression;
+        private readonly Lazy<Expression<Action<object, object>>> _setValueLooselyTypedExpression;
+
         private readonly Lazy<Func<object, object>> _getValueLooselyTyped;
         private readonly Lazy<Action<object, object>> _setValueLooselyTyped;
+
+        private readonly Lazy<Expression<Func<TDeclaringType, TPropertyType>>> _getValueStronglyTypedExpression;
+        private readonly Lazy<Expression<Action<TDeclaringType, TPropertyType>>> _setValueStronglyTypedExpression;
 
         private readonly Lazy<Func<TDeclaringType, TPropertyType>> _getValueStronglyTyped;
         private readonly Lazy<Action<TDeclaringType, TPropertyType>> _setValueStronglyTyped;
@@ -42,11 +49,15 @@ namespace Reflectinator
 
             _propertyType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(propertyInfo.PropertyType));
 
-            _getValueLooselyTyped = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(propertyInfo));
-            _setValueLooselyTyped = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(propertyInfo));
+            _getValueLooselyTypedExpression = new Lazy<Expression<Func<object, object>>>(() => ExpressionFactory.CreateGetValueFuncExpression(propertyInfo));
+            _setValueLooselyTypedExpression = new Lazy<Expression<Action<object, object>>>(() => ExpressionFactory.CreateSetValueFuncExpression(propertyInfo));
+            _getValueStronglyTypedExpression = new Lazy<Expression<Func<TDeclaringType, TPropertyType>>>(() => ExpressionFactory.CreateGetValueFuncExpression<TDeclaringType, TPropertyType>(propertyInfo));
+            _setValueStronglyTypedExpression = new Lazy<Expression<Action<TDeclaringType, TPropertyType>>>(() => ExpressionFactory.CreateSetValueFuncExpression<TDeclaringType, TPropertyType>(propertyInfo));
 
-            _getValueStronglyTyped = new Lazy<Func<TDeclaringType, TPropertyType>>(() => FuncFactory.CreateGetValueFunc<TDeclaringType, TPropertyType>(propertyInfo));
-            _setValueStronglyTyped = new Lazy<Action<TDeclaringType, TPropertyType>>(() => FuncFactory.CreateSetValueFunc<TDeclaringType, TPropertyType>(propertyInfo));
+            _getValueLooselyTyped = new Lazy<Func<object, object>>(() => _getValueLooselyTypedExpression.Value.Compile());
+            _setValueLooselyTyped = new Lazy<Action<object, object>>(() => _setValueLooselyTypedExpression.Value.Compile());
+            _getValueStronglyTyped = new Lazy<Func<TDeclaringType, TPropertyType>>(() => _getValueStronglyTypedExpression.Value.Compile());
+            _setValueStronglyTyped = new Lazy<Action<TDeclaringType, TPropertyType>>(() => _setValueStronglyTypedExpression.Value.Compile());
         }
 
         public string Name { get { return _propertyInfo.Name; } }
@@ -63,11 +74,17 @@ namespace Reflectinator
 
         public ITypeCrawler PropertyType { get { return _propertyType.Value; } }
 
+        Expression<Func<object, object>> IProperty.GetFuncExpression { get { return _getValueLooselyTypedExpression.Value; } }
+        Expression<Action<object, object>> IProperty.SetActionExpression { get { return _setValueLooselyTypedExpression.Value; } }
+
         Func<object, object> IProperty.GetFunc { get { return _getValueLooselyTyped.Value; } }
         Action<object, object> IProperty.SetAction { get { return _setValueLooselyTyped.Value; } }
 
         object IProperty.Get(object instance) { return _getValueLooselyTyped.Value(instance); }
         void IProperty.Set(object instance, object value) { _setValueLooselyTyped.Value(instance, value); }
+
+        public Expression<Func<TDeclaringType, TPropertyType>> GetFuncExpression { get { return _getValueStronglyTypedExpression.Value; } }
+        public Expression<Action<TDeclaringType, TPropertyType>> SetActionExpression { get { return _setValueStronglyTypedExpression.Value; } }
 
         public Func<TDeclaringType, TPropertyType> GetFunc { get { return _getValueStronglyTyped.Value; } }
         public Action<TDeclaringType, TPropertyType> SetAction { get { return _setValueStronglyTyped.Value; } }

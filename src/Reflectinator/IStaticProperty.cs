@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Reflectinator
 {
     public interface IStaticProperty : IProperty
     {
+        Expression<Func<object>> StaticGetFuncExpression { get; }
+        Expression<Action<object>> StaticSetActionExpression { get; }
+
         Func<object> StaticGetFunc { get; }
         Action<object> StaticSetAction { get; }
 

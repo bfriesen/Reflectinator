@@ -6,16 +6,16 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public static partial class FuncFactory
+    public static partial class ExpressionFactory
     {
         #region Field
 
-        public static Func<object, object> CreateGetValueFunc(FieldInfo fieldInfo)
+        public static Expression<Func<object, object>> CreateGetValueFuncExpression(FieldInfo fieldInfo)
         {
-            return CreateGetValueFunc<object, object>(fieldInfo);
+            return CreateGetValueFuncExpression<object, object>(fieldInfo);
         }
 
-        public static Func<TInstanceType, TReturnType> CreateGetValueFunc<TInstanceType, TReturnType>(FieldInfo fieldInfo)
+        public static Expression<Func<TInstanceType, TReturnType>> CreateGetValueFuncExpression<TInstanceType, TReturnType>(FieldInfo fieldInfo)
         {
             var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
 
@@ -26,29 +26,29 @@ namespace Reflectinator
             var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(
                 body,
                 instanceParameter);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<object> CreateStaticGetValueFunc(FieldInfo fieldInfo)
+        public static Expression<Func<object>> CreateStaticGetValueFuncExpression(FieldInfo fieldInfo)
         {
-            return CreateStaticGetValueFunc<object>(fieldInfo);
+            return CreateStaticGetValueFuncExpression<object>(fieldInfo);
         }
 
-        public static Func<TReturnType> CreateStaticGetValueFunc<TReturnType>(FieldInfo fieldInfo)
+        public static Expression<Func<TReturnType>> CreateStaticGetValueFuncExpression<TReturnType>(FieldInfo fieldInfo)
         {
             var field = Expression.Field(null, fieldInfo);
             var body = field.Coerce(fieldInfo.FieldType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TReturnType>>(body);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<object, object> CreateSetValueFunc(FieldInfo fieldInfo)
+        public static Expression<Action<object, object>> CreateSetValueFuncExpression(FieldInfo fieldInfo)
         {
-            return CreateSetValueFunc<object, object>(fieldInfo);
+            return CreateSetValueFuncExpression<object, object>(fieldInfo);
         }
 
-        public static Action<TInstanceType, TValueType> CreateSetValueFunc<TInstanceType, TValueType>(FieldInfo fieldInfo)
+        public static Expression<Action<TInstanceType, TValueType>> CreateSetValueFuncExpression<TInstanceType, TValueType>(FieldInfo fieldInfo)
         {
             var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
             var valueParameter = Expression.Parameter(typeof(TValueType), "value");
@@ -62,15 +62,15 @@ namespace Reflectinator
                 assignValue,
                 instanceParameter,
                 valueParameter);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<object> CreateStaticSetValueAction(FieldInfo fieldInfo)
+        public static Expression<Action<object>> CreateStaticSetValueActionExpression(FieldInfo fieldInfo)
         {
-            return CreateStaticSetValueAction<object>(fieldInfo);
+            return CreateStaticSetValueActionExpression<object>(fieldInfo);
         }
 
-        public static Action<TValueType> CreateStaticSetValueAction<TValueType>(FieldInfo fieldInfo)
+        public static Expression<Action<TValueType>> CreateStaticSetValueActionExpression<TValueType>(FieldInfo fieldInfo)
         {
             var valueParameter = Expression.Parameter(typeof(TValueType), "value");
             var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
@@ -79,7 +79,7 @@ namespace Reflectinator
             var assignValue = Expression.Assign(field, valueCast);
 
             var expression = Expression.Lambda<Action<TValueType>>(assignValue, valueParameter);
-            return expression.Compile();
+            return expression;
         }
 
         private static MemberExpression GetField(FieldInfo fieldInfo, Type declaringType, ParameterExpression instanceParameter)
@@ -103,12 +103,12 @@ namespace Reflectinator
 
         #region Property
 
-        public static Func<object, object> CreateGetValueFunc(PropertyInfo propertyInfo)
+        public static Expression<Func<object, object>> CreateGetValueFuncExpression(PropertyInfo propertyInfo)
         {
-            return CreateGetValueFunc<object, object>(propertyInfo);
+            return CreateGetValueFuncExpression<object, object>(propertyInfo);
         }
 
-        public static Func<TInstanceType, TReturnType> CreateGetValueFunc<TInstanceType, TReturnType>(PropertyInfo propertyInfo)
+        public static Expression<Func<TInstanceType, TReturnType>> CreateGetValueFuncExpression<TInstanceType, TReturnType>(PropertyInfo propertyInfo)
         {
             var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
 
@@ -131,16 +131,15 @@ namespace Reflectinator
             var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(
                 body,
                 instanceParameter);
-
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<object> CreateStaticGetValueFunc(PropertyInfo propertyInfo)
+        public static Expression<Func<object>> CreateStaticGetValueFuncExpression(PropertyInfo propertyInfo)
         {
-            return CreateStaticGetValueFunc<object>(propertyInfo);
+            return CreateStaticGetValueFuncExpression<object>(propertyInfo);
         }
 
-        public static Func<TReturnType> CreateStaticGetValueFunc<TReturnType>(PropertyInfo propertyInfo)
+        public static Expression<Func<TReturnType>> CreateStaticGetValueFuncExpression<TReturnType>(PropertyInfo propertyInfo)
         {
             var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
 
@@ -148,15 +147,15 @@ namespace Reflectinator
             var body = call.Coerce(method.ReturnType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TReturnType>>(body);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<object, object> CreateSetValueFunc(PropertyInfo propertyInfo)
+        public static Expression<Action<object, object>> CreateSetValueFuncExpression(PropertyInfo propertyInfo)
         {
-            return CreateSetValueFunc<object, object>(propertyInfo);
+            return CreateSetValueFuncExpression<object, object>(propertyInfo);
         }
 
-        public static Action<TInstanceType, TValueType> CreateSetValueFunc<TInstanceType, TValueType>(PropertyInfo propertyInfo)
+        public static Expression<Action<TInstanceType, TValueType>> CreateSetValueFuncExpression<TInstanceType, TValueType>(PropertyInfo propertyInfo)
         {
             var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
 
@@ -182,16 +181,15 @@ namespace Reflectinator
                 call,
                 instanceParameter,
                 valueParameter);
-
-            return expression.Compile();
+            return expression;
         }
 
-        public static Action<object> CreateStaticSetValueAction(PropertyInfo propertyInfo)
+        public static Expression<Action<object>> CreateStaticSetValueActionExpression(PropertyInfo propertyInfo)
         {
-            return CreateStaticSetValueAction<object>(propertyInfo);
+            return CreateStaticSetValueActionExpression<object>(propertyInfo);
         }
 
-        public static Action<TValueType> CreateStaticSetValueAction<TValueType>(PropertyInfo propertyInfo)
+        public static Expression<Action<TValueType>> CreateStaticSetValueActionExpression<TValueType>(PropertyInfo propertyInfo)
         {
             var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
 
@@ -201,7 +199,7 @@ namespace Reflectinator
             var call = Expression.Call(method, valueCast);
             var expression = Expression.Lambda<Action<TValueType>>(call, valueParameter);
 
-            return expression.Compile();
+            return expression;
         }
 
         private static MethodInfo GetPropertyAccessorMethod(PropertyInfo propertyInfo, Func<PropertyInfo, MethodInfo> getAccessor, Func<PropertyInfo, bool> canUseAccessor, string accessVerbPhrase)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -15,6 +16,9 @@ namespace Reflectinator
         bool CanWrite { get; }
 
         ITypeCrawler PropertyType { get; }
+
+        Expression<Func<object, object>> GetFuncExpression { get; }
+        Expression<Action<object, object>> SetActionExpression { get; }
 
         Func<object, object> GetFunc { get; }
         Action<object, object> SetAction { get; }

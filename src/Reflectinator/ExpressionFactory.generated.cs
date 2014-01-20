@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Reflectinator
 {
-    public static partial class FuncFactory
+    public static partial class ExpressionFactory
     {
         #region CreateConstructorFunc
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -9,8 +10,14 @@ namespace Reflectinator
 
         private readonly Lazy<ITypeCrawler> _fieldType;
 
+        private readonly Lazy<Expression<Func<object, object>>> _getValueLooselyTypedExpression;
+        private readonly Lazy<Expression<Action<object, object>>> _setValueLooselyTypedExpression;
+
         private readonly Lazy<Func<object, object>> _getValueLooselyTyped;
         private readonly Lazy<Action<object, object>> _setValueLooselyTyped;
+
+        private readonly Lazy<Expression<Func<TDeclaringType, TFieldType>>> _getValueStronglyTypedExpression;
+        private readonly Lazy<Expression<Action<TDeclaringType, TFieldType>>> _setValueStronglyTypedExpression;
 
         private readonly Lazy<Func<TDeclaringType, TFieldType>> _getValueStronglyTyped;
         private readonly Lazy<Action<TDeclaringType, TFieldType>> _setValueStronglyTyped;
@@ -32,11 +39,15 @@ namespace Reflectinator
 
             _fieldType = new Lazy<ITypeCrawler>(() => TypeCrawler.Get(fieldInfo.FieldType));
 
-            _getValueLooselyTyped = new Lazy<Func<object, object>>(() => FuncFactory.CreateGetValueFunc(fieldInfo));
-            _setValueLooselyTyped = new Lazy<Action<object, object>>(() => FuncFactory.CreateSetValueFunc(fieldInfo));
+            _getValueLooselyTypedExpression = new Lazy<Expression<Func<object, object>>>(() => ExpressionFactory.CreateGetValueFuncExpression(fieldInfo));
+            _setValueLooselyTypedExpression = new Lazy<Expression<Action<object, object>>>(() => ExpressionFactory.CreateSetValueFuncExpression(fieldInfo));
+            _getValueStronglyTypedExpression = new Lazy<Expression<Func<TDeclaringType, TFieldType>>>(() => ExpressionFactory.CreateGetValueFuncExpression<TDeclaringType, TFieldType>(fieldInfo));
+            _setValueStronglyTypedExpression = new Lazy<Expression<Action<TDeclaringType, TFieldType>>>(() => ExpressionFactory.CreateSetValueFuncExpression<TDeclaringType, TFieldType>(fieldInfo));
 
-            _getValueStronglyTyped = new Lazy<Func<TDeclaringType, TFieldType>>(() => FuncFactory.CreateGetValueFunc<TDeclaringType, TFieldType>(fieldInfo));
-            _setValueStronglyTyped = new Lazy<Action<TDeclaringType, TFieldType>>(() => FuncFactory.CreateSetValueFunc<TDeclaringType, TFieldType>(fieldInfo));
+            _getValueLooselyTyped = new Lazy<Func<object, object>>(() => _getValueLooselyTypedExpression.Value.Compile());
+            _setValueLooselyTyped = new Lazy<Action<object, object>>(() => _setValueLooselyTypedExpression.Value.Compile());
+            _getValueStronglyTyped = new Lazy<Func<TDeclaringType, TFieldType>>(() => _getValueStronglyTypedExpression.Value.Compile());
+            _setValueStronglyTyped = new Lazy<Action<TDeclaringType, TFieldType>>(() => _setValueStronglyTypedExpression.Value.Compile());
         }
 
         public string Name { get { return _fieldInfo.Name; } }
@@ -50,11 +61,17 @@ namespace Reflectinator
 
         public ITypeCrawler FieldType { get { return _fieldType.Value; } }
 
+        Expression<Func<object, object>> IField.GetFuncExpression { get { return _getValueLooselyTypedExpression.Value; } }
+        Expression<Action<object, object>> IField.SetActionExpression { get { return _setValueLooselyTypedExpression.Value; } }
+
         Func<object, object> IField.GetFunc { get { return _getValueLooselyTyped.Value; } }
         Action<object, object> IField.SetAction { get { return _setValueLooselyTyped.Value; } }
 
         object IField.Get(object instance) { return _getValueLooselyTyped.Value(instance); }
         void IField.Set(object instance, object value) { _setValueLooselyTyped.Value(instance, value); }
+
+        public Expression<Func<TDeclaringType, TFieldType>> GetFuncExpression { get { return _getValueStronglyTypedExpression.Value; } }
+        public Expression<Action<TDeclaringType, TFieldType>> SetActionExpression { get { return _setValueStronglyTypedExpression.Value; } }
 
         public Func<TDeclaringType, TFieldType> GetFunc { get { return _getValueStronglyTyped.Value; } }
         public Action<TDeclaringType, TFieldType> SetAction { get { return _setValueStronglyTyped.Value; } }

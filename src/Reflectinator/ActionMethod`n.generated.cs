@@ -19,8 +19,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -38,8 +38,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -57,8 +57,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -76,8 +76,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -95,8 +95,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -114,8 +114,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -133,8 +133,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -152,8 +152,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -171,8 +171,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -190,8 +190,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -209,8 +209,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -228,8 +228,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -247,8 +247,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -266,8 +266,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -285,8 +285,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }
@@ -304,8 +304,8 @@ namespace Reflectinator
         internal ActionMethod(MethodInfo methodInfo)
             : base(methodInfo)
         {
-            _invokeLoose = new Lazy<Action<object, object[]>>(() => FuncFactory.CreateNonGenericInstanceMethodAction(methodInfo));
-            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(() => FuncFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(methodInfo));
+            _invokeLoose = new Lazy<Action<object, object[]>>(() => ExpressionFactory.CreateNonGenericInstanceMethodAction(methodInfo));
+            _invoke = new Lazy<Action<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>>(() => ExpressionFactory.CreateInstanceMethodAction<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(methodInfo));
         }
     
         void IActionMethod.Invoke(object instance, params object[] args) { _invokeLoose.Value(instance, args); }

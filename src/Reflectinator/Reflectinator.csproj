@@ -57,10 +57,10 @@
     </Compile>
     <Compile Include="Field.cs" />
     <Compile Include="Field`2.cs" />
-    <Compile Include="FuncFactory.generated.cs">
+    <Compile Include="ExpressionFactory.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FuncFactory.tt</DependentUpon>
+      <DependentUpon>ExpressionFactory.tt</DependentUpon>
     </Compile>
     <Compile Include="FuncMethod`n.generated.cs">
       <AutoGen>True</AutoGen>
@@ -98,7 +98,7 @@
     <Compile Include="TypeCrawler.cs" />
     <Compile Include="TypeCrawler`1.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FuncFactory.cs" />
+    <Compile Include="ExpressionFactory.cs" />
     <Compile Include="IConstructor.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IProperty.cs" />
@@ -118,9 +118,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Constructor`n.generated.cs</LastGenOutput>
     </None>
-    <None Include="FuncFactory.tt">
+    <None Include="ExpressionFactory.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FuncFactory.generated.cs</LastGenOutput>
+      <LastGenOutput>ExpressionFactory.generated.cs</LastGenOutput>
     </None>
     <None Include="FuncMethod`n.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
