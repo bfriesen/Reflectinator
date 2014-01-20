@@ -6,6 +6,7 @@
 
 using System;
 using System.Dynamic;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -14,6 +15,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] {};
 
+        private readonly Lazy<Expression<Func<TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -24,14 +26,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType>(constructorInfo));
+            _invoke = new Lazy<Func<TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke()
-        {
-            return _invoke.Value();
-        }
-
+        public TDeclaringType Invoke() { return _invoke.Value(); }
+        public Expression<Func<TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -39,6 +39,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1) };
 
+        private readonly Lazy<Expression<Func<TArg1, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -49,14 +50,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1)
-        {
-            return _invoke.Value(arg1);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1) { return _invoke.Value(arg1); }
+        public Expression<Func<TArg1, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -64,6 +63,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -74,14 +74,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2)
-        {
-            return _invoke.Value(arg1, arg2);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2) { return _invoke.Value(arg1, arg2); }
+        public Expression<Func<TArg1, TArg2, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -89,6 +87,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -99,14 +98,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3)
-        {
-            return _invoke.Value(arg1, arg2, arg3);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3) { return _invoke.Value(arg1, arg2, arg3); }
+        public Expression<Func<TArg1, TArg2, TArg3, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -114,6 +111,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -124,14 +122,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4) { return _invoke.Value(arg1, arg2, arg3, arg4); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -139,6 +135,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -149,14 +146,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -164,6 +159,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -174,14 +170,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -189,6 +183,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -199,14 +194,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -214,6 +207,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -224,14 +218,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -239,6 +231,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -249,14 +242,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -264,6 +255,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -274,14 +266,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -289,6 +279,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -299,14 +290,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -314,6 +303,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -324,14 +314,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -339,6 +327,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -349,14 +338,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -364,6 +351,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -374,14 +362,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -389,6 +375,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -399,14 +386,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 
@@ -414,6 +399,7 @@ namespace Reflectinator
     {
         private static readonly Type[] _argTypes = new Type[] { typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5), typeof(TArg6), typeof(TArg7), typeof(TArg8), typeof(TArg9), typeof(TArg10), typeof(TArg11), typeof(TArg12), typeof(TArg13), typeof(TArg14), typeof(TArg15), typeof(TArg16) };
 
+        private readonly Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>> _invokeExpression;
         private readonly Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>> _invoke;
 
         internal Constructor()
@@ -424,14 +410,12 @@ namespace Reflectinator
         internal Constructor(ConstructorInfo constructorInfo)
             : base(constructorInfo)
         {
-            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>(() => ExpressionFactory.CreateConstructorFunc<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>>(() => ExpressionFactory.CreateConstructorFuncExpression<TDeclaringType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(constructorInfo));
+            _invoke = new Lazy<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>>(() => _invokeExpression.Value.Compile());
         }
 
-        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15, TArg16 arg16)
-        {
-            return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16);
-        }
-
+        public TDeclaringType Invoke(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4, TArg5 arg5, TArg6 arg6, TArg7 arg7, TArg8 arg8, TArg9 arg9, TArg10 arg10, TArg11 arg11, TArg12 arg12, TArg13 arg13, TArg14 arg14, TArg15 arg15, TArg16 arg16) { return _invoke.Value(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16); }
+        public Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType>> InvokeExpression { get { return _invokeExpression.Value; } }
         public Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TDeclaringType> InvokeFunc { get { return _invoke.Value; } }
     }
 

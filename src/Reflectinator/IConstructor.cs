@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -29,5 +30,10 @@ namespace Reflectinator
         /// Gets a function that, when invoked, returns a new instance of the constructor's type.
         /// </summary>
         Func<object[], object> InvokeFunc { get; }
+
+        /// <summary>
+        /// Gets the <see cref="Expression"/> that is used to generate <see cref="InvokeFunc"/>.
+        /// </summary>
+        Expression<Func<object[], object>> InvokeExpression { get; }
     }
 }

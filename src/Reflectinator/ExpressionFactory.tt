@@ -20,7 +20,7 @@ namespace Reflectinator
 for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
 {
 #>
-        public static Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType> CreateConstructorFunc<TReturnType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>(ConstructorInfo ctor = null)
+        public static Expression<Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType>> CreateConstructorFuncExpression<TReturnType<# PrintJoinFormat(", ", "TArg{1}", i, true, false); #>>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -49,7 +49,7 @@ for (int i = 0; i < MaxNumberOfFuncGenericArguments; i++)
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<<# PrintJoinFormat(", ", "TArg{1}", i, false, true); #>TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
 <#

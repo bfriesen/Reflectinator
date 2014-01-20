@@ -8,6 +8,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Reflectinator
@@ -17,6 +18,7 @@ namespace Reflectinator
         private static readonly ConcurrentDictionary<int, IConstructor> _constructorsMap = new ConcurrentDictionary<int, IConstructor>();
 
         private readonly ConstructorInfo _constructorInfo;
+        private readonly Lazy<Expression<Func<object[], object>>> _invokeExpression;
         private readonly Lazy<Func<object[], object>> _invoke;
         private readonly Lazy<ITypeCrawler[]> _parameters;
 
@@ -29,7 +31,8 @@ namespace Reflectinator
             }
 
             _constructorInfo = constructorInfo;
-            _invoke = new Lazy<Func<object[], object>>(() => (Func<object[], object>)ExpressionFactory.CreateConstructorFunc(constructorInfo));
+            _invokeExpression = new Lazy<Expression<Func<object[], object>>>(() => ExpressionFactory.CreateConstructorFuncExpression(constructorInfo));
+            _invoke = new Lazy<Func<object[], object>>(() => _invokeExpression.Value.Compile());
             _parameters = new Lazy<ITypeCrawler[]>(() => constructorInfo.GetParameters().Select(p => TypeCrawler.Get(p.ParameterType)).ToArray());
         }
 
@@ -234,11 +237,8 @@ namespace Reflectinator
 
         public ITypeCrawler[] Parameters { get { return _parameters.Value; } }
 
-        object IConstructor.Invoke(params object[] args)
-        {
-            return _invoke.Value(args);
-        }
-
+        object IConstructor.Invoke(params object[] args) { return _invoke.Value(args); }
+        Expression<Func<object[], object>> IConstructor.InvokeExpression { get { return _invokeExpression.Value; } }
         Func<object[], object> IConstructor.InvokeFunc { get { return _invoke.Value; } }
     }
 }

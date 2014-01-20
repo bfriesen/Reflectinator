@@ -227,7 +227,7 @@ namespace Reflectinator
 
         #region Contructor
 
-        public static Func<object[], object> CreateConstructorFunc(ConstructorInfo ctor)
+        public static Expression<Func<object[], object>> CreateConstructorFuncExpression(ConstructorInfo ctor)
         {
             if (ctor == null)
             {
@@ -246,7 +246,7 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(object));
 
             var expression = Expression.Lambda<Func<object[], object>>(newCast, new[] { parameter });
-            return expression.Compile();
+            return expression;
         }
 
         #endregion

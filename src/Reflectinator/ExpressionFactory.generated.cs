@@ -9,7 +9,7 @@ namespace Reflectinator
     {
         #region CreateConstructorFunc
 
-        public static Func<TReturnType> CreateConstructorFunc<TReturnType>(ConstructorInfo ctor = null)
+        public static Expression<Func<TReturnType>> CreateConstructorFuncExpression<TReturnType>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -38,10 +38,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TReturnType> CreateConstructorFunc<TReturnType, TArg1>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -70,10 +70,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -102,10 +102,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -134,10 +134,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -166,10 +166,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -198,10 +198,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -230,10 +230,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -262,10 +262,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -294,10 +294,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -326,10 +326,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -358,10 +358,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -390,10 +390,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -422,10 +422,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -454,10 +454,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -486,10 +486,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -518,10 +518,10 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
-        public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType> CreateConstructorFunc<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(ConstructorInfo ctor = null)
+        public static Expression<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>> CreateConstructorFuncExpression<TReturnType, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16>(ConstructorInfo ctor = null)
         {
             if (ctor == null)
             {
@@ -550,7 +550,7 @@ namespace Reflectinator
             var newCast = newExpression.Coerce(ctor.DeclaringType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9, TArg10, TArg11, TArg12, TArg13, TArg14, TArg15, TArg16, TReturnType>>(newCast, parameters);
-            return expression.Compile();
+            return expression;
         }
 
         #endregion
