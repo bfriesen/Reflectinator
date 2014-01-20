@@ -43,6 +43,26 @@ namespace Reflectinator
             return properties.Where(p => !p.IsStatic);
         }
 
+        public static IEnumerable<IProperty> OfPublic(this IEnumerable<IProperty> properties)
+        {
+            return properties.Where(p => p.IsPublic);
+        }
+
+        public static IEnumerable<IStaticProperty> OfPublic(this IEnumerable<IStaticProperty> properties)
+        {
+            return properties.Where(p => p.IsPublic);
+        }
+
+        public static IEnumerable<IProperty> OfNonPublic(this IEnumerable<IProperty> properties)
+        {
+            return properties.Where(p => !p.IsPublic);
+        }
+
+        public static IEnumerable<IStaticProperty> OfNonPublic(this IEnumerable<IStaticProperty> properties)
+        {
+            return properties.Where(p => !p.IsPublic);
+        }
+
         public static IEnumerable<IStaticField> OfStatic(this IEnumerable<IField> fields)
         {
             return fields.OfType<IStaticField>();
@@ -51,6 +71,26 @@ namespace Reflectinator
         public static IEnumerable<IField> OfInstance(this IEnumerable<IField> fields)
         {
             return fields.Where(f => !f.IsStatic);
+        }
+
+        public static IEnumerable<IField> OfPublic(this IEnumerable<IField> fields)
+        {
+            return fields.Where(p => p.IsPublic);
+        }
+
+        public static IEnumerable<IStaticField> OfPublic(this IEnumerable<IStaticField> fields)
+        {
+            return fields.Where(p => p.IsPublic);
+        }
+
+        public static IEnumerable<IField> OfNonPublic(this IEnumerable<IField> fields)
+        {
+            return fields.Where(p => !p.IsPublic);
+        }
+
+        public static IEnumerable<IStaticField> OfNonPublic(this IEnumerable<IStaticField> fields)
+        {
+            return fields.Where(p => !p.IsPublic);
         }
 
         public static IEnumerable<IActionMethod> OfAction(this IEnumerable<IMethod> methods)
@@ -83,6 +123,18 @@ namespace Reflectinator
             where TMethod : IMethod
         {
             return methods.Where(m => !m.IsStatic);
+        }
+
+        public static IEnumerable<TMethod> OfPublic<TMethod>(this IEnumerable<TMethod> methods)
+            where TMethod : IMethod
+        {
+            return methods.Where(m => m.IsPublic);
+        }
+
+        public static IEnumerable<TMethod> OfNonPublic<TMethod>(this IEnumerable<TMethod> methods)
+            where TMethod : IMethod
+        {
+            return methods.Where(m => !m.IsPublic);
         }
 
         public static IEnumerable<TMethod> ExceptPropertyAccessors<TMethod>(this IEnumerable<TMethod> methods)
