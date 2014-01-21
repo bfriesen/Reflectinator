@@ -105,23 +105,34 @@ namespace Reflectinator
 
         public static Expression<Func<TInstanceType, TReturnType>> CreateGetValueFuncExpression<TInstanceType, TReturnType>(PropertyInfo propertyInfo)
         {
-            var methodInfo = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
-
             var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
 
-            MethodCallExpression call;
+            Expression body;
+            MethodInfo methodInfo;
 
-            if (propertyInfo.IsStatic())
+            if (propertyInfo.CanRead && (methodInfo = propertyInfo.GetGetMethod(true)) != null)
             {
-                call = Expression.Call(methodInfo);
+                MethodCallExpression call;
+
+                if (propertyInfo.IsStatic())
+                {
+                    call = Expression.Call(methodInfo);
+                }
+                else
+                {
+                    var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), methodInfo.DeclaringType);
+                    call = Expression.Call(instanceCast, methodInfo);
+                }
+
+                body = call.Coerce(methodInfo.ReturnType, typeof(TReturnType));
             }
             else
             {
-                var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), methodInfo.DeclaringType);
-                call = Expression.Call(instanceCast, methodInfo);
+                body = Expression.Block(
+                    typeof(TReturnType),
+                    GetThrowMemberAccessExceptionExpression(propertyInfo, "read from"),
+                    GetDefaultValueExpression(typeof(TReturnType)));
             }
-
-            var body = call.Coerce(methodInfo.ReturnType, typeof(TReturnType));
 
             var expression = Expression.Lambda<Func<TInstanceType, TReturnType>>(body, string.Format("<get>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new [] { instanceParameter });
             return expression;
@@ -134,10 +145,18 @@ namespace Reflectinator
 
         public static Expression<Func<TReturnType>> CreateStaticGetValueFuncExpression<TReturnType>(PropertyInfo propertyInfo)
         {
-            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetGetMethod(true), p => p.CanRead, "read from");
+            Expression body;
+            MethodInfo methodInfo;
 
-            var call = Expression.Call(method);
-            var body = call.Coerce(method.ReturnType, typeof(TReturnType));
+            if (propertyInfo.CanRead && (methodInfo = propertyInfo.GetGetMethod(true)) != null)
+            {
+                var call = Expression.Call(methodInfo);
+                body = call.Coerce(methodInfo.ReturnType, typeof(TReturnType));
+            }
+            else
+            {
+                body = GetThrowMemberAccessExceptionExpression(propertyInfo, "read from");
+            }
 
             var expression = Expression.Lambda<Func<TReturnType>>(body, string.Format("<get>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), Enumerable.Empty<ParameterExpression>());
             return expression;
@@ -150,27 +169,34 @@ namespace Reflectinator
 
         public static Expression<Action<TInstanceType, TValueType>> CreateSetValueFuncExpression<TInstanceType, TValueType>(PropertyInfo propertyInfo)
         {
-            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
-
             var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
             var valueParameter = Expression.Parameter(typeof(TValueType), "value");
 
-            var valueCast = valueParameter.Coerce(typeof(TValueType), method.GetParameters().Single().ParameterType);
+            Expression body;
+            MethodInfo methodInfo;
 
-            MethodCallExpression call;
-
-            if (propertyInfo.IsStatic())
+            if (propertyInfo.CanWrite && (methodInfo = propertyInfo.GetSetMethod(true)) != null)
             {
-                call = Expression.Call(method, valueCast);
+                var valueCast = valueParameter.Coerce(typeof (TValueType),
+                    methodInfo.GetParameters().Single().ParameterType);
+
+                if (propertyInfo.IsStatic())
+                {
+                    body = Expression.Call(methodInfo, valueCast);
+                }
+                else
+                {
+                    var instanceCast = instanceParameter.Coerce(typeof (TInstanceType), methodInfo.DeclaringType);
+                    // ReSharper disable once PossiblyMistakenUseOfParamsMethod
+                    body = Expression.Call(instanceCast, methodInfo, valueCast);
+                }
             }
             else
             {
-                var instanceCast = instanceParameter.Coerce(typeof(TInstanceType), method.DeclaringType);
-                // ReSharper disable once PossiblyMistakenUseOfParamsMethod
-                call = Expression.Call(instanceCast, method, valueCast);
+                body = GetThrowMemberAccessExceptionExpression(propertyInfo, "write to");
             }
 
-            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(call, string.Format("<set>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new[] { instanceParameter, valueParameter });
+            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(body, string.Format("<set>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new[] { instanceParameter, valueParameter });
             return expression;
         }
 
@@ -181,36 +207,37 @@ namespace Reflectinator
 
         public static Expression<Action<TValueType>> CreateStaticSetValueActionExpression<TValueType>(PropertyInfo propertyInfo)
         {
-            var method = GetPropertyAccessorMethod(propertyInfo, p => p.GetSetMethod(true), p => p.CanWrite, "write to");
-
             var valueParameter = Expression.Parameter(typeof(TValueType), "value");
-            var valueCast = valueParameter.Coerce(typeof(TValueType), method.GetParameters().Single().ParameterType);
 
-            var call = Expression.Call(method, valueCast);
-            var expression = Expression.Lambda<Action<TValueType>>(call, string.Format("<set>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new[] { valueParameter });
+            Expression body;
+            MethodInfo methodInfo;
 
+            if (propertyInfo.CanWrite && (methodInfo = propertyInfo.GetSetMethod(true)) != null)
+            {
+                var valueCast = valueParameter.Coerce(typeof(TValueType), methodInfo.GetParameters().Single().ParameterType);
+
+                body = Expression.Call(methodInfo, valueCast);
+            }
+            else
+            {
+                body = GetThrowMemberAccessExceptionExpression(propertyInfo, "write to");
+            }
+            
+            var expression = Expression.Lambda<Action<TValueType>>(body, string.Format("<set>_{0}.{1}", propertyInfo.DeclaringType.Name, propertyInfo.Name), new[] { valueParameter });
             return expression;
         }
 
-        private static MethodInfo GetPropertyAccessorMethod(PropertyInfo propertyInfo, Func<PropertyInfo, MethodInfo> getAccessor, Func<PropertyInfo, bool> canUseAccessor, string accessVerbPhrase)
+        private static Expression GetThrowMemberAccessExceptionExpression(PropertyInfo propertyInfo, string verb)
         {
-            if (!canUseAccessor(propertyInfo))
-            {
-                // ReSharper disable PossibleNullReferenceException
-                throw new MemberAccessException(string.Format("Cannot {0} property: {1}.{2}",
-                    accessVerbPhrase, propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-            }
+            return Expression.Throw(
+                Expression.New(
+                    typeof(MemberAccessException).GetConstructor(new[] { typeof(string) }),
+                    Expression.Constant(GetMemberAccessExceptionMessage(propertyInfo, verb))));
+        }
 
-            var method = getAccessor(propertyInfo);
-
-            if (method == null)
-            {
-                throw new MemberAccessException(string.Format("Cannot {0} property: {1}.{2}",
-                    accessVerbPhrase, propertyInfo.DeclaringType.FullName, propertyInfo.Name));
-                    // ReSharper restore PossibleNullReferenceException
-            }
-
-            return method;
+        private static string GetMemberAccessExceptionMessage(PropertyInfo propertyInfo, string verb)
+        {
+            return string.Format("Cannot {0} property: {1}.{2}", verb, propertyInfo.DeclaringType.FullName, propertyInfo.Name);
         }
 
         #endregion
@@ -307,9 +334,7 @@ namespace Reflectinator
         {
             if (sourceType == typeof(void) && targetType != typeof(void))
             {
-                var returnExpression = targetType.IsValueType
-                    ? (Expression) Expression.New(targetType)
-                    : Expression.Constant(null, targetType);
+                var returnExpression = GetDefaultValueExpression(targetType);
 
                 var block = Expression.Block(targetType, sourceExpression, returnExpression);
                 return block;
@@ -422,6 +447,13 @@ namespace Reflectinator
             // TODO: make sure that methodInfoParameters is compatible with parameterTypes.
 
             return methodInfoParameters;
+        }
+
+        private static Expression GetDefaultValueExpression(Type targetType)
+        {
+            return targetType.IsValueType
+                ? Expression.New(targetType)
+                : Expression.Constant(null, targetType).Coerce(typeof(object), targetType);
         }
     }
 }
