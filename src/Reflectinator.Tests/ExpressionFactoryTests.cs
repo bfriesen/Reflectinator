@@ -6,6 +6,40 @@ namespace Reflectinator.Tests
     public class ExpressionFactoryTests
     {
         [Test]
+        public void ConstFieldsThrowMemberAccessExceptionWhenWrittenTo()
+        {
+            var fieldInfo = typeof(Foo).GetField("SomeConstField");
+
+            var looseSetExpression = ExpressionFactory.CreateSetValueFuncExpression(fieldInfo);
+            var setExpression = ExpressionFactory.CreateSetValueFuncExpression<Foo, string>(fieldInfo);
+
+            var looseSet = looseSetExpression.Compile();
+            var set = setExpression.Compile();
+
+            var foo = new Foo();
+
+            Assert.That(() => looseSet(foo, "foo"), Throws.TypeOf<MemberAccessException>());
+            Assert.That(() => set(foo, "foo"), Throws.TypeOf<MemberAccessException>());
+        }
+
+        [Test]
+        public void ReadOnlyFieldsThrowMemberAccessExceptionWhenWrittenTo()
+        {
+            var fieldInfo = typeof(Foo).GetField("SomeReadonlyField");
+
+            var looseSetExpression = ExpressionFactory.CreateSetValueFuncExpression(fieldInfo);
+            var setExpression = ExpressionFactory.CreateSetValueFuncExpression<Foo, string>(fieldInfo);
+
+            var looseSet = looseSetExpression.Compile();
+            var set = setExpression.Compile();
+
+            var foo = new Foo();
+
+            Assert.That(() => looseSet(foo, "foo"), Throws.TypeOf<MemberAccessException>());
+            Assert.That(() => set(foo, "foo"), Throws.TypeOf<MemberAccessException>());
+        }
+
+        [Test]
         public void WriteOnlyPropertiesThrowMemberAccessExceptionWhenReadFrom()
         {
             var propertyInfo = typeof(Foo).GetProperty("SomeWriteonlyProperty");
@@ -90,7 +124,10 @@ namespace Reflectinator.Tests
             }
 
             public string SomeReadonlyProperty { get { return "Hello, world!"; } }
-            public string SomeWriteonlyProperty { set { } }
+            public string SomeWriteonlyProperty { set {} }
+
+            public const string SomeConstField = "foo!";
+            public readonly string SomeReadonlyField = "foo!";
         }
     }
 }

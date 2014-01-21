@@ -8,6 +8,7 @@ namespace Reflectinator.Tests
     public class FieldTests
     {
         private const string _constantField = "foo";
+        private readonly string _readonlyField = "foo";
         private string _instanceField = "bar";
         private static string _staticField = "baz";
 
@@ -83,6 +84,14 @@ namespace Reflectinator.Tests
         public void CannotWriteToConstantFields()
         {
             var sut = Field.Get<FieldTests, string>(GetType().GetField("_constantField", BindingFlags.NonPublic | BindingFlags.Static));
+
+            Assert.That(() => sut.Set(this, "wooo!"), Throws.Exception);
+        }
+
+        [Test]
+        public void CannotWriteToReadonlyFields()
+        {
+            var sut = Field.Get<FieldTests, string>(GetType().GetField("_readonlyField", BindingFlags.NonPublic | BindingFlags.Instance));
 
             Assert.That(() => sut.Set(this, "wooo!"), Throws.Exception);
         }

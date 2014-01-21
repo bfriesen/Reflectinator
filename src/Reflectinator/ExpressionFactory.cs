@@ -51,12 +51,21 @@ namespace Reflectinator
             var instanceParameter = Expression.Parameter(typeof(TInstanceType), "instance");
             var valueParameter = Expression.Parameter(typeof(TValueType), "value");
 
-            var field = GetField(fieldInfo, typeof(TInstanceType), instanceParameter);
+            Expression body;
 
-            var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
-            var assignValue = Expression.Assign(field, valueCast);
+            if (!fieldInfo.IsLiteral && !fieldInfo.IsInitOnly)
+            {
+                var field = GetField(fieldInfo, typeof (TInstanceType), instanceParameter);
 
-            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(assignValue, string.Format("<set>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new[] { instanceParameter, valueParameter });
+                var valueCast = valueParameter.Coerce(typeof (TValueType), fieldInfo.FieldType);
+                body = Expression.Assign(field, valueCast);
+            }
+            else
+            {
+                body = GetThrowMemberAccessExceptionExpression(fieldInfo, "write to");
+            }
+
+            var expression = Expression.Lambda<Action<TInstanceType, TValueType>>(body, string.Format("<set>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new[] { instanceParameter, valueParameter });
             return expression;
         }
 
@@ -68,12 +77,22 @@ namespace Reflectinator
         public static Expression<Action<TValueType>> CreateStaticSetValueActionExpression<TValueType>(FieldInfo fieldInfo)
         {
             var valueParameter = Expression.Parameter(typeof(TValueType), "value");
-            var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
 
-            var field = Expression.Field(null, fieldInfo);
-            var assignValue = Expression.Assign(field, valueCast);
+            Expression body;
 
-            var expression = Expression.Lambda<Action<TValueType>>(assignValue, string.Format("<set>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new[] { valueParameter });
+            if (!fieldInfo.IsLiteral && !fieldInfo.IsInitOnly)
+            {
+                var valueCast = valueParameter.Coerce(typeof(TValueType), fieldInfo.FieldType);
+
+                var field = Expression.Field(null, fieldInfo);
+                body = Expression.Assign(field, valueCast);
+            }
+            else
+            {
+                body = GetThrowMemberAccessExceptionExpression(fieldInfo, "write to");
+            }
+
+            var expression = Expression.Lambda<Action<TValueType>>(body, string.Format("<set>_{0}.{1}", fieldInfo.DeclaringType.Name, fieldInfo.Name), new[] { valueParameter });
             return expression;
         }
 
@@ -227,17 +246,18 @@ namespace Reflectinator
             return expression;
         }
 
-        private static Expression GetThrowMemberAccessExceptionExpression(PropertyInfo propertyInfo, string verb)
+        private static Expression GetThrowMemberAccessExceptionExpression(MemberInfo memberInfo, string verb)
         {
             return Expression.Throw(
                 Expression.New(
                     typeof(MemberAccessException).GetConstructor(new[] { typeof(string) }),
-                    Expression.Constant(GetMemberAccessExceptionMessage(propertyInfo, verb))));
+                    Expression.Constant(GetMemberAccessExceptionMessage(memberInfo, verb))));
         }
 
-        private static string GetMemberAccessExceptionMessage(PropertyInfo propertyInfo, string verb)
+        private static string GetMemberAccessExceptionMessage(MemberInfo memberInfo, string verb)
         {
-            return string.Format("Cannot {0} property: {1}.{2}", verb, propertyInfo.DeclaringType.FullName, propertyInfo.Name);
+            var memberType = memberInfo is PropertyInfo ? "property" : "field";
+            return string.Format("Cannot {0} {1}: {2}.{3}", verb, memberType, memberInfo.DeclaringType.FullName, memberInfo.Name);
         }
 
         #endregion
